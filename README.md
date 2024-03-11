@@ -7,6 +7,6 @@ Here you find the code to reproduce the analyses performed in **Population genet
 
 * Data preparation
 * Population structure
- * Admixture
- * fineStructure
+ *  Admixture
+ *  fineStructure
 * Genome scans... 
