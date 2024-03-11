@@ -5,8 +5,9 @@ Here you find the code to reproduce the analyses performed in **Population genet
 [link](LICENSE) to LICENSE
 
 
-* Data preparation
-* Population structure
- *  Admixture
- *  fineStructure
-* Genome scans... 
+- Data preparation
+- Population structure
+  - Admixture
+  - fineStructure
+    - lala
+- Genome scans... 
