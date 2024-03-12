@@ -17,7 +17,7 @@ gatk-4.4.0.0/gatk SelectVariants \
 
 
 
-To generate the input files for fineStructure we need to know the per base recombination rates, these where (obtained)[../recombination_map/recombination_map.md] starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
+To generate the input files for fineStructure we need to know the per base recombination rates, these where [obtained](../recombination_map/recombination_map.md) starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
 
 
 ```
