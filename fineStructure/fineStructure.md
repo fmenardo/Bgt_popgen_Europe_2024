@@ -17,19 +17,17 @@ gatk-4.4.0.0/gatk SelectVariants \
 
 
 
+To generate the input files for fineStructure we need to know the per base recombination rates, these where (obtained)[../recombination_map/recombination_map.md] starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
+
 
 ```
-
-cp ~/projects/project_recombination_rate_map/analysis/THUN12x96224_bp_recombination_rates.txt ~/projects/project_tritici_fabrizio/data/.
-
-
 zcat Europe_large_tritici_no_clones_no_miss.vcf.gz > Europe_large_tritici_no_clones_no_miss.vcf
 python make_input_files_4_fs.py -vcf Europe_large_tritici_no_clones_no_miss.vcf -o Europe_large
 python make_input_rec_file_4_fs.py -rec THUN12x96224_bp_recombination_rates.txt -i Europe_large.pos_file -o Europe_large
 ```
 
 
-As finStructure cannot deal with sample names starting with digit we rename these two isolates.
+As fineStructure cannot deal with sample names starting with digit we rename these two isolates.
 ```
 sed -i 's/96224/CHE_96224/g' Europe_large.id_file
 sed -i 's/94202/CHE_94202/g' Europe_large.id_file
