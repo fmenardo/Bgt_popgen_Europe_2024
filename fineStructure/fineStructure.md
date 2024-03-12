@@ -53,6 +53,12 @@ When all stages are completed the three most important outputs are the chromopai
 
 ## Plot results and PCA
 
+This code is based on the example provided by authors of fineStructure. You need FinestructureLibrary.R and FinestructureDendrogram.R provided [here](https://people.maths.bris.ac.uk/~madjl/finestructure/toolsummary.html).
+
+```
+Rscripts plot_fs_results.R
+```
+
 
 ## Software versions:
 ```
