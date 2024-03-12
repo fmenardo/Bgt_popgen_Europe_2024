@@ -74,7 +74,8 @@ argparser 1.4.0
 
 - R and R packages
 R 4.2.1
-
-
+psych 2.3.12
+GPArotation 2023.11-1
+paran 1.5.2
 
 ```
