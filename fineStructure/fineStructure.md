@@ -4,7 +4,7 @@ For the fineStructure analyses we used the extended Europe dataset (link with XX
 fineStructure uses dense 
 
 
-'''
+```
 gatk-4.4.0.0/gatk SelectVariants \
     -R ~/projects/project_tritici_fabrizio/data/GCA_900519115.1_2022_bgt_ref_mating_type.fa \
      -V ~/projects/vcf_project_tritici/tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
@@ -14,7 +14,7 @@ gatk-4.4.0.0/gatk SelectVariants \
      --exclude-intervals LR026995.1_Un \
      --exclude-intervals Bgt_MAT_1_1_3 \
      --sample-name list_Europe_large_no_clones.args
-'''
+```
 
 
 
