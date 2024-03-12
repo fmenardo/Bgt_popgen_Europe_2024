@@ -60,6 +60,9 @@ Rscripts plot_fs_results.R
 ```
 
 
+![Alt text]()
+img/BDEI_models_1.png?raw=true "BDEI models"
+
 ## Software versions:
 ```
 gatk 4.4.0.0
