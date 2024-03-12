@@ -86,9 +86,9 @@ library(psych)
 pcares<-mypca(dataraw)
 # For figuring out how many PCs are important; see Lawson & Falush 2012
 # You need packages GPArotation and paran
-tmap<-optimalMap(dataraw)
-thorn<-optimalHorn(dataraw)
-c(tmap,thorn) # 11 and 5. Horn typically underestimates, Map is usually better
+#tmap<-optimalMap(dataraw)
+#thorn<-optimalHorn(dataraw)
+#c(tmap,thorn) # 11 and 5. Horn typically underestimates, Map is usually better
 pcapops<-getPopIndices(rownames(dataraw),mapstatelist)
 pcanames<-rownames(dataraw)
 rcols<-rainbow(max(pcapops))
