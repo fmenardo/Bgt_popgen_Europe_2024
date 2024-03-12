@@ -6,6 +6,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
 
 
 - Data preparation
+  - [Recombination map]()
 - Population structure
   - Admixture
   - [fineStructure](fineStructure/fineStructure.md)
