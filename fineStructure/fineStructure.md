@@ -59,6 +59,8 @@ This code is based on the example provided by authors of fineStructure. You need
 Rscripts plot_fs_results.R
 ```
 
+This generates the [coacestry matrix plot](Europe_large_Coancestry.pdf) and the [PCA plot](Europe_large_PCA.pdf)
+
 ## Software versions:
 ```
 gatk 4.4.0.0
