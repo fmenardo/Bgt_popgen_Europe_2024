@@ -35,3 +35,6 @@ sed -i 's/96224/CHE_96224/g' Europe_large.id_file
 sed -i 's/94202/CHE_94202/g' Europe_large.id_file
 ```
 
+software versions:
+gatk-4.4.0.0
+python 3.10.9
