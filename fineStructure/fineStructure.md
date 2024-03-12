@@ -51,7 +51,7 @@ With the command above fineStructure generates lists of commands to run at diffe
 
 When all stages are completed the three most important outputs are the chromopainter chunkcounts file (`Europe_large_linked_hap.chunkcounts.out`), the fineStructure mcmc file (`Europe_large_linked_hap_mcmc.xml`), and the fineStructure tree file (`Europe_large_linked_hap_tree.xml`).
 
-## Plot results 
+## Plot results and PCA
 
 
 ## Software versions:
