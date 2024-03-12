@@ -4,6 +4,8 @@ Here you find the code to reproduce the analyses performed in **Population genet
 
 
 - Data preparation
+  - [WGS pipeline]
+  - [Datasets](Datasets)
   - [Recombination map](recombination_map/recombination_map.md)
 - Population structure
   - Admixture
