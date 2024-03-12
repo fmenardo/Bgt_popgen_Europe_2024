@@ -54,7 +54,7 @@ When all stages are completed the three most important outputs are the chromopai
 ## Plot results 
 
 
-## software versions:
+## Software versions:
 ```
 gatk 4.4.0.0
 fineStructure 4.4.4
