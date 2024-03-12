@@ -1,7 +1,8 @@
 # fineStructure
+## Data preparation
 
-For the fineStructure analyses we used the extended Europe dataset (link with XX individuals etc.).
-We filtered all SNPS with any missing data, as fs cannot deal with them, and 
+For the fineStructure analyses we used the extended Europe dataset (link) with XX individuals etc.).
+We kept only SNPS without any missing data, as fineStructure cannot handle them: 
 
 ```
 gatk-4.4.0.0/gatk SelectVariants \
@@ -19,24 +20,37 @@ gatk-4.4.0.0/gatk SelectVariants \
 
 To generate the input files for fineStructure we need to know the per base recombination rates, these where [obtained](../recombination_map/recombination_map.md) starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
 
+We generate the id and phase files for fineStructure, we also generate a pos file:
 
 ```
 zcat Europe_large_tritici_no_clones_no_miss.vcf.gz > Europe_large_tritici_no_clones_no_miss.vcf
 python make_input_files_4_fs.py -vcf Europe_large_tritici_no_clones_no_miss.vcf -o Europe_large
+```
+
+Starting from the pos file and the recombination map we generate the recombination file for fineStructure
+
+```
 python make_input_rec_file_4_fs.py -rec THUN12x96224_bp_recombination_rates.txt -i Europe_large.pos_file -o Europe_large
 ```
 
 
-As fineStructure cannot deal with sample names starting with digit we rename these two isolates.
+As fineStructure cannot deal with sample names starting with digit we rename these two isolates:
 ```
 sed -i 's/96224/CHE_96224/g' Europe_large.id_file
 sed -i 's/94202/CHE_94202/g' Europe_large.id_file
 ```
 
-software versions:
+## fineStructure
 
+## Plot results 
+
+## software versions:
+```
 gatk 4.4.0.0
 
-python 3.10.9
+- python and python modules
 
-numpy 1.23.5
+python 3.10.9
+numpy 1.23.5    
+argparser 1.4.0
+```
