@@ -60,8 +60,7 @@ Rscripts plot_fs_results.R
 ```
 
 
-![Alt text]()
-img/BDEI_models_1.png?raw=true "BDEI models"
+![Alt text](Europe_large_Coancestry.pdf?raw=true "Coancestry matrix")
 
 ## Software versions:
 ```
