@@ -34,7 +34,7 @@ python make_input_rec_file_4_fs.py -rec THUN12x96224_bp_recombination_rates.txt 
 ```
 
 
-As fineStructure cannot deal with sample names starting with digit we rename these two isolates:
+As fineStructure cannot deal with sample names starting with digits we rename these two isolates:
 ```
 sed -i 's/96224/CHE_96224/g' Europe_large.id_file
 sed -i 's/94202/CHE_94202/g' Europe_large.id_file
