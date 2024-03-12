@@ -36,5 +36,9 @@ sed -i 's/94202/CHE_94202/g' Europe_large.id_file
 ```
 
 software versions:
-gatk-4.4.0.0
+
+gatk 4.4.0.0
+
 python 3.10.9
+
+numpy 1.23.5
