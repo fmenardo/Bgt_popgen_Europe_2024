@@ -4,7 +4,7 @@ A genetic map for Bgt was obtained by Müller et al. 2019 [doi.org/10.1111/nph.1
 
 We retreived the file `GeneticMap_final_13052018.csv` from the [github page](https://github.com/MarionCMueller/AvrPm17/tree/main/Figure1) of the first author. This file containes a list of markers and their distance in cM, bu no information on their physical position. This information was provide by the authors of the paper above (file `Positions_THUN12X96224.csv`)
 
-First we combined the genetic and physical information into one file
+First we combined the genetic and physical information into one file:
 
 ```
 # extract info from genetic maps 
@@ -20,7 +20,7 @@ cut -d ";" -f 3 Positions_THUN12X96224_present_in_G.csv  > list_physical_positio
 paste  -d "," list_snp_ig_G list_chr_G list_rec_G list_physical_position_G  > THUN12x96224_genetic_map_in_cM_+_phy_distance
 ```
 
-Second we converted the genetc map in to a recombination map by calculating the perbase recombination rate between all adjacent markers
+Second, we converted the genetic map in to a recombination map by calculating the local per base recombination rates:
 
 ```
 python calc_rec_rate_per_bp.py -o THUN12x96224_bp_recombination_rates.txt -rec THUN12x96224_genetic_map_in_cM_+_phy_distance
