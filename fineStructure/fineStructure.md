@@ -1,7 +1,7 @@
 # fineStructure
 ## Data preparation
 
-For the fineStructure analyses we used the extended Europe dataset (link) with XX individuals etc.).
+For the fineStructure analyses we used the [Europe+ dataset](../Datasets/Datasets.md) with 416 individuals sampled from Europe, the Middle East and Caucasus.
 We kept only SNPS without any missing data, as fineStructure cannot handle them: 
 
 ```
@@ -16,18 +16,18 @@ gatk-4.4.0.0/gatk SelectVariants \
      --sample-name list_Europe_large_no_clones.args      
 ```
 
-
+This resulted in 1'369'192 SNPs.
 
 To generate the input files for fineStructure we need to know the per base recombination rates, these where [obtained](../recombination_map/recombination_map.md) starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
 
-We generate the id and phase files for fineStructure, we also generate a pos file:
+We generate the id and phase files for fineStructure, we also generate a .pos file:
 
 ```
 zcat Europe_large_tritici_no_clones_no_miss.vcf.gz > Europe_large_tritici_no_clones_no_miss.vcf
 python make_input_files_4_fs.py -vcf Europe_large_tritici_no_clones_no_miss.vcf -o Europe_large
 ```
 
-Starting from the pos file and the recombination map we generate the recombination file for fineStructure
+Starting from the .pos file and the recombination map we generate the recombination file for fineStructure
 
 ```
 python make_input_rec_file_4_fs.py -rec THUN12x96224_bp_recombination_rates.txt -i Europe_large.pos_file -o Europe_large
