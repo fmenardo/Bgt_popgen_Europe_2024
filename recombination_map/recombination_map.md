@@ -1,6 +1,6 @@
 # Genetic and recombination maps
 
-A genetic map for Bgt was obtained by Müller et al. 2019 (doi.org/10.1111/nph.15529)[https://doi.org/10.1111/nph.15529]  by crossing two isolates and sequencing the genome of 117 progenies.
+A genetic map for Bgt was obtained by Müller et al. 2019 [doi.org/10.1111/nph.15529](https://doi.org/10.1111/nph.15529)  by crossing two isolates and sequencing the genome of 117 progenies.
 
 We retreived the file `GeneticMap_final_13052018.csv` from the [github page](https://github.com/MarionCMueller/AvrPm17/tree/main/Figure1) of the first author. This file containes a list of markers and their distance in cM, bu no information on their physical position. This information was provide by the authors of the paper above (file `Positions_THUN12X96224.csv`)
 
