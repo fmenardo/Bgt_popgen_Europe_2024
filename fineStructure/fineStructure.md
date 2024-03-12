@@ -59,9 +59,6 @@ This code is based on the example provided by authors of fineStructure. You need
 Rscripts plot_fs_results.R
 ```
 
-
-![Alt text](Europe_large_Coancestry.pdf?raw=true "Coancestry matrix")
-
 ## Software versions:
 ```
 gatk 4.4.0.0
@@ -74,6 +71,8 @@ numpy 1.23.5
 argparser 1.4.0
 
 - R and R packages
+R 4.2.1
+
 
 
 ```
