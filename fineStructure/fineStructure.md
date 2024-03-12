@@ -49,12 +49,7 @@ fs Europe_large -idfile Europe_large.id_file -phasefiles Europe_large.hap_file -
 ```
 With the command above fineStructure generates lists of commands to run at different stages, these list can be submitted as batch jobs to HPC.
 
-When all stages are completed the three most important outputs are:
-```
-Europe_large_linked_hap.chunkcounts.out ## chromopainter chunkcounts file
-Europe_large_linked_hap_mcmc.xml ## finestructure mcmc file
-Europe_large_linked_hap_tree.xml ## finestructure tree file
-```
+When all stages are completed the three most important outputs are the chromopainter chunkcounts file (`Europe_large_linked_hap.chunkcounts.out`), the fineStructure mcmc file (`Europe_large_linked_hap_mcmc.xml`), and the fineStructure tree file (`Europe_large_linked_hap_tree.xml`).
 
 ## Plot results 
 
