@@ -1,4 +1,4 @@
-# Genetic map
+# Genetic and recombination maps
 
 A genetic map for Bgt was obtained by Müller et al. 2019 (doi.org/10.1111/nph.15529)[https://doi.org/10.1111/nph.15529]  by crossing two isolates and sequencing the genome of 117 progenies.
 
