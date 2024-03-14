@@ -22,7 +22,7 @@ python3 ../scripts/pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_
 2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses. 
 3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. 
 4. Variants were called on the combined VCF files for all chromosomes using GATK `GenotypeGVCFs` with options `--include-non-variant-sites` and `-A StrandBiasBySample`.
-5. In order to decide threshold values for filtering variants, the distribution of annotation values for SNPs were visualised. For each chromosome, SNPs were first selected from the output of step #3  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GTAK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
+5. In order to decide threshold values for filtering variants, the distribution of annotation values for SNPs were visualised. For each chromosome, SNPs were first selected from the output of step #4  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GTAK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
 
 ![2022+before2022+2023+ncsu_WG_gatk_info_distr-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/8e636ad7-1f92-4808-8250-f6d72ebaeb85)
 
@@ -31,7 +31,8 @@ python3 ../scripts/pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_
 
 ![2022+before2022+2023+ncsu_recoding_stats-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/59844197-a2c1-46e0-93e5-da85b9386ce9)
 
-The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, were excluded from all further analyses [(n=13)](200k_het_pos_exclude_dact.args) 
-
+The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, were excluded from all further analyses [(n=13)](200k_het_pos_exclude_dact.args)  
+8. SNPs were selected from the chromosomal VCF files using GATK `SelectVariants` with options `--select-type-to-include SNP`, `--restrict-alleles-to ALL` and sites failing the filters from step #6 were excluded using the option `--exclude-filtered`. The resulting VCFs contained some [spanning deletions](https://gatk.broadinstitute.org/hc/en-us/articles/360035531912-Spanning-or-overlapping-deletions-allele) denoted by '\*' . As these would have caused problems in downstream analyses, all sites with an '*' were removed using the script `recode_asterisk_count_snp.py` which returned a modified VCF file that was gzipped and indexed using `bgzip` and `tabix -p vcf` respectively.
+9. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates. This step was performed using GATK `SelectVariants` with options `--restrict-alleles-to BIALLELIC`, `--select "AC>0 && AC<568"` and samples in `2022+before2022+2023+ncsu_tritici_list.args` were included while samples with >200k het pos `2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args` and clones (as decided based on the [dist matrix analysis](INSERT LINK HERE) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list.args` were excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset. 
 
 
