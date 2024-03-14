@@ -2,9 +2,15 @@
 
 The pipeline starts with raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset. 
 
-### Software used 
-1. GATK v 4.4 (link)
-2. xyz
+### Software used
+1. Python3
+2. [fastp 0.23.2](https://github.com/OpenGene/fastp) 
+3. [bwa 0.7.17-r1198-dirty](https://github.com/lh3/bwa)
+4. [htslib 1.17](https://github.com/samtools/htslib/releases/tag/1.17)
+5. [samtools 1.17](https://github.com/samtools/samtools/releases/tag/1.17)
+6. [bcftools 1.17](https://github.com/samtools/bcftools/releases/tag/1.17)
+7. [GATK 4.4.0.0](https://github.com/broadinstitute/gatk/releases/tag/4.4.0.0)
+8. 
 
 ### Workflow
 
