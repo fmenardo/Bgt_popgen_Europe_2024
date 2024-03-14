@@ -15,18 +15,21 @@ The pipeline starts with raw WGS (short) reads and returns a VCF file with all b
 ### Workflow
 
 1. `pipeline_with_gatk_statscsv.py` 
-This takes as input the path to the raw fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK HaplotypeCaller and some summary statistics about the mapping. It was run as an array job for 737 samples (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
+This takes as input the path to the raw fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job for 737 samples (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
 ```
 python3 ../scripts/pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i /home/jjigis/projects/bgt_sequence_data/2023_collection/CHNY072301_R1.fastq.gz
 ```
 2. Samples with coverage less than 15x were identified (n = 26) and excluded from all subsequent analyses.
-3. The VCF files for all remaining samples were combined (per-chromosome) using GATK `CombineGVCFs`.
+3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`.
 4. Variants were called on the combined VCF files for all chromosomes using GATK `GenotypeGVCFs` with options `--include-non-variant-sites` and `-A StrandBiasBySample`.
-5. In order to decide threshold values for filtering variants, the distribution of annotation values for SNPs were visualised. For each chromosome, SNPs were first selected from the output of step #3  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GTAK `VariantsToTable`. Histograms were plotted for the genome-wide values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
+5. In order to decide threshold values for filtering variants, the distribution of annotation values for SNPs were visualised. For each chromosome, SNPs were first selected from the output of step #3  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GTAK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
 
 ![2022+before2022+2023+ncsu_WG_gatk_info_distr-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/8e636ad7-1f92-4808-8250-f6d72ebaeb85)
 
 6. Hard filtering for sites was done using GATK `VariantFiltration`. The threshold values (informed by the distributions plotted in step #5 and [GATK's recommendations](https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants)) were `QD < 10.0`, `FS > 50.0`, `MQ < 45.0`, `ReadPosRankSum < -5.0 || ReadPosRankSum > 5.0`. 
-7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the genotyped VCF file produced by GATK in step #3 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads < user-defined minimum depth or (b) variant call is supported by < 90% of the high-quality informative reads. It also outputs a file with the final number of missing sites for each sample as well as other statistics.
-8. 
+7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the genotyped VCF file produced by GATK in step #3 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads < user-defined minimum depth or (b) variant call is supported by < 90% of the high-quality informative reads. It outputs the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample. The genome-wide distribution (obtained after summing over chromosomes 1-11) was plotted using R `ggplot2`.
+
+![2022+before2022+2023+ncsu_recoding_stats-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/59844197-a2c1-46e0-93e5-da85b9386ce9)
+
+The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, were excluded from all further analyses. 
 
