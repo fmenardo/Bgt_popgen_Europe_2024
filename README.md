@@ -9,6 +9,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Recombination map](recombination_map/recombination_map.md)
   - [Distance matrix](distance_matrix/distance_matrix.md)
 - Population structure
+  - [Principal component analysis](PCA/PCA.md) 
   - Admixture
   - [fineStructure](fineStructure/fineStructure.md)
     - lala
