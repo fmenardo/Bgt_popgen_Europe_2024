@@ -7,6 +7,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [WGS pipeline](WGS_pipeline/WGS_pipeline.md)
   - [Datasets](Datasets/Datasets.md)
   - [Recombination map](recombination_map/recombination_map.md)
+  - [Distance matrix](distance_matrix/distance_matrix.md)
 - Population structure
   - Admixture
   - [fineStructure](fineStructure/fineStructure.md)
