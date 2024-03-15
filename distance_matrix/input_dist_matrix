@@ -1,0 +1,11 @@
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026984.1_chr1.vcf.gz -o chr1
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026985.1_chr2.vcf.gz -o chr2
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026986.1_chr3.vcf.gz -o chr3
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026987.1_chr4.vcf.gz -o chr4
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026988.1_chr5.vcf.gz -o chr5
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026989.1_chr6.vcf.gz -o chr6
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026990.1_chr7.vcf.gz -o chr7
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026991.1_chr8.vcf.gz -o chr8
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026992.1_chr9.vcf.gz -o chr9
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026993.1_chr10.vcf.gz -o chr10
+srun Rscript ../analysis/dist_mat/dist_matrix_parallel.R -c 2 -i ~/projects/project_data_prep/data/2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026994.1_chr11.vcf.gz -o chr11
