@@ -1,6 +1,17 @@
 # Principal component analysis (PCA) 
 We performed PCAs for two of our [datasets](../Datasets/Datasets.md)- World and Europe+. Both datasets were filtered to include only biallelic SNPs, no singletons and maximum 10% missing data using GATK `SelectVariants`.
 ```
+#### world dataset ####
+gatk SelectVariants \
+    -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
+    -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \   ### VCF file with all B.g.tritici isolates, all biallelic SNPs
+    -XL MT880591.1 \     ### exclude mitochrondrion
+    -XL Bgt_MAT_1_1_3 \  ### exclude alternate mating type locus
+    --select "AC>1 && AC<567" \  ### remove singletons
+    --max-nocall-fraction 0.1 \  ### max missing data
+    -O 2022+before2022+2023+ncsu_11chr_no_sing_maxmiss0.1.vcf.gz
+
+#### europe+ dataset ####
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
     -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \   ### VCF file with all B.g.tritici isolates, all biallelic SNPs
