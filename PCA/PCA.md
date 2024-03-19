@@ -23,9 +23,9 @@ gatk SelectVariants \
     -O tritici_extended_eur_2022+before2022+ncsu_nosing_maxmiss0.1.vcf.gz
 ```
 
-The script to run the PCA is `pca_clean.R`. It takes as input the filtered VCF files, a metadata file and the number of cores to be used, as shown below:
+The script to run the PCA is `pca_clean.R`. It takes as input the filtered VCF files, a [metadata file](../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv) and the number of cores to be used, as shown below:
 ```
-Rscript pca_clean.R -s -c 6 -l 2022+before2022+2023+ncsu_metadata+fs+admxK7_18032024.csv -C 10 -i 2022+before2022+2023+ncsu_11chr_no_sing_maxmiss0.1.vcf.gz -o tritici_world
+Rscript pca_clean.R -s -c 6 -l 2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv -C 10 -i 2022+before2022+2023+ncsu_11chr_no_sing_maxmiss0.1.vcf.gz -o tritici_world
 ```
 
 The PC scores and eigenvalues for all samples are written to .csv files, which can then be used for plotting using the script `plot_pca_clean.R`. These are the plots for the percentage of variance explained by the first 20 PCs of the [world](perc_var_explained_world.pdf) and [europe+](perc_var_explained_europe+.pdf) datasets. The plots for PC1 vs PC2, PC1 vs PC3 and PC2 vs PC3 are: [world](tritici_world_pca_plots.pdf) and [europe+](tritici_europe+_pca_plots.pdf) 
