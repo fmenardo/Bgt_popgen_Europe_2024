@@ -10,7 +10,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Distance matrix](distance_matrix/distance_matrix.md)
 - Population structure
   - [Principal component analysis](PCA/PCA.md) 
-  - Admixture
+  - [ADMIXTURE](ADMIXTURE/ADMIXTURE.md)
   - [fineStructure](fineStructure/fineStructure.md)
     - lala
 - Genome scans... 
