@@ -29,3 +29,13 @@ Rscript pca_clean.R -s -c 6 -l 2022+before2022+2023+ncsu_metadata+fs+admxK7_1803
 ```
 
 The PC scores and eigenvalues for all samples are written to .csv files, which can then be used for plotting using the script `plot_pca_clean.R`. These are the plots for the percentage of variance explained by the first 20 PCs of the [world](perc_var_explained_world.pdf) and [europe+](perc_var_explained_europe+.pdf) datasets. The plots for PC1 vs PC2, PC1 vs PC3 and PC2 vs PC3 are: [world](tritici_world_pca_plots.pdf) and [europe+](tritici_europe+_pca_plots.pdf) 
+
+### R packages 
+```
+vcfR
+adegenet
+argparser
+ggplot2
+patchwork
+pals
+```
