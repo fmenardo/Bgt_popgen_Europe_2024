@@ -12,5 +12,5 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Principal component analysis](PCA/PCA.md) 
   - [ADMIXTURE](ADMIXTURE/ADMIXTURE.md)
   - [fineStructure](fineStructure/fineStructure.md)
-  - [Isolation by Distance](Isolation_by_distance/Isolation)
+  - [Isolation by Distance](Isolation_by_distance/Isolation_by_distance.md)
 - Genome scans... 
