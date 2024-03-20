@@ -1,5 +1,5 @@
 # ADMIXTURE
-We performed ADMIXTURE analysis on the [*World*](../Datasets/Datasets.md) dataset. Since the model assumes linkage equilibrium among markers, we pruned our SNP dataset using PLINK, as shown below:
+We performed [ADMIXTURE](https://dalexander.github.io/admixture/download.html) analysis on the [*World*](../Datasets/Datasets.md) dataset. Since the model assumes linkage equilibrium among markers, we pruned our SNP dataset using PLINK, as shown below:
 ```
 vcf=2022+before2022+2023+ncsu_11chr_no_sing_maxmiss0.1.vcf.gz
 out=2022+before2022+2023+ncsu_no_sing_25kb_0.1_LDp
