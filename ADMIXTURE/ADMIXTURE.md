@@ -17,4 +17,4 @@ This resulted in a VCF file with 155,979 SNPs over 568 samples. ADMIXTURE was ru
 ```
 python3 admixture.py -vcf 2022+before2022+2023+ncsu_no_sing_25kb_0.1_LDp.vcf.gz -c 4 -o tritici_ALL_25kb_0.1_LDp -r 1 -K 15
 ```
-We ran ADMIXTURE for 15 K values (1-15) and evaluated the cross-validation error at each K, as shown here
+We ran ADMIXTURE for 15 K values (1-15) and evaluated the cross-validation error at each K. `tritici_ALL_25kb_0.1_LDp_admixture_K_r1.log` shows that the lowest CV error value was obtained for K=7, as also seen in this plot
