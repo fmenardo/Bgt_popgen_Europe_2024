@@ -19,4 +19,4 @@ python3 admixture.py -vcf 2022+before2022+2023+ncsu_no_sing_25kb_0.1_LDp.vcf.gz 
 ```
 We ran ADMIXTURE for 15 K values (1-15) and evaluated the cross-validation error at each K. `tritici_ALL_25kb_0.1_LDp_admixture_K_r1.log` shows that the lowest CV error value was obtained for K=7, as also seen in this [plot](CV_error_admixture_r1.pdf).
 
-We plot the ancestry proportions for all individuals for K=4-8 as barplots using the script `plot_admixture_revised_colours_r1.R` interactively. The plots can be found [here](admx_bar_plots_r1_k4-8_revised_colours.pdf)
+We plot the ancestry proportions for all individuals for K=4-8 as barplots using the script `plot_admixture_revised_colours_r1.R` interactively. The plots can be found [here](admx_bar_plots_r1_k4-8_revised_colours.pdf).
