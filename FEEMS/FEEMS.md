@@ -48,4 +48,4 @@ We ran FEEMS using the script `run_feems.py`.
 ```
 python3 run_feems.py -i tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1 -sc tritici_2022+2023_long_lat.coord -oc extended_europe.outer -dgg dgg_res7.shp
 ```
-This script produced the [cross validation error plot](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_CV_error_dgg_res7.pdf), the [FEEMS plot for the best lambda](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_feems_plot_dgg_res7.pdf) and the [plot comparing migration surfaces over four lambda values](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_feems_plot_dgg_res7_lambda_compare.pdf).
+This script produced the [cross validation error plot](FEEMS_2022_2023_CV_error.pdf), the [FEEMS plot for the best lambda](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_feems_plot_dgg_res7.pdf) and the [plot comparing migration surfaces over four lambda values](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_feems_plot_dgg_res7_lambda_compare.pdf).
