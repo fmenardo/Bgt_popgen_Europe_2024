@@ -42,7 +42,7 @@ sed -i 's/94202/CHE_94202/g' Europe_large.id_file
 
 ## fineStructure
 
-We run fineStructure with default parameters, except taht we increase the number of iterations in the EM algorithm to 50 (default 10)
+We run fineStructure with default parameters, except that we increase the number of iterations in the EM algorithm to 50 (default 10)
 
 ```
 fs Europe_large -idfile Europe_large.id_file -phasefiles Europe_large.hap_file -recombfiles Europe_large_cp_rec_file.txt -ploidy 1 -v -n -hpc 1 -s1args:-in\ -iM\ -i\ 50\ --emfilesonly -go
