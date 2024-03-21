@@ -5,6 +5,7 @@ We used the conda installation instructions and adapt the code provided by the a
 #### Preparation of input files 
 1. We constructed a discrete global grid of a suitable resolution over our sampling using the R package `dggridR`. The grid files produced are `dgg_res7.shp`, `dgg_res7.shx` and `dgg_res7.dbf`. 
 ```
+library(dggridR)
 ### constructing grid for region of interest
 
 dggs <- dgconstruct(metric=TRUE, resround='nearest', aperture = 4, topology = "TRIANGLE",spacing = 50)
