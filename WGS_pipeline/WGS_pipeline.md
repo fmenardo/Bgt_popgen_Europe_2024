@@ -74,8 +74,14 @@ gatk --java-options "-Xmx4g" VariantFiltration \
    --filter-name "ReadPosRankSumTest5" \
    --filter-expression "ReadPosRankSum < -5.0 || ReadPosRankSum > 5.0" 
 ```
-7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the genotyped VCF file, marked with sites that fail the quality filters, produced by GATK in step #6 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads < user-defined minimum depth or (b) variant call is supported by < 90% of the high-quality informative reads. It outputs the recoded VCF (which can then be gzipped and indexed using `bgzip` and `tabix -p vcf`) and a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample. The genome-wide distribution (obtained after summing over chromosomes 1-11) was plotted using R `ggplot2`.
+7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the VCF file produced by GATK in step #6 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads is less than 8 or (b) variant call is supported by < 90% of the high-quality informative reads. It outputs the recoded VCF (which can then be gzipped and indexed using `bgzip` and `tabix -p vcf`). 
+```
+python3 recode_multivcf_after_gatk_2024_new.py -i 2022+before2022+2023+ncsu_all_combinegvcfs_genotyped_varfilt_$CHROMOSOME.vcf.gz -ip $IN_PATH -o 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME -op $OUT_PATH -mc 8
 
+bgzip 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf && tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf.gz
+```
+The script also outputs a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample.
+The genome-wide distribution (obtained after summing over chromosomes 1-11) was plotted using R `ggplot2`.
 ![2022+before2022+2023+ncsu_recoding_stats-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/59844197-a2c1-46e0-93e5-da85b9386ce9)
 
 The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, were excluded from all further analyses [(n=13)](200k_het_pos_exclude_dact.args)  
