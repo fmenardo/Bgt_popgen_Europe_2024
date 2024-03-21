@@ -17,10 +17,20 @@ The pipeline starts with raw WGS (short) reads and returns a VCF file with all b
 1. `pipeline_with_gatk_statscsv.py` 
 This takes as input the path to the raw fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job for 737 samples (including all *formae speciales*) (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
 ```
-python3 ../scripts/pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i /home/jjigis/projects/bgt_sequence_data/2023_collection/CHNY072301_R1.fastq.gz
+python3 pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i CHNY072301_R1.fastq.gz
+```
+For further details on the steps executed in the script, refer to the Methods section of our paper here (INSERT LINK TO PAPER). For more information on the input parameters of the script, run 
+```
+python3 pipeline_with_gatk_statscsv.py --help
 ```
 2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses. 
-3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. 
+3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. This step was performed in batches to avoid memory issues.
+```
+gatk --java-options "-Xmx44g -Xms44g" CombineGVCFs \
+   -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
+   -V 2022_all_merge_$CHROMOSOME.list \
+   -O 2022_all_combinegvcfs_$CHROMOSOME.vcf.gz
+```
 4. Variants were called on the combined VCF files for all chromosomes using GATK `GenotypeGVCFs`.
 ```
 gatk --java-options "-Xmx20g" GenotypeGVCFs \
@@ -30,7 +40,22 @@ gatk --java-options "-Xmx20g" GenotypeGVCFs \
 --include-non-variant-sites \
 -A StrandBiasBySample 
 ```
-5. In order to decide threshold values for filtering variants, the distribution of annotation values for SNPs were visualised. For each chromosome, SNPs were first selected from the output of step #4  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GTAK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
+5. In order to decide threshold values for filtering variants, the distributions of site-based quality metrics were visualised. For each chromosome, SNPs were first selected from the output of step #4  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GATK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
+```
+# select SNPs
+gatk SelectVariants \
+     -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
+     -V 2022+before2022+2023+ncsu_all_combinegvcfs_genotyped_$CHROMOSOME.vcf.gz \
+     --select-type-to-include SNP \
+     -O snps_ALL_$CHROMOSOME.vcf.gz
+
+# output site-based quality metrics to a table
+gatk VariantsToTable \
+    -V snps_ALL_$CHROMOSOME.vcf.gz \
+    -F CHROM -F POS -F QD -F FS -F SOR -F MQ -F MQRankSum -F ReadPosRankSum \
+    -O snps_ALL_info_$CHROMOSOME.table
+
+```
 
 ![2022+before2022+2023+ncsu_WG_gatk_info_distr-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/8e636ad7-1f92-4808-8250-f6d72ebaeb85)
 
@@ -49,7 +74,7 @@ gatk --java-options "-Xmx4g" VariantFiltration \
    --filter-name "ReadPosRankSumTest5" \
    --filter-expression "ReadPosRankSum < -5.0 || ReadPosRankSum > 5.0" 
 ```
-7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the genotyped VCF file produced by GATK in step #3 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads < user-defined minimum depth or (b) variant call is supported by < 90% of the high-quality informative reads. It outputs the recoded VCF (which can then be gzipped and indexed using `bgzip` and `tabix -p vcf`) and a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample. The genome-wide distribution (obtained after summing over chromosomes 1-11) was plotted using R `ggplot2`.
+7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the genotyped VCF file, marked with sites that fail the quality filters, produced by GATK in step #6 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads < user-defined minimum depth or (b) variant call is supported by < 90% of the high-quality informative reads. It outputs the recoded VCF (which can then be gzipped and indexed using `bgzip` and `tabix -p vcf`) and a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample. The genome-wide distribution (obtained after summing over chromosomes 1-11) was plotted using R `ggplot2`.
 
 ![2022+before2022+2023+ncsu_recoding_stats-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/59844197-a2c1-46e0-93e5-da85b9386ce9)
 
