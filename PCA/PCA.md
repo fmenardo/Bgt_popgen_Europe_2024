@@ -1,5 +1,5 @@
 # Principal component analysis (PCA) 
-We performed PCAs for two of our [datasets](../Datasets/Datasets.md)- World and Europe+. Both datasets were filtered to include only biallelic SNPs, no singletons and maximum 10% missing data using GATK `SelectVariants`.
+We performed PCAs for two of our [datasets](../Datasets/Datasets.md): World and Europe+. Both datasets were filtered to include only biallelic SNPs, no singletons and maximum 10% missing data using GATK `SelectVariants`.
 ```
 #### world dataset ####
 gatk SelectVariants \
