@@ -32,10 +32,11 @@ The PC scores and eigenvalues for all samples are written to .csv files, which c
 
 ### R packages 
 ```
-vcfR
-adegenet
-argparser
-ggplot2
-patchwork
-pals
+R 4.2.1
+vcfR 1.14.0
+adegenet 2.1.0
+argparser 0.7.1
+ggplot2 3.5.0
+patchwork 1.2.0
+pals 1.7
 ```
