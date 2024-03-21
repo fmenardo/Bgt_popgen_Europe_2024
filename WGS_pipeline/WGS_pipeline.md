@@ -10,7 +10,7 @@ The pipeline starts with raw WGS (short) reads and returns a VCF file with all b
 5. [samtools 1.17](https://github.com/samtools/samtools/releases/tag/1.17)
 6. [bcftools 1.17](https://github.com/samtools/bcftools/releases/tag/1.17)
 7. [GATK 4.4.0.0](https://github.com/broadinstitute/gatk/releases/tag/4.4.0.0)
-8. R
+8. R 4.2.1
 
 ### Workflow
 
