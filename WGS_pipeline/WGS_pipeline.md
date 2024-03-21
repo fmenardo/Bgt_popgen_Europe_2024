@@ -1,6 +1,6 @@
 # WGS pipeline
 
-The pipeline starts with raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset. 
+The pipeline starts with raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset (CHECK AT THE END, this will depend on the vcf that we share). 
 
 ### Software used
 1. Python3
