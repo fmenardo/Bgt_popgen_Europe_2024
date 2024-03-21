@@ -47,7 +47,7 @@ We run fineStructure with default parameters, except that we increase the number
 ```
 fs Europe_large -idfile Europe_large.id_file -phasefiles Europe_large.hap_file -recombfiles Europe_large_cp_rec_file.txt -ploidy 1 -v -n -hpc 1 -s1args:-in\ -iM\ -i\ 50\ --emfilesonly -go
 ```
-With the command above fineStructure generates lists of commands to run at different stages, these list can be submitted as batch jobs to HPC.
+With the command above fineStructure generates lists of commands to run at different stages, these list can be submitted as batch jobs to a computer cluster.
 
 When all stages are completed the three most important outputs are the chromopainter chunkcounts file (`Europe_large_linked_hap.chunkcounts.out`), the fineStructure mcmc file (`Europe_large_linked_hap_mcmc.xml`), and the fineStructure tree file (`Europe_large_linked_hap_tree.xml`).
 
