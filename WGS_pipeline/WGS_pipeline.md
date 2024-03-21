@@ -19,11 +19,8 @@ This takes as input the path to the raw fastq-files and reference genome along w
 ```
 python3 pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i CHNY072301_R1.fastq.gz
 ```
-For further details on the steps executed in the script, refer to the Methods section of our paper here (INSERT LINK TO PAPER). For more information on the input parameters of the script, run 
-```
-python3 pipeline_with_gatk_statscsv.py --help
-```
-2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses. 
+For further details on the steps executed in the script, refer to the Methods section of our paper here (INSERT LINK TO PAPER). For more information on the input parameters of the script, run ```python3 pipeline_with_gatk_statscsv.py --help```  
+2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses.        
 3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. This step was performed in batches to avoid memory issues.
 ```
 gatk --java-options "-Xmx44g -Xms44g" CombineGVCFs \
@@ -40,7 +37,7 @@ gatk --java-options "-Xmx20g" GenotypeGVCFs \
 --include-non-variant-sites \
 -A StrandBiasBySample 
 ```
-5. In order to decide threshold values for filtering variants, the distributions of site-based quality metrics were visualised. For each chromosome, SNPs were first selected from the output of step #4  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GATK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the annotations `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
+5. In order to decide threshold values for filtering variants, the distributions of site-based quality metrics were visualised. For each chromosome, SNPs were first selected from the output of step #4  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GATK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the metrics `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
 ```
 # select SNPs
 gatk SelectVariants \
@@ -80,13 +77,34 @@ python3 recode_multivcf_after_gatk_2024_new.py -i 2022+before2022+2023+ncsu_all_
 
 bgzip 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf && tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf.gz
 ```
-The script also outputs a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample.
-The genome-wide distribution (obtained after summing over chromosomes 1-11) was plotted using R `ggplot2`.
+The script also outputs a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample. The genome-wide distributions (obtained after summing over chromosomes 1-11) for these statistics were plotted using R `ggplot2`.
 ![2022+before2022+2023+ncsu_recoding_stats-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/59844197-a2c1-46e0-93e5-da85b9386ce9)
 
 The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, were excluded from all further analyses [(n=13)](200k_het_pos_exclude_dact.args)  
-8. SNPs were selected from the chromosomal VCF files using GATK `SelectVariants` with options `--select-type-to-include SNP`, `--restrict-alleles-to ALL` and sites failing the filters from step #6 were excluded using the option `--exclude-filtered`. The resulting VCFs contained some [spanning deletions](https://gatk.broadinstitute.org/hc/en-us/articles/360035531912-Spanning-or-overlapping-deletions-allele) denoted by '\*' . As these would have caused problems in downstream analyses, all sites with an '*' were removed using the script `recode_asterisk_count_snp.py` which returned a modified VCF file that was gzipped and indexed using `bgzip` and `tabix -p vcf` respectively. The VCF files (with filtered variants and no asterisks) for chromosomes 1-11, the alternate mating type locus and the mitochondrion were merged using the `concat` option in bcftools. The Bgt_Un "chromosome" with contigs not assigned to any other chromosomes was excluded from all further analyses.  
-9. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates. This step was performed using GATK `SelectVariants` and samples in `2022+before2022+2023+ncsu_tritici_list.args` were included while samples with >200k het pos `2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args` and clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list.args` were excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
+8. SNPs were selected from the chromosomal VCF files using GATK `SelectVariants` with options `--select-type-to-include SNP`, `--restrict-alleles-to ALL` and sites failing the filters from step #6 were excluded using the option `--exclude-filtered`.
+```
+gatk SelectVariants \
+     -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
+     -V 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf.gz \
+     --select-type-to-include SNP \
+     --restrict-alleles-to ALL \
+     --exclude-filtered \
+     -O 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_$CHROMOSOME.vcf.gz
+```
+9. The resulting VCFs contained some [spanning deletions](https://gatk.broadinstitute.org/hc/en-us/articles/360035531912-Spanning-or-overlapping-deletions-allele) denoted by '\*' . As these would have caused problems in downstream analyses, all sites with an '*' were removed using the script `recode_asterisk_count_snp.py` which returned a modified VCF file that was gzipped and indexed using `bgzip` and `tabix -p vcf` respectively.
+```
+python3 recode_asterisk_count_snp.py -i 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_$CHROMOSOME.vcf.gz \
+ -o 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_$CHROMOSOME
+
+bgzip 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_$CHROMOSOME.vcf
+tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_$CHROMOSOME.vcf.gz
+```
+10. The VCF files (with filtered variants and no asterisks) for chromosomes 1-11, the alternate mating type locus and the mitochondrion were merged using the `concat` option in bcftools. The Bgt_Un "chromosome" with contigs not assigned to any other chromosomes was excluded from all further analyses.
+```
+bcftools concat -f 2022+before2022+2023+ncsu_snp_no_asterisk_11_chr_mt_MAT_list \ # list with the names of the VCF files
+ -Oz -o 2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr.vcf.gz
+```
+11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates. This step was performed using GATK `SelectVariants` and samples in `2022+before2022+2023+ncsu_tritici_list.args` were included while samples with >200k het pos `2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args` and clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list.args` were excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
 ```
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
