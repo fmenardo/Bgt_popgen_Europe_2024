@@ -1,7 +1,7 @@
 # fineStructure
 ## Data preparation
 
-For the fineStructure analyses we used the [Europe+ dataset](../Datasets/Datasets.md) with 416 individuals sampled from Europe, the Middle East and Caucasus.
+For the fineStructure analyses we used the [Europe+](../Datasets/Datasets.md) datatset with 416 individuals sampled from Europe, the Middle East and Caucasus.
 We kept only SNPS without any missing data, as fineStructure cannot handle them: 
 
 ```
