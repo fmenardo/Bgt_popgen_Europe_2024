@@ -63,6 +63,7 @@ ggplot(data=eur_eig[1:20,], aes(PC, var_perc))+geom_bar(stat = "identity")+
   labs(x="Principal Component", y="Percentage of variance explained",title = "PCA - Europe+ dataset")+
   scale_x_continuous(breaks = c(1:20))
 
+# modified as.vector(polychrome(30)) to better distinguish between russia and turkey
 my_pal <- c("#5A5156", "#E4E1E3", "#F6222E", "#FE00FA", "#16FF32", "#3283FE", "#FEAF16", "#B00068", "#1CFFCE", "#90AD1C", "#2ED9FF", "#DEA0FD", "#AA0DFE", "#F8A19F", "#325A9B",
             "#C4451C", "#B10DA1", "#85660D", "#1C8356", "#FBE426", "#1CBE4F", "#FA0087", "#FC1CBF", "#F7E1A0", "#C075A6", "#782AB6", "#AAF400", "#BDCDFF", "#822E1C", "#B5EFB5")
 
