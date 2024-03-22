@@ -1,6 +1,18 @@
 # WGS pipeline
 
-The pipeline starts with raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset (CHECK AT THE END, this will depend on the vcf that we share). 
+## Sampling and data
+
+We sampled 276 isolates of *B.g. tritici* across Europe and the Mediterranean and whole-genome sequenced their DNA with short reads. The sequences can be found here (ADD LINK TO SEQ REPO). Additionally, we downloaded previously published, publicly available sequences of *B.g. tritici*, *B.g. triticale*, *B.g. dicocci*, *B.g. secalis* and *B.g. dactylidis* (N = 385) using the `fasterq-dump` (v 3.0.5) method of [SRA tools](https://github.com/ncbi/sra-tools). For example,
+```
+fasterq-dump --split-files SRR11548116
+```
+The list of accessions of all downloaded sequences can be found [here](SRA_accessions_before2022+ncsu)
+
+The metadata of all previously published and newly collected isolates, including sampling location, year of collection and details on their hosts, can be found [here](../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv). 
+
+## Variant calling pipeline 
+
+The pipeline starts with paired-end, raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset (CHECK AT THE END, this will depend on the vcf that we share). 
 
 ### Software used
 1. Python3
@@ -15,7 +27,7 @@ The pipeline starts with raw WGS (short) reads and returns a VCF file with all b
 ### Workflow
 
 1. `pipeline_with_gatk_statscsv.py` 
-This takes as input the path to the raw fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job for 737 samples (including all *formae speciales*) (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
+This takes as input the path to the raw paired-end fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job for 737 samples (including all *formae speciales*) (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
 ```
 python3 pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i CHNY072301_R1.fastq.gz
 ```
