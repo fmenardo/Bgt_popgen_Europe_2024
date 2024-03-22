@@ -67,22 +67,22 @@ ggplot(data=eur_eig[1:20,], aes(PC, var_perc))+geom_bar(stat = "identity")+
 # PC1 vs PC2
 eur_pc12 <- ggplot(eur_pca, aes(PC1, PC2, colour=Country,shape=Collection)) + geom_point(size=3) + theme_classic(base_size = 14)+
   theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
-  labs (x = paste("PC1", " ", "(", signif(world_eig$var_perc[1], 3),"%", ")",  sep = ""), 
-        y = paste("PC2", " ", "(", signif(world_eig$var_perc[2], 3), "%",")",  sep = ""),
+  labs (x = paste("PC1", " ", "(", signif(eur_eig$var_perc[1], 3),"%", ")",  sep = ""), 
+        y = paste("PC2", " ", "(", signif(eur_eig$var_perc[2], 3), "%",")",  sep = ""),
         colour = "Country", shape = "Collection") + scale_color_manual(values = as.vector(polychrome(30))) 
 
 # PC1 vc PC3
 eur_pc13 <- ggplot(eur_pca, aes(PC1, PC3, colour=Country,shape=Collection)) + geom_point(size=3) + theme_classic(base_size = 14)+
   theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
-  labs (x = paste("PC1", " ", "(", signif(world_eig$var_perc[1], 3),"%", ")",  sep = ""), 
-        y = paste("PC3", " ", "(", signif(world_eig$var_perc[3], 3), "%",")",  sep = ""),
+  labs (x = paste("PC1", " ", "(", signif(eur_eig$var_perc[1], 3),"%", ")",  sep = ""), 
+        y = paste("PC3", " ", "(", signif(eur_eig$var_perc[3], 3), "%",")",  sep = ""),
         colour = "Country", shape = "Collection") + scale_color_manual(values = as.vector(polychrome(30))) 
 
 #PC2 vs PC3
 eur_pc23 <- ggplot(eur_pca, aes(PC2, PC3, colour=Country,shape=Collection)) + geom_point(size=3) + theme_classic(base_size = 14)+
   theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
-  labs (x = paste("PC2", " ", "(", signif(world_eig$var_perc[2], 3),"%", ")",  sep = ""), 
-        y = paste("PC3", " ", "(", signif(world_eig$var_perc[3], 3), "%",")",  sep = ""),
+  labs (x = paste("PC2", " ", "(", signif(eur_eig$var_perc[2], 3),"%", ")",  sep = ""), 
+        y = paste("PC3", " ", "(", signif(eur_eig$var_perc[3], 3), "%",")",  sep = ""),
         colour = "Country", shape = "Collection") + scale_color_manual(values = as.vector(polychrome(30))) 
 
 eur_all <- eur_pc12 + eur_pc13 + eur_pc23 + guide_area() + plot_layout(guides = "collect") & guides(shape=guide_legend(order = 1, ncol = 2 ), colour = guide_legend(order = 2))
