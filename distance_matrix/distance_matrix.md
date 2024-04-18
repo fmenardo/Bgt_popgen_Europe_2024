@@ -17,5 +17,12 @@ Clonal isolates were identified based on the values of the genome-wide distance 
 The above steps were performed using the script `dist_matrix_WG_from_windows.R`.
 ![2022+before2022+2023+ncsu_dist_prop_distr](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/ab3b4cbe-5810-4835-96d6-dd575f847017)
 
-
-
+### R packages
+```
+R 4.2.3
+vcfR 1.14.0
+adegenet 2.1.10
+ape 5.7.1
+argparser 0.7.1
+tidyverse 1.3.2
+```
