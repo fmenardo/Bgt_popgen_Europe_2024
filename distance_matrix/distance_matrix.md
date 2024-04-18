@@ -1,12 +1,21 @@
 # Distance matrix
 
-A distance matrix based on pairwise differences between individuals (number of loci for which they differ) was computed using the `dist.gene` function in the R package `ape` using the method `pairwise`. The matrix was computed parallely for each of the 11 chromosomes using the script `dist_matrix_parallel.R` that took the per-chromosome SNP VCFs produced in [WGS_pipeline](../WGS_pipeline/WGS_pipeline.md) as input. The script was called using `input_dist_matrix`. An example from the input file is shown below:
-```
-Rscript dist_matrix_parallel.R -c 2 -i 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_LR026984.1_chr1.vcf.gz -o chr1
-```
-The distances were then summed over all chromosomes to obtain a genome-wide distance matrix `gw_dist_mat_2022+before2022+2023+ncsu.csv`.
+A distance matrix based on pairwise differences between all 711 individuals (number of loci for which they differ) was computed using the `dist.gene` function in the R package `ape` using the method `pairwise`. Since there was great variation in the number of missing data and variants called among samples, we normalised this distance by the actual number of loci compared for each pair. This was done by setting `pairwise.deletion = TRUE` and recording the variance for each pair (`variance=TRUE`). The number of loci was then calculated using the formula D^2/(D-V), where D = distance and V = variance, following the [official manual](https://search.r-project.org/CRAN/refmans/ape/html/dist.gene.html) of the tool. 
 
-Clonal isolates were identified based on the values of the genome-wide distance matrix using `get_clones_from_dist_matr.R`. Samples that had a genetic distance of less than 120 SNPs were classified as clonal and a list of clonal groups was outputted `2022+before2022+2023+ncsu_all_list_clones_merged.txt`. 
+To speed up computation, we divided the genome (chromosomes 1-11) into 143 windows of ~ 1 million bases. The per-chromosome 'all-sites' VCF files generated in the [WGS pipeline](../WGS_pipeline/WGS_pipeline.md) were divided into windows using `bcftoools`, for example:
+```
+bcftools view -r LR026984.1_chr1:1-1000000 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1.vcf.gz -Oz -o 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1_1-1000000.vcf.gz && tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1_1-1000000.vcf.gz
 
-![distr_gw_dist_vline120-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/c7a9f6dc-2162-46eb-98f4-68c4232ffb5e)
+```
+
+The distance matrix was then computed parallely for each of these windows using the script `dist_matrix_parallel_loci.R` that took the corresponding VCF file as input. The script was called using `input_dist_matrix_windows`. An example from the input file is shown below:
+```
+Rscript dist_matrix_parallel_loci.R -c 2 -i 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1_1-1000000.vcf.gz -o chr1_1-1000000
+```  
+The script produced a 'difference' matrix (number of loci that were different) and a 'loci' matrix (total number of loci compared) for each window. The differences and loci were summed over all windows and a genome-wide distance matrix was obtained by dividing the total differences by the total number of loci `gw_dist_mat_prop_2022+before2022+2023+ncsu.csv`. 
+Clonal isolates were identified based on the values of the genome-wide distance matrix. Samples that had a genetic distance of less than 9e-05 were classified as clonal and a list of clonal groups was outputted `2022+before2022+2023+ncsu_all_list_clones_merged.txt`. 
+The above steps were performed using the script `dist_matrix_WG_from_windows.R`.
+![2022+before2022+2023+ncsu_dist_prop_distr](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/ab3b4cbe-5810-4835-96d6-dd575f847017)
+
+
 
