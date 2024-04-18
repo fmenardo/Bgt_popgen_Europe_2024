@@ -1,12 +1,7 @@
 library(vcfR)
 library(adegenet)
 library(ape)
-library(ggplot2)
-library(pals)
-library(dplyr)
-library(parallel)
 library(argparser)
-
 
 parser <- arg_parser("run dist matrix")
 
