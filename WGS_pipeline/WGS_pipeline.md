@@ -90,7 +90,10 @@ python3 recode_multivcf_after_gatk_2024_new.py -i 2022+before2022+2023+ncsu_all_
 bgzip 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf && tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf.gz
 ```
 The script also outputs a csv file with the number of positions failing each of the above filters as well as the total number or missing positions and the total number of variant positions for each sample. The genome-wide distributions (obtained after summing over chromosomes 1-11) for these statistics were plotted using R `ggplot2`.
+
 ![2022+before2022+2023+ncsu_recoding_stats_distr_18042024](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/9bb03543-db20-477f-985c-0a04a16bb833)
+
+The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, or those with a number of variants : number of heterozygous positions ratio of < 1  were excluded from all SNP-based analyses [(n=14)](200k_het_pos_ratio_1_exclude_dact.args). The exception was 96224, which had a low variant : heterozygous positions ratio because it is the reference isolate, and was thus retained in all analyses.
 
   
 8. SNPs were selected from the chromosomal VCF files using GATK `SelectVariants` with options `--select-type-to-include SNP`, `--restrict-alleles-to ALL` and sites failing the filters from step #6 were excluded using the option `--exclude-filtered`.
@@ -116,15 +119,15 @@ tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_aster
 bcftools concat -f 2022+before2022+2023+ncsu_snp_no_asterisk_11_chr_mt_MAT_list \ # list with the names of the VCF files
  -Oz -o 2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr.vcf.gz
 ```
-11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates (`2022+before2022+2023+ncsu_tritici_list.args`). This step was performed using GATK `SelectVariants`. The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, or those with a number of variants : number of heterozygous positions ratio of < 1  were excluded from all further analyses [(n=14)](200k_het_pos_ratio_1_exclude_dact.args). The exception was 96224, which had a low variant : heterozygous positions ratio because it is the reference isolate, and was thus retained in all analyses. Further, clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list.args` were also excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
+11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates (`2022+before2022+2023+ncsu_tritici_list.args`). This step was performed using GATK `SelectVariants`. The tritici samples failing the "heterozygous" filter, as described in step #7, were excluded (n=10) `2022+before2022+2023+ncsu_tritici_200k_hetpos_ratio_1_to_exclude_list.args.args`. Further, tritici clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args` were also excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
 ```
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
     -V ../project_data_prep/data/2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr_mt_MAT.vcf.gz \
     --restrict-alleles-to BIALLELIC \
     --sample-name ../project_data_prep/data/2022+before2022+2023+ncsu_tritici_list.args \
-    --exclude-sample-name ../project_data_prep/data/2022+before2022+2023+ncsu_tritici_clones_to_exclude_list.args \
-    --exclude-sample-name ../project_data_prep/data/2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args \
+    --exclude-sample-name ../project_data_prep/data/2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args \
+    --exclude-sample-name ../project_data_prep/data/2022+before2022+2023+ncsu_200k_hetpos_ratio_1_to_exclude_list.args \
     --select "AC>0 && AC<568" \
     -O tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz
 ```
