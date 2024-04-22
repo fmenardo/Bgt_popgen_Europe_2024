@@ -16,7 +16,7 @@ gatk-4.4.0.0/gatk SelectVariants \
      --sample-name list_Europe_large_no_clones.args      
 ```
 
-This resulted in 1'369'192 SNPs.
+This resulted in 1’403’790  SNPs.
 
 To generate the input files for fineStructure we need to know the per base recombination rates, these where [obtained](../recombination_map/recombination_map.md) starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
 
