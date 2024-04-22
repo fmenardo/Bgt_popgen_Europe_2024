@@ -51,8 +51,8 @@ ggsave(world_all, filename = "tritici_world_regions_pca_plots.pdf", height = 30,
 
 #### Europe+ dataset ####
 
-eur_pca <- read.csv("tritici_extended_europe.pca.csv")
-eur_eig <- read.csv("tritici_extended_europe.eig.csv")
+eur_pca <- read.csv("tritici_europe+.pca.csv")
+eur_eig <- read.csv("tritici_europe+.eig.csv")
 eur_eig$PC <- as.numeric(rownames(eur_eig))
 eur_eig$var_perc <- (eur_eig$pca.eig/sum(eur_eig$pca.eig))*100
 
