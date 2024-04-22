@@ -23,7 +23,7 @@ gatk SelectVariants \
     -sample-name tritici_2022_2023.args \   # list of samples to include
     --select "AC>1 && AC<255" \   # remove singletons
     --max-nocall-fraction 0 \    # remove all missing data
-    -O tritici_2023_no_sing_no_miss.vcf.gz
+    -O tritici_2022+2023_no_sing_no_miss.vcf.gz
 ```
 3. Next, we performed LD-based pruning using PLINK. At each step (1 SNP), the program notes the pairs of variants in the window (25kb) that exceed the correlation value (0.1) and removes variants from the window until no such pairs remain. 
 ```
