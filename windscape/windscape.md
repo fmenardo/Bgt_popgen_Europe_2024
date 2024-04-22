@@ -18,7 +18,7 @@ We create a file listing all rds files, and a a csv file containing names and co
 ls | grep "rds" > list_wind_files
 
 head -n 1 ../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv | cut -f 1,8,9 -d","  > samples_coord.csv
-cut -f 1,8,9 -d"," ../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv | grep -f tritici_extended_europe_2022+before2022+2023+ncsu.args >> samples_coord.csv
+cut -f 1,8,9 -d"," ../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv | grep -f ../Datasets/tritici_extended_europe_2022+before2022+2023+ncsu.args >> samples_coord.csv
 
 ```
 
