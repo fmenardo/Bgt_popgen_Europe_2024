@@ -32,7 +32,7 @@ The output consists of two matrixes:
 `windscape_2012-2021.wind_distance_asym.csv` is an asymmetric matrix with each cell (i,j) containing the distance in wind hours moving from individual i towards individual j (from rows to columns). 
 `windscape_2012-2021.wind_distance_sym.csv` is an symmetric matrix with each cell containing the average distance in wind hours moving between two individuals in either direction.
 
-The plot of the [wind connectivity surfaces](./2012-2021_allsites_wind_map.pdf) for focal points was produced with the following script:
+The plot of the [wind connectivity surfaces](./2012-2021_allsites_wind_map.pdf) for some representative focal points was produced with the following script:
 
 ```
 Rscript windscape_plot.R -L 345 -R 40 -S 25 -N 60 -o windscape_2012-2021 -s samples_coord.csv -l list_wind_files -P 0,52,12,53,-5,38,17,41
