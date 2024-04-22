@@ -1,4 +1,6 @@
 # Windscape
+We used the package [windscape](https://github.com/matthewkling/windscape) to infer wind connectivity between sampling locations.
+
 The wind data (u and v comoponent at 10 m above sea level) was downloaded from the [Climate System Forecast Reanalysis](https://rda.ucar.edu/datasets/).
 For years between 1979 and 2010 the script downloads the data from dataset ds093.1, for more recent years the dataset is ds094.0. The two datasets have different spatial resolutions. 
 The following command downloads the data for all days between February and July and creates one .rds file for each year between 2012 and 2021. See script help (`-h`) for details about arguments. 
