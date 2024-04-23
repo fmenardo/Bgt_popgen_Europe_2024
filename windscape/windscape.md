@@ -42,7 +42,7 @@ Rscript windscape_plot.R -L 345 -R 40 -S 25 -N 60 -o windscape_2012-2021 -s samp
 ```
 
 ## Software versions
-Many of the spatial packages are developing, this analysis was run in these environments:
+Many of the spatial packages are in development at the time of writing, and different versions can easily break the code. This analysis was run in these environments:
 
 
 - Download R sessionInfo()
