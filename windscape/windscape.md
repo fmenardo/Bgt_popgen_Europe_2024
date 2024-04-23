@@ -38,7 +38,9 @@ The plot of the [wind connectivity surfaces](./2012-2021_allsites_wind_map.pdf) 
 Rscript windscape_plot.R -L 345 -R 40 -S 25 -N 60 -o windscape_2012-2021 -s samples_coord.csv -l list_wind_files -P 0,52,12,53,-5,38,17,41
 
 ```
-Many of the spatial packages are developing, this analysis was run in thess environments:
+
+##Software versions
+Many of the spatial packages are developing, this analysis was run in these environments:
 
 
 - Download
@@ -79,7 +81,7 @@ loaded via a namespace (and not attached):
 ```
 - Analysis
 
-  ```
+```
 R version 4.2.1 (2022-06-23)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 20.04.5 LTS
