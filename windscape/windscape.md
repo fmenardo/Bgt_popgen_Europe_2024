@@ -39,11 +39,11 @@ Rscript windscape_plot.R -L 345 -R 40 -S 25 -N 60 -o windscape_2012-2021 -s samp
 
 ```
 
-##Software versions
+## Software versions
 Many of the spatial packages are developing, this analysis was run in these environments:
 
 
-- Download
+- Download R sessionInfo()
 ```
 R version 4.2.1 (2022-06-23)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -79,7 +79,7 @@ loaded via a namespace (and not attached):
 [25] colorspace_2.1-0 utf8_1.2.3       stringi_1.7.12   munsell_0.5.0   
 
 ```
-- Analysis
+- Analysis R sessionInfo()
 
 ```
 R version 4.2.1 (2022-06-23)
