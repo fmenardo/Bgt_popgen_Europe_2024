@@ -12,7 +12,7 @@ Rscript windscape_download.R -m 2 -M 7 -d 1 -D 31 -y $i -Y $i -L 345 -R 40 -S 25
 done
 ```
 
-We create a file listing all rds files, and a a csv file containing names and coordinates of the samples to be included 
+We create a file listing all rds files, and a a csv file containing names and coordinates of the samples to be included (the [Europe+ dataset](../Datasets/Datasets.md)) 
 
 ```
 ls | grep "rds" > list_wind_files
