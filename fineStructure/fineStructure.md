@@ -13,7 +13,7 @@ gatk-4.4.0.0/gatk SelectVariants \
      --exclude-intervals MT880591.1 \                    #exclude mitochondrion
      --exclude-intervals LR026995.1_Un \                 #exclude conting with sequenced non assined to any chromosome
      --exclude-intervals Bgt_MAT_1_1_3 \                 #exclude contig with alternative mating type
-     --sample-name list_Europe_large_no_clones.arg      
+     --sample-name tritici_extended_europe_2022+before2022+2023+ncsu.args      
 ```
 
 This resulted in 1’403’790  SNPs.
@@ -72,10 +72,35 @@ python 3.10.9
 numpy 1.23.5    
 argparser 1.4.0
 
-- R and R packages
-R 4.2.1
-psych 2.3.12
-GPArotation 2023.11-1
-paran 1.5.2
+- R and packages
+
+sessionInfo()
+R version 4.2.1 (2022-06-23)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 20.04.5 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8     LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] RColorBrewer_1.1-3    Polychrome_1.5.1      patchwork_1.1.2       ggpubr_0.6.0          pals_1.8              ggplot2_3.4.2         psych_2.3.12         
+ [8] GPArotation_2023.11-1 paran_1.5.2           MASS_7.3-60           XML_3.99-0.14         ape_5.7-1            
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.2.0     purrr_1.0.1          lattice_0.21-8       carData_3.0-5        colorspace_2.1-0     vctrs_0.6.3          generics_0.1.3       utf8_1.2.3          
+ [9] rlang_1.1.3          pillar_1.9.0         glue_1.6.2           withr_2.5.0          lifecycle_1.0.3      munsell_0.5.0        ggsignif_0.6.4       gtable_0.3.3        
+[17] ragg_1.2.5           mapproj_1.2.11       labeling_0.4.2       parallel_4.2.1       fansi_1.0.4          broom_1.0.5          Rcpp_1.0.12          scales_1.3.0        
+[25] backports_1.4.1      scatterplot3d_0.3-44 abind_1.4-5          systemfonts_1.0.4    farver_2.1.1         textshaping_0.3.6    mnormt_2.1.1         digest_0.6.33       
+[33] rstatix_0.7.2        dplyr_1.1.2          grid_4.2.1           cowplot_1.1.1        cli_3.6.1            tools_4.2.1          magrittr_2.0.3       maps_3.4.1          
+[41] tibble_3.2.1         dichromat_2.0-0.1    crayon_1.5.2         tidyr_1.3.0          car_3.1-2            pkgconfig_2.0.3      rstudioapi_0.15.0    R6_2.5.1            
+[49] nlme_3.1-157         compiler_4.2.1    
 
 ```
