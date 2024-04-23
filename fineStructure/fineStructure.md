@@ -61,7 +61,7 @@ Rscripts plot_fs_results.R
 
 This generates the [coacestry matrix plot](Europe_large_Coancestry.pdf) and the [PCA plot](Europe_large_PCA.pdf)
 
-## Software versions:
+## Software versions
 ```
 gatk 4.4.0.0
 fineStructure 4.4.4
