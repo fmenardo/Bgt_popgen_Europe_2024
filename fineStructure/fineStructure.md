@@ -1,7 +1,7 @@
 # fineStructure
 ## Data preparation
 
-For the fineStructure analyses we used the [Europe+](../Datasets/Datasets.md) datatset with 416 individuals sampled from Europe, the Middle East and Caucasus.
+For the fineStructure analyses we used the [Europe+](../Datasets/Datasets.md) datatset with 415 individuals sampled from Europe, the Middle East and Caucasus.
 We kept only SNPS without any missing data, as fineStructure cannot handle them: 
 
 ```
@@ -13,7 +13,7 @@ gatk-4.4.0.0/gatk SelectVariants \
      --exclude-intervals MT880591.1 \                    #exclude mitochondrion
      --exclude-intervals LR026995.1_Un \                 #exclude conting with sequenced non assined to any chromosome
      --exclude-intervals Bgt_MAT_1_1_3 \                 #exclude contig with alternative mating type
-     --sample-name list_Europe_large_no_clones.args      
+     --sample-name list_Europe_large_no_clones.arg      
 ```
 
 This resulted in 1’403’790  SNPs.
