@@ -10,13 +10,6 @@ chunkfile<-"Europe_large_linked_hap.chunkcounts.out" ## chromopainter chunkcount
 mcmcfile<-"Europe_large_linked_hap_mcmc.xml" ## finestructure mcmc file
 treefile<-"Europe_large_linked_hap_tree.xml" ## finestructure tree file
 
-## Additional files that you can extract from finestructure
-#mappopchunkfile<-"EastAsiaSimple.EMlinked.mapstate.csv" # population-by-population chunkcount file for the populations used in the MAP (i.e tree)
-#system( paste("fs fs -X -Y -e X2",chunkfile,treefile,mappopchunkfile) )
-#meancoincidencefile<-"EastAsiaSimple.EMlinked.meancoincidence.csv" # pairwise coincidence, .i.e. proportion of MCMC files where individuals are found in the same 
-#system( paste("fs fs -X -Y -e meancoincidence",chunkfile,mcmcfile,meancoincidencefile) )
-## there are ways of generating these within R but are either slower or more annoying - its your call how you do it
-
 ###### READ IN THE CHUNKCOUNT FILE
 dataraw<-as.matrix(read.table(chunkfile,row.names=1,header=T,skip=1)) # read in the pairwise coincidence 
 
@@ -41,6 +34,8 @@ tdend<-myapetodend(ttree,factor=1) # convert to dendrogram format
 ####################################
 
 ## PLOT 1: RAW DENDROGRAM PLOT
+
+
 
 
 pdf(file="Europe_large_dendro.pdf",height=6,width=14)
@@ -77,11 +72,17 @@ plotFinestructure(tmpmat,dimnames(tmpmat)[[1]],dend=tdend,cols=some.colorsEnd,ce
 dev.off()
 
 
+
+
+
 ########################
 
 library(paran)
 library(GPArotation)
 library(psych)
+library(patchwork)
+library(Polychrome)
+library(RColorBrewer)
 ## PCA Principal Components Analysis
 pcares<-mypca(dataraw)
 # For figuring out how many PCs are important; see Lawson & Falush 2012
@@ -91,12 +92,69 @@ pcares<-mypca(dataraw)
 #c(tmap,thorn) # 11 and 5. Horn typically underestimates, Map is usually better
 pcapops<-getPopIndices(rownames(dataraw),mapstatelist)
 pcanames<-rownames(dataraw)
-rcols<-rainbow(max(pcapops))
 
-pdf("Europe_large_PCA.pdf",height=16,width=12)
-par(mfrow=c(3,2))
-for(i in 1:3) for(j in (i+1):4) {
-  plot(pcares$vectors[,i],pcares$vectors[,j],col=rcols[pcapops],xlab=paste("PC",i),ylab=paste("PC",j),main=paste("PC",i,"vs",j),pch=rcols)
-  text(pcares$vectors[,i],pcares$vectors[,j],labels=pcanames,col=rcols[pcapops],cex=0.5,pos=1)
+
+pca_df <- as.data.frame(pcares$vectors)
+pca_colnames<- c()
+for (x in 1:415) { 
+  pca_colnames <- c(pca_colnames,paste0("PC",x))
 }
-dev.off()
+
+names(pca_df) <- pca_colnames
+pca_df$isolate <- pcanames
+
+
+iso_det <- read.table("~/projects/vcf_project_tritici_old/2022+before2022+2023+ncsu_metadata+fs+admxK7_11032024.csv",header=TRUE,sep=",")
+pca_dataset <- merge(pca_df,iso_det,by.x="isolate",by.y="Sample.Name")
+
+
+
+library(ggplot2)
+library(pals)
+library(ggpubr)
+
+pca_dataset$Collection <- as.factor(pca_dataset$Collection)
+pca_dataset$Country <- as.factor(pca_dataset$Country)
+
+var_frac <- pcares$values/sum(pcares$values)
+
+## modified as.vector(polychrome(30)) to better distinguish between russia and turkey
+my_pal <- c("#5A5156", "#E4E1E3", "#F6222E", "#FE00FA", "#16FF32", "#3283FE", "#FEAF16", "#B00068", "#1CFFCE", "#90AD1C", "#2ED9FF", "#DEA0FD", "#AA0DFE", "#F8A19F", "#325A9B",
+            "#C4451C", "#B10DA1", "#85660D", "#1C8356", "#FBE426", "#1CBE4F", "#FA0087", "#FC1CBF", "#F7E1A0", "#C075A6", "#782AB6", "#AAF400", "#BDCDFF", "#822E1C", "#B5EFB5")
+
+# PC1 vs PC2
+eur_pc12 <- ggplot(pca_dataset, aes(PC1, PC2, colour=Country,shape=Collection)) + geom_point(size=3) + theme_classic(base_size = 14)+
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
+  labs (x = paste("PC1", " ", "(", signif(var_frac[1]*100, 3),"%", ")",  sep = ""), 
+        y = paste("PC2", " ", "(", signif(var_frac[2]*100, 3), "%",")",  sep = ""),
+        colour = "Country", shape = "Collection") + scale_color_manual(values = my_pal)
+
+# PC1 vc PC3
+eur_pc13 <- ggplot(pca_dataset, aes(PC1, PC3, colour=Country,shape=Collection)) + geom_point(size=3) + theme_classic(base_size = 14)+
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
+  labs (x = paste("PC1", " ", "(", signif(var_frac[1]*100, 3),"%", ")",  sep = ""), 
+        y = paste("PC3", " ", "(", signif(var_frac[3]*100, 3), "%",")",  sep = ""),
+        colour = "Country", shape = "Collection") + scale_color_manual(values = my_pal) 
+
+#PC2 vs PC3
+eur_pc23 <- ggplot(pca_dataset, aes(PC2, PC3, colour=Country,shape=Collection)) + geom_point(size=3) + theme_classic(base_size = 14)+
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
+  labs (x = paste("PC2", " ", "(", signif(var_frac[2]*100, 3),"%", ")",  sep = ""), 
+        y = paste("PC3", " ", "(", signif(var_frac[3]*100, 3), "%",")",  sep = ""),
+        colour = "Country", shape = "Collection") + scale_color_manual(values = my_pal) 
+
+eur_all <- eur_pc12 + eur_pc13 + eur_pc23 + guide_area() + plot_layout(guides = "collect") & guides(shape=guide_legend(order = 1, ncol = 2 ), colour = guide_legend(order = 2))
+
+ggsave(eur_all, filename = "tritici_europe+_pca_fs_plots.pdf", height = 30, width = 45, unit = "cm")
+
+ggsave(eur_all, filename = "tritici_europe+_pca_fs_plots.png", height = 30, width = 45, unit = "cm")
+
+
+
+
+
+
+
+
+
+
