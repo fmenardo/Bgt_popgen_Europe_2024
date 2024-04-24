@@ -21,7 +21,7 @@ gatk SelectVariants \
     -XL MT880591.1 \   # exclude mitochondrion
     -XL Bgt_MAT_1_1_3 \   # exclude the mating type locus
     -sample-name tritici_2022_2023.args \   # list of samples to include
-    --select "AC>1 && AC<255" \   # remove singletons
+    --select "AC>1 && AC<254" \   # remove singletons
     --max-nocall-fraction 0 \    # remove all missing data
     -O tritici_2022+2023_no_sing_no_miss.vcf.gz
 ```
