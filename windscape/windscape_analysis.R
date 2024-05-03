@@ -192,6 +192,23 @@ colnames(wind_distance_matrix_average_sym) <- samples_name
 write.csv(wind_distance_matrix, file=paste0(args$o,".wind_distance_asym.csv"))
 write.csv(wind_distance_matrix_average_sym, file=paste0(args$o,".wind_distance_sym.csv"))
 
+
+# do multidimensional scaling to obtain "Wind coordinates"
+
+dist_m <- as.dist(wind_distance_matrix_average_sym)
+
+wind_coord<- cmdscale(dist_m, eig = TRUE, k = 10)
+
+png(paste0(args$o,"_eigenv_proportion.png"))
+options(scipen=999)
+barplot(wind_coord$eig/sum(wind_coord$eig),xlim = c(0,10))
+dev.off()
+
+write.csv(wind_coord$points, file=paste0(args$o,"_coordinates.csv"),row.names=TRUE)
+
+
+
+
 sink(file = paste0(args$o,".analysis.session_info.txt"))
 sessionInfo()
 sink() 
