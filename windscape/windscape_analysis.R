@@ -204,8 +204,9 @@ options(scipen=999)
 barplot(wind_coord$eig/sum(wind_coord$eig),xlim = c(0,10))
 dev.off()
 
-write.csv(wind_coord$points, file=paste0(args$o,"_coordinates.csv"),row.names=TRUE)
+colnames(wind_coord$points) <- c("wind_coord1","wind_coord2","wind_coord3","wind_coord4","wind_coord5","wind_coord6","wind_coord7","wind_coord8","wind_coord9","wind_coord10")
 
+write.csv(wind_coord$points, file=paste0(args$o,"_coordinates.csv"),row.names=TRUE)
 
 
 
