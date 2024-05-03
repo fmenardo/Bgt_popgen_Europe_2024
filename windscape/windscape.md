@@ -33,6 +33,8 @@ The output consists of two matrixes:
 `windscape_2012-2021.wind_distance_sym.csv` is an symmetric matrix with each cell containing the average distance in wind hours moving between two individuals in either direction.
 
 Both matrixes have dimensions 401x401, as 14 samples with unknown coordinates have been excluded from the Europe+ dataset (415 samples).
+Additionally the script performs multidimentional scaling of the symmetric matrix of wind distances to locate each sample in a cartesian space. The coordinates for the first 10 dimensions are saved in the table `windscape_2012-2021_coordinates.csv`, and here is a barplot of the respective eigenvalues (proportion of total).
+![Alt text]()
 
 The plot of the [wind connectivity surfaces](./2012-2021_allsites_wind_map.pdf) for some representative focal points was produced with the following script:
 
