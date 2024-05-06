@@ -25,7 +25,7 @@ write.csv(dist_test, "geo_dist_matrix_tritici_europe_recent.csv")
 
 We performed the mantel test for correlation between matrices, as implemented in the R package `adegent` with the function `mantel.randtest` using 999 repititions. This gave us correlations between each of the three distance matrices for each dataset.
 
-The script `isolation_by_distance_and_wind_new.R` was used for the above steps as well as for generating the correlation histograms found in this directory. Here are the scatter plots for [genetic distance-geographic distance](ibd_dens_compare_new.pdf), [genetic distance-wind distance](ibw_density_compare_new.pdf) and [wind distance-geographic distance](corr_wind_geo_dens_compare_new.pdf) for each of the four datasets used.
+The script `isolation_by_distance_and_wind_new.R` was used for the above steps as well as for generating the correlation histograms found in this directory. Here are the scatter plots for [genetic distance-geographic distance](ibd_dens_compare_new.pdf), [genetic distance-wind distance](ibw_dens_compare_new.pdf) and [wind distance-geographic distance](corr_wind_geo_dens_compare_new.pdf) for each of the four datasets used.
 
 
 ### R packages
