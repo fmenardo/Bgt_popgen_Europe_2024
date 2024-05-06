@@ -4,7 +4,7 @@ We tested for isolation by geographic distance and isolation by wind distance in
 2. the Europe+_2022_2023 datasets including only European samples, i.e. excluding samples from Turkey and Israel
 3. within the N_EUR and S_EUR populations, as classified by fineSTRUCTURE level 4, and including only the samples collected in 2022-2023    
 
-We used the pairwise genetic distance matrix as described [here](../distance_matrix/distance_matrix.md), and the pairwise wind-distance matrix as described [here](../windscape/windscape.md). We used the `rdist.earth` function in the R package `fields` to construct pairwise geographic distance matrices. 
+We used the pairwise genetic distance matrix as described [here](../distance_matrix/distance_matrix.md), and the symmetric pairwise wind-distance matrix as described [here](../windscape/windscape.md). We used the `rdist.earth` function in the R package `fields` to construct pairwise geographic distance matrices. 
 
 We performed the mantel test for correlation between matrices, as implemented in the R package `adegent` with the function `mantel.randtest` using 999 repititions. This gave us correlations between each of the three distance matrices for each dataset.
 
