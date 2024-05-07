@@ -23,9 +23,13 @@ geodist_test <- as.dist(dist_kms_eur)
 write.csv(dist_test, "geo_dist_matrix_tritici_europe_recent.csv")
 ```
 
-We performed the mantel test for correlation between matrices, as implemented in the R package `adegent` with the function `mantel.randtest` using 999 repititions. This gave us correlations between each of the three distance matrices for each dataset.
+We performed the mantel test for correlation between matrices, as implemented in the R package `adegent` with the function `mantel.randtest` using 999 repititions. This gave us correlations between each of the three distance matrices for each dataset. 
 
-The script `isolation_by_distance_and_wind_new.R` was used for the above steps as well as for generating the correlation histograms found in this directory. Here are the scatter plots for [genetic distance-geographic distance](ibd_dens_compare_new.pdf), [genetic distance-wind distance](ibw_dens_compare_new.pdf) and [wind distance-geographic distance](corr_wind_geo_dens_compare_new.pdf) for each of the four datasets used.
+Additionally, we computed partial correlations between two of the three distance matrices while conditioning on the third. This was done using the `mantel.partial` function in the R package `vegan` for 999 permutations. We also measured the simple Mantel correlation between two matrices using `vegan`'s `mantel` function to ensure the results were comparable. These steps were performed for the four datasets described above, as well for a fifth dataset which was the union of the 2022-2023 N_EUR and 2022-2023 S_EUR2 datasets. 
+
+We note that the Mantel correlation values produced by `adegenet` and `vegan` are identical while the p-values differ slightly because of the differences in matrix permutations. This does not, however, affect the interpretition of the results. 
+
+The script `isolation_by_distance_and_wind_new.R` was used for the above steps as well as for generating the correlation histograms found in this directory. Here are the scatter plots for [genetic distance-geographic distance](ibd_dens_compare_new.pdf), [genetic distance-wind distance](ibw_dens_compare_new.pdf) and [wind distance-geographic distance](corr_wind_geo_dens_compare_new.pdf) for each of the four datasets used. The table comparing the partial correlation values of all datasets can be found [here](partial_mantel_test_vegan_06052024.csv). 
 
 
 ### R packages
@@ -35,4 +39,7 @@ adegenet 2.1.0
 fields 15.2
 tidyverse 1.3.2
 MASS 7.3.60
+vegan 2.6.4
+permute 0.9.7
+lattice 0.21.8
 ```
