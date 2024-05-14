@@ -12,7 +12,7 @@ As an example, here we report the code to perform the analysis for one populatio
 First we identify intervals in which markers cannot be mapped unambiguosly on the genetic map. This needs to be done only once, and not for each population. 
 
 ```
-python find_ambiguity_in_rec_map.py -rec ../recombination_map THUN12x96224_genetic_map_in_cM_+_phy_distance
+python find_ambiguity_in_rec_map.py -rec ../recombination_map/THUN12x96224_genetic_map_in_cM_+_phy_distance
 ```
 
 Then we selected kept only SNPs without any missing data. We also excluded positions that cannot be mapped unambiguosly on the genetic map, and SNPs with a minor allele frequency less than 5%. 
@@ -23,12 +23,12 @@ gatk SelectVariants \
      -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
      -O Europe+_recent_tritici_no_clones_no_miss_no_amb_cM_NE.vcf.gz \
      --max-nocall-fraction 0 \
-     --exclude-intervals ~/projects/project_tritici_fabrizio/data/THUN12x96224_genetic_map_in_cM_+_phy_distance.ambiguous_intervals.list \
+     --exclude-intervals THUN12x96224_genetic_map_in_cM_+_phy_distance.ambiguous_intervals.list \
      --exclude-intervals MT880591.1 \
      --exclude-intervals LR026995.1_Un \
      --exclude-intervals Bgt_MAT_1_1_3 \
      --select "AF > 0.05" \
-     --sample-name ~/projects/vcf_project_tritici/tritici_2022+before2022+2023+ncsu_recent_ext_eur_fs_level4_N_EUR.args
+     --sample-name tritici_2022+before2022+2023+ncsu_recent_ext_eur_fs_level4_N_EUR.args
 
 ```
 We generated the ped and map file needed by isoRelate as follow:
@@ -39,7 +39,7 @@ awk '$5="1" && $6="0"' BgtE+r_N_EUR.ped >  BgtE+r_N_EUR_mod.ped
 sed -E 's/\S+_chr//g' BgtE+r_N_EUR.map > BgtE+r_N_EUR_mod.map
 
 
-python add_cM_to_map.py -map BgtE+r_N_EUR_mod.map -rec ../../data/THUN12x96224_genetic_map_in_cM_+_phy_distance -o BgtE+r_N_EUR_mod
+python add_cM_to_map.py -map BgtE+r_N_EUR_mod.map -rec ../recombination_map/THUN12x96224_genetic_map_in_cM_+_phy_distance -o BgtE+r_N_EUR_mod
 
 ```
 ## isoRelate
@@ -51,7 +51,7 @@ Rscript run_ibd_step1.R -o BgtE+r_N_EUR_2cM -p BgtE+r_N_EUR_mod.ped -m BgtE+r_N_
 Rscript run_ibd_step2.R -o BgtE+r_N_EUR_2cM
 
 ```
-These scripts produce set of files, most importantly the file `BgtE+r_N_EUR_2cM_iR_table.txt` contains the p-value for each SNP.
+These scripts produce a set of output files, most importantly the file `BgtE+r_N_EUR_2cM_iR_table.txt` contains the p-value for each SNP.
 
 ## Plot results
 
