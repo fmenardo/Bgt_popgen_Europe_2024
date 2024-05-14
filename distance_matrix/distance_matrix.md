@@ -14,8 +14,11 @@ Rscript dist_matrix_parallel_loci.R -c 2 -i 2022+before2022+2023+ncsu_covg15_rec
 ```  
 The script produced a 'difference' matrix (number of loci that were different) and a 'loci' matrix (total number of loci compared) for each window. The differences and loci were summed over all windows and a genome-wide distance matrix was obtained by dividing the total differences by the total number of loci `gw_dist_mat_prop_2022+before2022+2023+ncsu.csv`. 
 Clonal isolates were identified based on the values of the genome-wide distance matrix. Samples that had a genetic distance of less than 9e-05 were classified as clonal and a list of clonal groups was outputted `2022+before2022+2023+ncsu_all_list_clones_merged.txt`. 
+
 The above steps were performed using the script `dist_matrix_WG_from_windows.R`.
 ![2022+before2022+2023+ncsu_dist_prop_distr](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/ab3b4cbe-5810-4835-96d6-dd575f847017)
+
+Overall, we identified 35 clonal groups of _B.g. tritici_. 33 of these groups contained 2-3 isolates each that were collected from the same pot or field. We retained only one isolate from each such group, eliminating 39 isolates. The remaining two clonal groups contained isolates that were collected from distant locations but handled together in the laboratory. These groups, containing 9 isolates overall, were excluded completely as they were suspected to be contaminated.   
 
 ### R packages
 ```
