@@ -64,7 +64,6 @@ python v3.11.4
 
 - R and packages
 
-```
 sessionInfo()
 R version 4.3.1 (2023-06-16)
 Platform: x86_64-pc-linux-gnu (64-bit)
