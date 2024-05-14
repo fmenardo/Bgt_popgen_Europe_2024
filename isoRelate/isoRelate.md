@@ -1,7 +1,8 @@
-# fineStructure
+# isoRelate
 ## Data preparation
 
-For the fineStructure analyses we used the [Europe+](../Datasets/Datasets.md) datatset with 415 individuals sampled from Europe, the Middle East and Caucasus.
+For the isoRelate analysis we used the [Europe+](../Datasets/Datasets.md) datatset with 415 individuals sampled from Europe, the Middle East and Caucasus.
+
 We kept only SNPS without any missing data, as fineStructure cannot handle them: 
 
 ```
