@@ -4,15 +4,15 @@
 For the isoRelate analysis we used the [Europe+_recent](../Datasets/Datasets.md) datatset with 368 individuals sampled from Europe, the Middle East and Caucasus not earlier than 2015.
 We ran the analyses separately on the 5 populations (ME, N_EUR, S_EUR+, S_EUR1, TUR) defined by the fineStructure analysis (level 4). LINK to metainfo.
 
-As an example, here we report the code to perform the analysis on one population (N_EUR).
+As an example, here we report the code to perform the analysis for one population (N_EUR).
 
-First we identify intervals in which markers cannot be mapped unambiguosly on the genetic map. 
+First we identify intervals in which markers cannot be mapped unambiguosly on the genetic map. This needs to be done only once, and not for each population. 
 
 ```
 python find_ambiguity_in_rec_map.py -rec ../recombination_map THUN12x96224_genetic_map_in_cM_+_phy_distance
 ```
 
-Then we selected kept only SNPS without any missing data. We also excluded positions that cannot be mapped unambiguosly on the genetic map, and SNP with a minor allele frequency less than 5%. 
+Then we selected kept only SNPs without any missing data. We also excluded positions that cannot be mapped unambiguosly on the genetic map, and SNPs with a minor allele frequency less than 5%. 
 
 ```
 gatk SelectVariants \
