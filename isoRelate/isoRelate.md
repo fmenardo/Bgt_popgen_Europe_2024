@@ -2,7 +2,7 @@
 ## Data preparation
 
 For the isoRelate analysis we used the [Europe+_recent](../Datasets/Datasets.md) datatset with 368 individuals sampled from Europe, the Middle East and Caucasus not earlier than 2015.
-We ran the analyses separately on the 5 populations defined by the fineStructure analysis (level 4). LINK to metainfo.
+We ran the analyses separately on the 5 populations (ME, N_EUR, S_EUR+, S_EUR1, TUR) defined by the fineStructure analysis (level 4). LINK to metainfo.
 
 As an example, here we report the code to perform the analysis on one population (N_EUR).
 
