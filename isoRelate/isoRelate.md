@@ -48,6 +48,7 @@ Rscript run_ibd_step1.R -o BgtE+r_N_EUR_2cM -p BgtE+r_N_EUR_mod.ped -m BgtE+r_N_
 Rscript run_ibd_step2.R -o BgtE+r_N_EUR_2cM
 
 ```
+These scripts produce set of files, most importantly the file `BgtE+r_N_EUR_2cM_iR_table.txt` contains the p-value for each SNP.
 
 ## Plot results
 
