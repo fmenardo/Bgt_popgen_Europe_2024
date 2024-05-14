@@ -16,4 +16,5 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Isolation by Distance](Isolation_by_distance/Isolation_by_distance.md)
   - [FEEMS](FEEMS/FEEMS.md)
 - Genome scans 
-  - [Summary statistics](summary_statistics/summary_statistics.md) 
+  - [Summary statistics](summary_statistics/summary_statistics.md)
+  - [isoRelate](isoRelate/isoRelate.md) 
