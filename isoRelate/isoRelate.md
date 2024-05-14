@@ -44,20 +44,14 @@ We ran isoRelate in two steps for better compuational efficiency, the first step
 
 
 ```
-srun Rscript run_ibd_step1.R -o BgtE+r_N_EUR_2cM -p BgtE+r_N_EUR_mod.ped -m BgtE+r_N_EUR_mod_cM.map -c 10 -C 2
+Rscript run_ibd_step1.R -o BgtE+r_N_EUR_2cM -p BgtE+r_N_EUR_mod.ped -m BgtE+r_N_EUR_mod_cM.map -c 10 -C 2
 Rscript run_ibd_step2.R -o BgtE+r_N_EUR_2cM
 
 ```
 
 ## Plot results
 
-This code is based on the example provided by authors of fineStructure. You need FinestructureLibrary.R and FinestructureDendrogram.R provided [here](https://people.maths.bris.ac.uk/~madjl/finestructure/toolsummary.html).
-
-```
-Rscripts plot_fs_results.R
-```
-
-This generates the [coacestry matrix plot](Europe_large_Coancestry.pdf) and the [PCA plot](Europe_large_PCA.pdf)
+_*NIKOS*_
 
 ## Software versions
 ```
