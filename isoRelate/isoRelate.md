@@ -1,4 +1,7 @@
 # isoRelate
+
+We used [isoRelate](https://github.com/bahlolab/isoRelate) to perfome genome scans of selection. This method can identify loci that have been under positive selection in the ecent past (roughly within 20 sexual generations).
+
 ## Data preparation
 
 For the isoRelate analysis we used the [Europe+_recent](../Datasets/Datasets.md) datatset with 368 individuals sampled from Europe, the Middle East and Caucasus not earlier than 2015.
