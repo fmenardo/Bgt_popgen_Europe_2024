@@ -1,4 +1,4 @@
-Creating Manhattan (MH) plots from summary statistics
+### Creating Manhattan (MH) plots from summary statistics
 
 First separate populations in new files:
 ```
