@@ -19,7 +19,6 @@ meta_eur_recent <- all_meta[tritici_eur_recent,c(9,8)]
 dist_test <- rdist.earth(meta_eur_recent[,1:2], miles = FALSE, R = NULL)
 rownames(dist_test)<- rownames(meta_eur_recent)
 colnames(dist_test) <- rownames(meta_eur_recent)
-geodist_test <- as.dist(dist_kms_eur)
 write.csv(dist_test, "geo_dist_matrix_tritici_europe_recent.csv")
 ```
 
