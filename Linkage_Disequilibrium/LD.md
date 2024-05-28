@@ -13,9 +13,9 @@ bash LD_decay_level4_10kb_100kb.sh
 
 The scripts used for the plots are:
 ```
-LD_decay_plink_10kb_onePlot.R
+LD_decay_plink_10kb_onePlot_legend.R
 
-LD_decay_plink_100kb_onePlot.R
+LD_decay_plink_100kb_onePlot_legend.R
 ```
 
 **R packages**
