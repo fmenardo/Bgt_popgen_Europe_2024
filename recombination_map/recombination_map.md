@@ -25,4 +25,4 @@ Second, we converted the genetic map in to a recombination map by calculating th
 ```
 python calc_rec_rate_per_bp.py -o THUN12x96224_bp_recombination_rates.txt -rec THUN12x96224_genetic_map_in_cM_+_phy_distance
 ```
-The resulting file `THUN12x96224_bp_recombination_rates.txt` was then used in downstream analyses such as [fineStructure](../fineStructure/fineStructure.md) and isoRelate.
+The resulting file `THUN12x96224_bp_recombination_rates.txt` was then used in downstream analyses such as [fineStructure](../fineStructure/fineStructure.md) and [isoRelate](../isoRelate/isoRelate.md).
