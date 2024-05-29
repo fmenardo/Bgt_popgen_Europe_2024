@@ -17,4 +17,5 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [FEEMS](FEEMS/FEEMS.md)
 - Genome scans 
   - [Summary statistics](summary_statistics/summary_statistics.md)
-  - [isoRelate](isoRelate/isoRelate.md) 
+  - [isoRelate](isoRelate/isoRelate.md)
+  - [LD decay](LD/LD.md)
