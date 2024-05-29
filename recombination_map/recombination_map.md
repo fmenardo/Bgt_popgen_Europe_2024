@@ -32,8 +32,8 @@ For imputation with Beagle we need a slightly different format
 ```
 beagle code
 ```
-And for Relate as well we need to modify the format  ofthe genetic map
+And for Relate as well we need to modify the format and a separate file for each chromosome (available in this folder):
 
 ```
-code
+python calc_rec_rate_per_bp_Relate.py -rec THUN12x96224_genetic_map_in_cM_+_phy_distance -o THUN12x96224_4Relate
 ```
