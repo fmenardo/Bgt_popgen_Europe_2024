@@ -18,4 +18,4 @@ Here you find the code to reproduce the analyses performed in **Population genet
 - Genome scans 
   - [Summary statistics](summary_statistics/summary_statistics.md)
   - [isoRelate](isoRelate/isoRelate.md)
-  - [LD decay](LD/LD.md)
+  - [LD decay](Linkage_Disequilibrium/LD.md)
