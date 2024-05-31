@@ -20,6 +20,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Summary statistics](summary_statistics/summary_statistics.md)
   - [isoRelate](isoRelate/isoRelate.md)
   - [LD decay](Linkage_Disequilibrium/LD.md)
+  - [Selection Scans](selection_scans/selection_scans.md)
 - Dispersal estimate and ancestor locations
   - Relate
   - Sparg
