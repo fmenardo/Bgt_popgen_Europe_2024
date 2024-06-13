@@ -1,4 +1,4 @@
-# Identity by descent clusters anaylsis for AvrPm17
+# Identity by descent clusters analysis for AvrPm17
 
 In the genome-wide analysis with isoRelate we found that in many populations there is an excess of IBD pairs at the locus containining AvrPm17. Here we explore which pairs of isolates are in IBD over this locus.
 
