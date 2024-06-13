@@ -16,7 +16,7 @@ gatk-4.4.0.0/gatk SelectVariants \
      --sample-name tritici_extended_europe_2022+before2022+2023+ncsu.args      
 ```
 
-This resulted in 1’403’790  SNPs.
+This resulted in 1’201’198  SNPs.
 
 To generate the input files for fineStructure we need to know the per base recombination rates, these where [obtained](../recombination_map/recombination_map.md) starting from a genetic map and are stored in the file `../recombination_map/THUN12x96224_bp_recombination_rates.txt`
 
