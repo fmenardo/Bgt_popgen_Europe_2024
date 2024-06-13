@@ -1,5 +1,5 @@
 # Relate
-We used Relate ([Speidel et al. 2019](https://doi.org/10.1038/s41588-019-0484-x)) to reconstruct genome-wide genealogies for the dataset [Europe+_recent](../Datasets/Datasets.md).
+We used Relate v1.2.1 ([Speidel et al. 2019](https://doi.org/10.1038/s41588-019-0484-x)) to reconstruct genome-wide genealogies for the dataset [Europe+_recent](../Datasets/Datasets.md).
 
 For each chromosome we selected sites without missing data and excluded all sites axcept biallelic SNPs and invariant sites.
 
