@@ -26,3 +26,9 @@ sed -E 's/\S+_chr//g' BgtE+r_chr1_avrpm17.map > BgtE+r_chr1_avrpm17_mod.map
 
 python ../isoRelate/add_cM_to_map.py -map BgtE+r_chr1_avrpm17_mod.map -rec ../recombination_map/THUN12x96224_genetic_map_in_cM_+_phy_distance -o BgtE+r_chr1_avrpm17_mod
 ```
+We run isoRelate
+
+```
+Rscript run_ibd_step1.R -o BgtE+r_avrpm17 -p BgtE+r_chr1_avrpm17_mod.ped -m BgtE+r_chr1_avrpm17_mod_cM.map -c 5 -C 2
+```
+
