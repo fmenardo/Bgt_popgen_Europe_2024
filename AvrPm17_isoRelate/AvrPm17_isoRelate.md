@@ -29,6 +29,6 @@ python ../isoRelate/add_cM_to_map.py -map BgtE+r_chr1_avrpm17_mod.map -rec ../re
 We run isoRelate
 
 ```
-Rscript run_ibd_step1.R -o BgtE+r_avrpm17 -p BgtE+r_chr1_avrpm17_mod.ped -m BgtE+r_chr1_avrpm17_mod_cM.map -c 5 -C 2
+Rscript ../isoRelate/run_ibd_step1.R -o BgtE+r_avrpm17 -p BgtE+r_chr1_avrpm17_mod.ped -m BgtE+r_chr1_avrpm17_mod_cM.map -c 5 -C 2
 ```
 
