@@ -24,7 +24,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Relate](Relate/Relate.md)
   - [Sparg](Sparg/Sparg.md)
 - AvrPm17
-  - [Identity by descent clusters](AvrPm17_isoRelate/AvrPm17_isoRelate.md)
-  - ???  
+  - Haplotypes 
+  - [Identity by descent clusters](AvrPm17_isoRelate/AvrPm17_isoRelate.md)  
 - Redundancy analysis
   - RDA 
