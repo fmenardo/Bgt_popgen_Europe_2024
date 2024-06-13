@@ -9,7 +9,6 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [Recombination map](recombination_map/recombination_map.md)
   - [Distance matrix](distance_matrix/distance_matrix.md)
   - [Windscape](windscape/windscape.md)
-  - Beagle
 - Population structure
   - [Principal component analysis](PCA/PCA.md) 
   - [ADMIXTURE](ADMIXTURE/ADMIXTURE.md)
@@ -22,8 +21,8 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [LD decay](Linkage_Disequilibrium/LD.md)
   - [Selection Scans](selection_scans/selection_scans.md)
 - Dispersal estimate and ancestor locations
-  - Relate
-  - Sparg
+  - [Relate](Relate/Relate.md)
+  - [Sparg](Sparg/Sparg.md)
 - AvrPm17
   - ???
   - ???  
