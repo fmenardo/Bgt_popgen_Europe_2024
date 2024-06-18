@@ -1,0 +1,1 @@
+# AvrPm17 Haplotypes
