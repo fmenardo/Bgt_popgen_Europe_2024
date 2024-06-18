@@ -69,7 +69,11 @@ plot_optM(test.optM, method = "Evanno")
 ```
 The [optM plots](optM_plots.pdf) showed the highest increase in likelihood for m=2 which was thus chosen as the 'best m'. 
 
-We then performed 500 bootstrap replicates of treemix with m=2. We used [PHYLIP](https://phylipweb.github.io/phylip/) to construct a consensus tree based on the bootstrap replicates. Treemix was then run again by loading this consensus tree and setting m=2. These steps were performed using the wrapper script `Treemix_bootstrap.sh` as provided in the R package [BITE](https://github.com/marcomilanesi/BITE). This R package was also used to visualise the [consensus tree](fs8_m2_bs100_cons_tree.pdf).
+We then performed 500 bootstrap replicates of treemix with m=2. We used [PHYLIP](https://phylipweb.github.io/phylip/) to construct a consensus tree based on the bootstrap replicates. Treemix was then run again by loading this consensus tree and setting m=2. These steps were performed using the wrapper script `Treemix_bootstrap.sh` as provided in the R package [BITE](https://github.com/marcomilanesi/BITE).
+```bash
+./Treemix_bootstrap.sh tritici_ext_eur+secalis_biallelic_snps_old_no_sing_no_miss_25kb_0.1_LDp_renamed_chr.treemix.frq.gz 2 2 500 secalis 100 phylip-3.697/exe/consense fs8_m2_100bs
+```
+This R package was also used to visualise the [consensus tree](fs8_m2_bs100_cons_tree.pdf).
 ```R
 library(BITEV2)
 BITEV2::treemix.bootstrap(in.file = "fs8_m2_100bs",out.file = "bite_out_m2",phylip.file = "fs8_m2_100bs_outtree.newick",
