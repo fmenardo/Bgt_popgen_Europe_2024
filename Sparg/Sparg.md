@@ -27,4 +27,4 @@ The fourth step we estimated abcestor locations for all samples at 1,2,3,4,5,10,
 ```
 python sparg_step4.py -tcut 100 -mle random_250.1000_trees.tcut.mle.npy -ns 1000 -data_d data_random/ -c 16
 ```
-The code to proces the results and generate the plot is available in a (jupyter notebook)[sparg_results_250th_tree.ipynb].
+The code to proces the results and generate the plot is available in a [jupyter notebook](sparg_results_250th_tree.ipynb).
