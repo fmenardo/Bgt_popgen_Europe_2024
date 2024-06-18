@@ -15,6 +15,7 @@ Here you find the code to reproduce the analyses performed in **Population genet
   - [fineStructure](fineStructure/fineStructure.md)
   - [Isolation by Distance](Isolation_by_distance/Isolation_by_distance.md)
   - [FEEMS](FEEMS/FEEMS.md)
+  - TREEMIX
 - Genome scans and summary statistics
   - [Summary statistics](summary_statistics/summary_statistics.md)
   - [isoRelate](isoRelate/isoRelate.md)
