@@ -27,7 +27,7 @@ The chromosomes were renamed for the subsequent steps using
 ``` bash
 zcat tritici_ext_eur+secalis_biallelic_snps_old_no_sing_no_miss_25kb_0.1_LDp.vcf.gz | sed 's/LR0269[0-9][0-9].1_chr//g' > tritici_ext_eur+secalis_biallelic_snps_old_no_sing_no_miss_25kb_0.1_LDp_renamed_chr.vcf && bgzip tritici_ext_eur+secalis_biallelic_snps_old_no_sing_no_miss_25kb_0.1_LDp_renamed_chr.vcf && tabix -p vcf tritici_ext_eur+secalis_biallelic_snps_old_no_sing_no_miss_25kb_0.1_LDp_renamed_chr.vcf.gz
 ```
-This VCF file and the clust file `fs8_tritici_ext_eur+secalis_old.clust` are used as input for the script `vcf2treemix_mod.sh` that prepares the input files needed for treemix. This script requires the python script `plink2treemix.py`.
+This VCF file and the clust file `fs8_tritici_ext_eur+secalis_old.clust` are used as input for the script `vcf2treemix_mod.sh` that prepares the input files needed for treemix. This script requires the python script `plink2treemix.py` available for download [here](https://bitbucket.org/nygcresearch/treemix/downloads/).
 
 Treemix was then run allowing for 1-8 migration edges with 5 replicates each
 ```bash
