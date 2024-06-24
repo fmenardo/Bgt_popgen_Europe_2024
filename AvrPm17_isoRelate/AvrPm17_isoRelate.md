@@ -2,7 +2,7 @@
 
 In the genome-wide analysis with isoRelate we found that in many populations there is an excess of IBD pairs at the locus containining AvrPm17. Here we explore which pairs of isolates are in IBD over this locus.
 
-First we run again isoRelate, only this time we focus on the locus of AvrPm17 and we use the compete Europe+_recent dataset (we do not run separate analysis for different populations as we did for the genome-wide analysis)
+First we run again isoRelate, only this time we focus on the locus of AvrPm17 and we use the compete [Europe+ dataset](../Datasets/Datasets.md) (we do not run separate analysis for different populations as we did for the genome-wide analysis)
 
 We prepare the input files:
 
