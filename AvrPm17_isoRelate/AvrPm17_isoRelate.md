@@ -4,7 +4,7 @@ In the genome-wide analysis with isoRelate we found that in many populations the
 
 First we run again isoRelate, only this time we focus on the locus of AvrPm17 and we use the compete [Europe+ dataset](../Datasets/Datasets.md) (we do not run separate analysis for different populations as we did for the genome-wide analysis)
 
-We prepare the input files:
+We prepared the input files:
 
 ```
 gatk SelectVariants \
@@ -26,7 +26,7 @@ sed -E 's/\S+_chr//g' BgtE+r_chr1_avrpm17.map > BgtE+r_chr1_avrpm17_mod.map
 
 python ../isoRelate/add_cM_to_map.py -map BgtE+r_chr1_avrpm17_mod.map -rec ../recombination_map/THUN12x96224_genetic_map_in_cM_+_phy_distance -o BgtE+r_chr1_avrpm17_mod
 ```
-We run isoRelate
+We ran isoRelate
 
 ```
 Rscript ../isoRelate/run_ibd_step1.R -o BgtE+r_avrpm17 -p BgtE+r_chr1_avrpm17_mod.ped -m BgtE+r_chr1_avrpm17_mod_cM.map -c 5 -C 2
