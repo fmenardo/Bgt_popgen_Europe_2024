@@ -32,7 +32,7 @@ We ran isoRelate
 Rscript ../isoRelate/run_ibd_step1.R -o BgtE+r_avrpm17 -p BgtE+r_chr1_avrpm17_mod.ped -m BgtE+r_chr1_avrpm17_mod_cM.map -c 5 -C 2
 ```
 
-And finally we produced clusters and plots with `plot.cluster.R` in the following R environment:
+And finally we produced clusters and plots with `plot_cluster.R` in the following R environment:
 
 ```
 sessionInfo()
