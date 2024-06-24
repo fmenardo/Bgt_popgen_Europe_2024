@@ -37,7 +37,7 @@ for (i in 1:nrow(names)){
 }
 
 
-##assign varuiant nomenclature of Kunz et al, to haplotype
+##assign varuiant nomenclature of Mueller et al, to haplotype
 
 
 #I = B
