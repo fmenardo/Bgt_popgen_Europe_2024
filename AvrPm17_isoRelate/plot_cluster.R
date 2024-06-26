@@ -217,7 +217,6 @@ color_mapping_pop <- c("N_EUR" = "#377EB8", "S_EUR1" = "#EA9999","S_EUR2" = "#E4
 vertex_colors_pop <- color_mapping_pop[V(g)$Population]
 vertex_colors_var <- color_mapping_var[V(g)$Variant]
 #vertex_colors_period <- color_mapping_period[V(g)$Period]
-dev.off()
 
 pdf("Avrpm17_ibd_all_clusters_main.pdf")
 par(oma = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
@@ -253,7 +252,7 @@ plot(g,
      vertex.color=vertex_colors_pop
      #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 )
-legend(x=-0.8,y=-1, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.8, bty="n",horiz= "True")
+legend(x=-0.8,y=-1, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.5, bty="n",horiz= "True")
 
 par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
@@ -271,7 +270,7 @@ plot(g,
 
      #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 )
-legend(x=-0.8,y=-1, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.8,bty="n",ncol=12)
+legend(x=-0.8,y=-1, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.5,bty="n",ncol=12)
 
 dev.off()
 
@@ -308,7 +307,7 @@ plot(g,
      vertex.color=vertex_colors_pop
      #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 )
-legend(x=-0.7,y=-1, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.8, bty="n",horiz= "True")
+legend(x=-0.75,y=-1, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.5, bty="n",horiz= "True")
 
 par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
@@ -326,7 +325,7 @@ plot(g,
      
      #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 )
-legend(x=-0.6,y=-1, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.8,bty="n",ncol=12)
+legend(x=-0.75,y=-1, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.5,bty="n",ncol=12)
 
 palette <- colorRampPalette(brewer.pal(min(length(unique(dna_var$dna_var)), 9), "Set1"))(length(unique(dna_var$dna_var)))
 vertex_colors <- palette[as.numeric(factor(V(g)$dna_Variant, levels = unique(dna_var$dna_var)))]
@@ -345,11 +344,91 @@ plot(g,
 #     vertex.color = as.factor(vertex_attr(g, "dna_Variant"))
 )
 
-legend(x=-0.8,y=-1, legend = unique(dna_var$dna_var), fill = palette, cex = 0.8,bty="n",ncol=10)
+legend(x=-0.9,y=-1, legend = unique(dna_var$dna_var), fill = palette, cex = 0.5,bty="n",ncol=10)
 
 
 dev.off()
 
+
+pdf("Avrpm17_ibd_all_clusters_supplementary_2x2.pdf")
+par(oma = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+
+par(mfrow = c(2, 2))
+
+#plot(g,
+#     layout=layout,
+#     #vertex.shapes=
+#     vertex.size=2.5,
+#     vertex.label.cex=0.5,
+#     vertex.label.dist=0.4,
+#     vertex.label.color="black",
+#     vertex.label=NA,
+#     vertex.color=vertex_colors_period
+#     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
+#)
+#legend("bottomleft", legend = names(color_mapping_period), fill = color_mapping_period, cex = 0.5)
+par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+
+plot(g,
+     layout=layout,
+     #vertex.shapes=
+     vertex.size=2.5,
+     vertex.label.cex=0.5,
+     vertex.label.dist=0.4,
+     vertex.label.color="black",
+     vertex.label=NA,
+     vertex.frame.width=0.5,
+     edge.width=0.3,
+     vertex.color=vertex_colors_pop
+     #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
+)
+#legend(x=1,y=0.5, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.5, bty="n",
+#       title = as.expression(bquote(bold("Population"))),title.adj = 0.5,title.cex=0.5)
+
+par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+
+plot(g,
+     layout=layout,
+     #vertex.shapes=
+     vertex.size=2.5,
+     vertex.label.cex=0.5,
+     vertex.label.dist=0.4,
+     vertex.label.color="black",
+     vertex.label=NA,
+     vertex.frame.width=0.5,
+     edge.width=0.3,
+     vertex.color=vertex_colors_var
+     
+     #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
+)
+#legend(x=-1.5,y=0.5, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.5,bty="n",
+#       title = as.expression(bquote(bold("Protein variant"))),title.adj = 0.5,title.cex=0.5)
+
+palette <- colorRampPalette(brewer.pal(min(length(unique(dna_var$dna_var)), 9), "Set1"))(length(unique(dna_var$dna_var)))
+vertex_colors <- palette[as.numeric(factor(V(g)$dna_Variant, levels = unique(dna_var$dna_var)))]
+
+par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+
+plot(g,
+     layout=layout,
+     #vertex.shapes=
+     vertex.size=2.5,
+     vertex.label.cex=0.5,
+     vertex.label.dist=0.4,
+     vertex.label.color="black",
+     vertex.label=NA,
+     vertex.frame.width=0.5,
+     edge.width=0.3,
+     vertex.color=vertex_colors
+     
+     #     vertex.color = as.factor(vertex_attr(g, "dna_Variant"))
+)
+
+#legend(x=1,y=0.5, legend = unique(dna_var$dna_var), fill = palette, cex = 0.5,bty="n",
+#       title = as.expression(bquote(bold("DNA haplotype"))),title.adj = 0.5,title.cex=0.5)
+
+
+dev.off()
 
 
 
