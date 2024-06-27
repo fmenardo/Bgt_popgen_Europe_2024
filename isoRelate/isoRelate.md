@@ -27,7 +27,7 @@ gatk SelectVariants \
      --exclude-intervals MT880591.1 \
      --exclude-intervals LR026995.1_Un \
      --exclude-intervals Bgt_MAT_1_1_3 \
-     --select "AF > 0.05" \
+     --select "AF > 0.05 && AF < 0.95" \
      --sample-name tritici_2022+before2022+2023+ncsu_recent_ext_eur_fs_level4_N_EUR.args
 
 ```
