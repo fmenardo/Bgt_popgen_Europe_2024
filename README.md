@@ -2,6 +2,7 @@
 
 Here you find the code to reproduce the analyses performed in **Population genetics and molecular epidemiology of wheat powdery mildew in Europe** Jigisha et al. etc.. 
 
+With this repository we ty to ensure reproducibility of all the analyses performed for this study. While we strived to document our code and facilitate the reproduction of our analyses, this is not a ready to run repository. At the very least you will need to install the correct software and adjust the paths to be able to run this code.
 
 - Data preparation
   - [WGS pipeline](WGS_pipeline/WGS_pipeline.md)
