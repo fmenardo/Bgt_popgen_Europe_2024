@@ -92,3 +92,28 @@ eur_all <- eur_pc12 + eur_pc13 + eur_pc23 + guide_area() + plot_layout(guides = 
 
 ggsave(eur_all, filename = "tritici_europe+_pca_plots.pdf", height = 30, width = 45, unit = "cm")
 
+
+## plots with year of sampling and coloured by population
+
+new_metadata <- read.csv("~/projects/vcf_project_tritici/2022+before2022+2023+ncsu_metadata+fs+admxK9_03052024.csv")
+pca_data <- eur_pca[,1:11]
+pca_with_new_metadata <- merge(pca_data, new_metadata, by.x = "isolate", by.y = "Sample.Name")
+
+pca_with_new_metadata$collection_3_levels <- ifelse(pca_with_new_metadata$Collection == 2022 | pca_with_new_metadata$Collection == 2023, 
+                                                    pca_with_new_metadata$Collection,
+                                                    "1980-2019")
+
+pca_with_new_metadata <- pca_with_new_metadata %>% 
+  mutate_at(c('Country', 'Region', 'Collection', 'fs_level_4','collection_3_levels'), as.factor)
+
+fs4_pal = c("#984EA3", "#377EB8", "#EA9999", "#E41A1C", "#E5B110")
+
+# PC1 vs PC2
+eur_pc12_pop <- ggplot(pca_with_new_metadata, aes(PC1, PC2, colour=fs_level_4,shape=collection_3_levels)) + geom_point(size=4) + theme_classic(base_size = 20)+
+  theme(panel.border = element_rect(colour = "black", fill=NA, size = 1), axis.text = element_text(size = 18))+
+  labs (x = paste("PC1", " ", "(", signif(eur_eig$var_perc[1], 3),"%", ")",  sep = ""), 
+        y = paste("PC2", " ", "(", signif(eur_eig$var_perc[2], 3), "%",")",  sep = ""),
+        colour = "Population", shape = "Year of sampling") + scale_color_manual(values = fs4_pal)
+#ggsave(eur_pc12_pop, filename = "tritici_europe+_pca12_pop_4_20.pdf", height = 30, width = 45, unit = "cm")
+
+
