@@ -53,22 +53,8 @@ Rscript run_ibd_step2.R -o BgtE+r_N_EUR_2cM
 ```
 These scripts produce a set of output files, most importantly the file `BgtE+r_N_EUR_2cM_iR_table.txt` contains the p-value for each SNP.
 
-## Plot results
-We plotted the p-values in Manhattan plots, based on the table above. One can choose to zoom in a specific region using the second script. The plots for the 5 populations are available in this folder.
+Finally, we plotted the p-values in Manhattan plots with `plot_MH.R`.
 
-```
-MH_isoRelate_noCap_plots_loop.R
-MH_isoRelate_noCap_zoom_in_region.R
-```
-
-R packages used for ploting:
-
-```
-ggplot2 v3.4.4
-cowplot v1.1.3
-dplyr v1.1.2
-stringr v1.5.0
-```
 
 ## Software versions
 ```
