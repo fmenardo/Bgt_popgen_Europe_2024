@@ -7,6 +7,7 @@ With this repository we ty to ensure reproducibility of all the analyses perform
 - Data preparation
   - [WGS pipeline](WGS_pipeline/WGS_pipeline.md)
   - [Datasets](Datasets/Datasets.md)
+  - [Mating type frequencies](mating_types/mating_types.md)
   - [Recombination map](recombination_map/recombination_map.md)
   - [Distance matrix](distance_matrix/distance_matrix.md)
   - [Windscape](windscape/windscape.md)
