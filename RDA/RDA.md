@@ -25,3 +25,13 @@ genotypes <- mutate_all(genotypes, as.factor)
 write.csv(genotypes, file="genotypes.csv")
 ```                
 We downloaded climate data from [CHELSA](https://chelsa-climate.org/). We used the average monthly climate data CHELSA V2.1 from climatologies 1981-2010. The 19 bioclim variables were complemented with 16 additional variables that were chosen based on biological relevance, resulting in a total of 35 climate variables, as listed [here](clim_variables_list.csv). For each variable we downloaded the corresponding tif-file. Each file consists of numeric data for every pixel. Information for every sample site was extracted with the coordinates and stacked using the extract and stack function respectively from the raster package in R. To avoid overfitting due to collinearity / multicollinearity amongst the climate variables, we excluded variables that had absolute pairwise correlation value >= 0.85 with another variable, finally retaining 12 variables. The script to perform these steps with the downloaded climate data is `data_prep.R`
+
+For the RDA, we included the first three wind coordinates (as obtained from the [windscape](../windscape/windscape.md) analysis), sampling coordinates and country as covariates. The values of these variables as well as the 12 climate variables is given in [this table](Variables_without_climcorrelation.csv). Full and partial RDAs, including the step of forward variable selection, were performed using the script `rda.R` which was ran using 
+```bash 
+Rscript rda.R -v Variables_without_climcorrelation.csv -g genotypes.csv -o "output/"
+```
+This was followed by ANOVA and variance partitioning for each of the models using the scripts `anova_new.R` and `variance_partitioning.R` that were run as
+```bash
+Rscript anova_new.R -i "output/" -o "output/"
+Rscript variance_partitioning.R -i "output/" -o "output/"
+```
