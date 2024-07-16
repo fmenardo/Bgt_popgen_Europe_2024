@@ -1,6 +1,6 @@
 # Redundancy Analysis
 
-We used RDA explore what factors shape the distribution of genetic variation in powdery mildew in Europe. We tested for the effects of local climatic conditions, wind connectivity and host ploidy.
+We used RDA explore what factors shape the distribution of genetic variation in powdery mildew in Europe. We tested for the effects of local climatic conditions and host ploidy.
 
 ### 1. Climate          
 We used the _Europe+_recent_ dataset to see how climate variables affected genetic diversity. We used only biallelic SNPs, removed all missing data and filtered for minor allele frequency 0.05 using GATK.
@@ -34,4 +34,25 @@ This was followed by ANOVA and variance partitioning for each of the models usin
 ```bash
 Rscript anova_new.R -i "output/" -o "output/"
 Rscript variance_partitioning.R -i "output/" -o "output/"
+```
+
+### 2. Host    
+We investigated if the kind of host Bgt was sampled from (hexaploid bread wheat or tetraploid durum wheat) could explain some of the patterns of genetic variation. We used [131](2022_2023_field_ploidy_list.args) samples from the Europe+_2022_2023 dataset that were all sampled from fields and whose host information was available. We subset the VCF file to only include these samples and also filtered for zero missing data and minor allele frequency 0.05 using GATK.  
+```bash
+gatk SelectVariants \
+     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
+     -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
+     -O tritici_2022_2023_host_rda_no_miss_maf_0.05_2.vcf.gz \
+     --select "AF>0.05 && AF<0.95" \
+     --max-nocall-fraction 0 \
+     --exclude-intervals MT880591.1 \
+     --exclude-intervals LR026995.1_Un \
+     --exclude-intervals Bgt_MAT_1_1_3 \
+     --sample-name 2022_2023_list_host_rda.args
+```
+This VCF file was converted to a binary genotype matrix using vcfR as described in #1. For the RDA, we included the 12 climate variables mentioned above, as well as the 3 wind coordinates, smapling location and country as covariates. Full and partial RDA models for each of the variables were run using `rda_host.R`, followed by ANOVA and variance partitioning using `anova_new_host.R` and `variance_partitioning_host.R` as:
+```bash
+Rscript rda_host.R -v Variables_host_without_climcorr.csv -g genotypes.csv -o "output/"
+Rscript anova_new_host.R -i "output/" -o "output/"
+# can run variance_paritioning_host.R interactively.
 ```
