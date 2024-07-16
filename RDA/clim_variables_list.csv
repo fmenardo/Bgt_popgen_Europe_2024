@@ -1,0 +1,35 @@
+bio1,mean annual air temperature 
+bio2,mean diurnal air temperature range 
+bio3,isothermality 
+bio4,temperature seasonality 
+bio5,mean daily maximum air temperature of the warmest month 
+bio6,mean daily minimum air temperature of the coldest month 
+bio7,annual range of air temperature 
+bio8,mean daily mean air temperatures of the wettest quarter 
+bio9,mean daily mean air temperatures of the driest quarter 
+bio10,mean daily mean air temperatures of the warmest quarter 
+bio11,mean daily mean air temperatures of the coldest quarter 
+bio12,annual precipitation amount 
+bio13,precipitation amount of the wettest month 
+bio14,precipitation amount of the driest month 
+bio15,precipitation seasonality 
+bio16,mean monthly precipitation amount of the wettest quarter 
+bio17,mean monthly precipitation amount of the driest quarter 
+bio18,mean monthly precipitation amount of the warmest quarter
+bio19,mean monthly precipitation amount of the coldest quarter
+hurs_max,maximum monthly near-surface relative humidity
+hurs_mean,mean monthly near-surface relative humidity
+hurs_min,minimum monthly near-surface relative humidity
+hurs_range,monthly range near-surface relative humidity
+rsds_max,maximum monthly surface downwelling shortwave radiation
+rsds_mean,mean monthly surface downwelling shortwave radiation
+rsds_min,minimum monthly surface downwelling shortwave radiation
+rsds_range,monthly range surface downwelling shortwave radiation
+vpd_max,maximum monthly vapour pressure deficit
+vpd_mean,mean monthly vapour pressure deficit
+vpd_min,minimum monthly vapour pressure deficit
+vpd_range,monthly range vapour pressure deficit
+clt_max,maximum monthly cloud area fraction
+clt_mean,mean monthly cloud area fraction
+clt_min,minimum monthly cloud area fraction
+clt_range,monthly range cloud area fraction
