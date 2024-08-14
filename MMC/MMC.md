@@ -1,6 +1,7 @@
 # Demographic inference
 
-## Data preparation for analysis without considering the probability of misidentification of derived allele
+## Data preparation
+### Analysis not considering the probability of misidentification of derived alleles
 
 We focus on two populations, the list of samples can be found in `N_EUR2_Bgs.args` and `E_EUR2_Bgs.args`. Both lists contain 5 Bgs isolates to be used as outgroup to polarize SNPs.
 
@@ -42,4 +43,4 @@ python parse_vcf_genomics.py -o $CHROMOSOME.N_EUR2.genomic.fa -vcf N_EUR2_$CHROM
 ```
 This code generate a fasta file containing all sites without missing data in Bgt which are invariant or biallelic SNPs. Additionally only sites that can be polarized are included (i.e., at least one outgroup isolates has a high quality call at the site, and the site is invariant in Bgs). The Bgs isolates are collapsed in one consensus sequences named ANC (anyway only sites that are monomorphic in Bgs are included).
 
-## Data preparation for analysis including the probability of misidentification of derived allele
+### Analysis including the probability of misidentification of derived alleles
