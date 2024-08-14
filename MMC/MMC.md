@@ -1,11 +1,10 @@
 # Demographic inference
 
 ## Data preparation
-### Analysis not considering the probability of misidentification of derived alleles
+### Data preparation for analysis not considering the probability of misidentification of derived alleles
 
 We focus on two populations, the list of samples can be found in `N_EUR2_Bgs.args` and `E_EUR2_Bgs.args`. Both lists contain 5 Bgs isolates to be used as outgroup to polarize SNPs `list_Bgs.args`.
 
-For each chromosome we selected sites without missing data and excluded all sites axcept biallelic SNPs and invariant sites.
 For example for population N_EUR2:
 
 ```
@@ -38,7 +37,7 @@ gatk SelectVariants \
 
 bcftools concat -a 2022-2023+out_$CHROMOSOME.NOVAR.vcf.gz 2022-2023+out_$CHROMOSOME.BISNP.vcf.gz -D -O z > 2022-2023+out_$CHROMOSOME.BISNP+NOVAR.vcf.gz
 ```
-We then merge all chromosomes in one file and process it. This code generates a fasta file containing all sites without missing data in Bgt which are invariant or biallelic SNPs. Additionally only sites that can be polarized are included (i.e., at least one outgroup isolates has a high quality call at the site, and the site is invariant in Bgs). The Bgs isolates are collapsed in one consensus sequences named ANC (anyway only sites that are monomorphic in Bgs are included).
+We then merge all chromosomes in one file and process it. This code generates a fasta file containing all biallelic SNPs without missing data in Bgt. Additionally only sites that can be polarized are included (i.e., at least one outgroup isolates has a high quality call at the site, and the site is invariant in Bgs). The Bgs isolates are collapsed in one consensus sequences named ANC (anyway only sites that are monomorphic in Bgs are included).
 
 ```
 ls | grep BISNP+NOVAR.vcf.gz > list_vcf
@@ -49,4 +48,22 @@ python ../parse_vcf_pol.py -vcf E_EUR2_all_chr_NOVAR+BISNP.vcf.gz -o E_EUR2_all_
 
 ```
 
+### Data preparation for analysis including the probability of misidentification of derived alleles
+
+For this analysis we have to keep sites that are polymorphic in Bgs. This code generate one fasta file per chromosome containing all SNPs and invariant sites. The Bgs isolates are included in the alignments.
+
+```
+gatk SelectVariants \
+     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
+     -V E_EUR2_$CHROMOSOME.vcf.gz \
+     -O E_EUR2_$CHROMOSOME.MULTISNP.vcf.gz\
+     --select-type-to-include SNP
+
+bcftools concat -a E_EUR2_$CHROMOSOME.NOVAR.vcf.gz E_EUR2_$CHROMOSOME.MULTISNP.vcf.gz -D -O z > E_EUR2_$CHROMOSOME.MULTISNP+NOVAR.vcf.gz
+
+python ../parse_vcf_genomics.py -o $CHROMOSOME.E_EUR2_MULTIALLELIC.genomic.fa -vcf E_EUR2_$CHROMOSOME.MULTISNP+NOVAR.vcf.gz
+
+```
+## Analysis
+### Analysis not considering the probability of misidentification of derived alleles
 ### Analysis including the probability of misidentification of derived alleles
