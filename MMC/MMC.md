@@ -3,7 +3,7 @@
 ## Data preparation
 ### Analysis not considering the probability of misidentification of derived alleles
 
-We focus on two populations, the list of samples can be found in `N_EUR2_Bgs.args` and `E_EUR2_Bgs.args`. Both lists contain 5 Bgs isolates to be used as outgroup to polarize SNPs.
+We focus on two populations, the list of samples can be found in `N_EUR2_Bgs.args` and `E_EUR2_Bgs.args`. Both lists contain 5 Bgs isolates to be used as outgroup to polarize SNPs `list_Bgs.args`.
 
 For each chromosome we selected sites without missing data and excluded all sites axcept biallelic SNPs and invariant sites.
 For example for population N_EUR2:
@@ -37,10 +37,16 @@ gatk SelectVariants \
 
 
 bcftools concat -a 2022-2023+out_$CHROMOSOME.NOVAR.vcf.gz 2022-2023+out_$CHROMOSOME.BISNP.vcf.gz -D -O z > 2022-2023+out_$CHROMOSOME.BISNP+NOVAR.vcf.gz
-
-python parse_vcf_genomics.py -o $CHROMOSOME.N_EUR2.genomic.fa -vcf N_EUR2_$CHROMOSOME.BISNP+NOVAR.vcf.gz
+```
+We then merge all chromosomes in one file and process it. This code generates a fasta file containing all sites without missing data in Bgt which are invariant or biallelic SNPs. Additionally only sites that can be polarized are included (i.e., at least one outgroup isolates has a high quality call at the site, and the site is invariant in Bgs). The Bgs isolates are collapsed in one consensus sequences named ANC (anyway only sites that are monomorphic in Bgs are included).
 
 ```
-This code generate a fasta file containing all sites without missing data in Bgt which are invariant or biallelic SNPs. Additionally only sites that can be polarized are included (i.e., at least one outgroup isolates has a high quality call at the site, and the site is invariant in Bgs). The Bgs isolates are collapsed in one consensus sequences named ANC (anyway only sites that are monomorphic in Bgs are included).
+ls | grep BISNP+NOVAR.vcf.gz > list_vcf
+
+bcftools concat -f list_vcf -O z -o E_EUR2_all_chr_NOVAR+BISNP.vcf.gz
+
+python ../parse_vcf_pol.py -vcf E_EUR2_all_chr_NOVAR+BISNP.vcf.gz -o E_EUR2_all_chr_BISNP.fasta -anc ../list_Bgs.args
+
+```
 
 ### Analysis including the probability of misidentification of derived alleles
