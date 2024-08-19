@@ -26,18 +26,30 @@ The depth in the genic region was divided by the genome-wide average coverage (a
 ```R
 #R
 ## read in genome-wide stats
-gw_stats <- read.csv("2022+before2022+2023+ncsu_737_gatkpl_stats_new.csv")
-gw_covg <- gw_stats[,c(1,5)]
-
-## gene-coverage
+gw_covg <- read.csv("genome_wide_av_coverage.csv")
+## read gene coverage 
 gene_covg <- read.csv("avrpm17_covg.csv", header = FALSE)
+gene_covg$V1 <- gsub("renamed_", "",gene_covg$V1)
 
-covg <- merge(gw_covg, gene_covg, by.x = "Isolate", by.y = "V1")
-covg$ratio <- covg$V2 / covg$average.genome.wide.coverage
-hist(covg$ratio)
+covg <- merge(gw_covg, gene_covg, by.x = "Sample.Name", by.y = "V1")
+covg$ratio <- covg$V2 / covg$Average_coverage
+
+## subset recent dataset
+meta<-read.csv("~/projects/vcf_project_tritici/2022+before2022+2023+ncsu_metadata+fs+admxK9_27062024.csv")
+meta1<-data.frame(meta$Sample.Name,meta$Year.of.Collection)
+colnames(meta1) <- c("Sample.Name","Year")
+covg$Sample.Name <- gsub("renamed_","",covg$Sample.Name)
+
+covg_meta<- merge(covg,meta1,by="Sample.Name")
+
+recent <-subset(covg_meta,covg_meta$Year > 2014)
+nrow(recent)
+
+pdf("AvrPm17_cnv.pdf")
+hist(recent$ratio, ylab= "Number of isolates", xlab="Coverage ratio", main="")
+box()
+dev.off()
 ```
-![image](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/407a9a54-d49c-4faa-8f1f-eba248c161b8)
-
 
 3. The per-sample VCF files generated in step #1 were combined, genotyped and filtered using GATK.
 ```bash
