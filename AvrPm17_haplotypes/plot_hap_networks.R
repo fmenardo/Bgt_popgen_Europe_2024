@@ -4,13 +4,16 @@ library(pegas)
 library(seqinr)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+library(ggpubr)
+
 
 
 load("hap_net_xy.Rdata")  # pre cooked coordinates for hap net plotting, can be commented out, plot will be less pretty
 
 ali<-fasta2DNAbin("avrpm17_ext_eur_only_cds_RC_unique_no_miss.fa")
 
-fasta<-read.fasta("avrpm17_ext_eur_only_cds_RC_unique_no_miss.fa",as.string=TRUE,set.attributes=FALSE)
+#fasta<-read.fasta("avrpm17_ext_eur_only_cds_RC_unique_no_miss.fa",as.string=TRUE,set.attributes=FALSE)
 
 ### fetch list of isolates in ali
 system("grep \">\" avrpm17_ext_eur_only_cds_RC_unique_no_miss.fa | sed \'s/>//g\'  > list_samples_for_h")
@@ -23,7 +26,7 @@ names[,2] <- gsub("_2_avrpm17_cds","",temp)
 
 ## read metainfo
 
-meta<-read.csv("~/projects/vcf_project_tritici/2022+before2022+2023+ncsu_metadata+fs+admxK9_03052024.csv")
+meta<-read.csv("~/projects/vcf_project_tritici/2022+before2022+2023+ncsu_metadata+fs+admxK9_27062024.csv")
 meta1<-data.frame(meta$Sample.Name,meta$Country,meta$fs_level_4,meta$Longitude,meta$Latitude,meta$Year.of.Collection)
 colnames(meta1) <- c("Sample.Name","Country", "Population","Longitude","Latitude","Year")
 
@@ -37,7 +40,7 @@ for (i in 1:nrow(names)){
 }
 
 
-##assign varuiant nomenclature of Mueller et al, to haplotype
+##assign varuiant nomenclature of Kunz et al, to haplotype
 
 
 #I = B
@@ -122,6 +125,11 @@ plot(nt)
 sz <- sz[nt.labs]
 sz_prop <- sz/sum(sz)
 
+
+#plot(nt,xy=xy,size=sz_prop*10,labels=TRUE,pie = V,scale.ratio=1.5,bg=gbg,threshold = c(0,1))
+
+
+
 #plot by pop
 P <- matrix_pop[nt.labs, ]
 V <- matrix_var[nt.labs, ]
@@ -151,4 +159,238 @@ dev.off()
 #xy$x[15] <- -4.5
 
 #save(xy,file="hap_net_xy.Rdata")
+
+
+###############
+## haplotypes distributions
+
+names_var1<- merge(names_var,meta1,by="Sample.Name")
+
+haplotypes <- subset(names_var1, select=-c(Hap.Name,dna_variants))
+nrow(haplotypes)
+unique(haplotypes$Variants)
+
+I<- subset(haplotypes,haplotypes$Variants =="I")
+length(unique(I$Sample.Name))
+
+J<- subset(haplotypes,haplotypes$Variants =="J")
+length(unique(J$Sample.Name))
+
+K<- subset(haplotypes,haplotypes$Variants =="K")
+length(unique(K$Sample.Name))
+
+F<- subset(haplotypes,haplotypes$Variants =="F")
+length(unique(F$Sample.Name))
+
+L<- subset(haplotypes,haplotypes$Variants =="L")
+length(unique(L$Sample.Name))
+
+H<- subset(haplotypes,haplotypes$Variants =="H")
+length(unique(H$Sample.Name))
+
+C<- subset(haplotypes,haplotypes$Variants =="C")
+length(unique(C$Sample.Name))
+
+B<- subset(haplotypes,haplotypes$Variants =="B")
+length(unique(B$Sample.Name))
+
+A<- subset(haplotypes,haplotypes$Variants =="A")
+length(unique(A$Sample.Name))
+
+
+recent_h<- subset(haplotypes,haplotypes$Year>2014)
+recent_h <- recent_h %>% filter(!is.na(Variants))
+
+recent_h <- recent_h[!is.na(recent_h$Variants),]
+nrow(recent_h)
+
+# remove duplicates, these are isolates with two copies of same 
+recent_h <-recent_h[!duplicated(recent_h), ]
+nrow(recent_h)
+write.csv(recent_h,file= "variants_h_avrpm17_coord.csv")
+
+length(unique(recent_h$Sample.Name))
+
+countA <-subset(recent_h,recent_h$Variants =="A")
+length(unique(countA$Sample.Name))
+59/362
+
+
+countB <-subset(recent_h,recent_h$Variants =="B")
+length(unique(countB$Sample.Name))
+112/362
+
+countC <-subset(recent_h,recent_h$Variants =="C")
+length(unique(countC$Sample.Name))
+218/362
+
+#### by pop
+
+
+recent_h$Variants <- factor(recent_h$Variants, levels = c("J", "I", "H","C","B","A" ))
+recent_h$pop <- factor(recent_h$pop, levels = c("N_EUR","S_EUR2", "TUR","S_EUR1" ,"ME"))
+nrow(recent_h)
+
+
+
+p <- ggplot(recent_h, aes(x=pop, fill=Variants)) +
+  geom_bar() +
+  scale_x_discrete("") +
+  scale_y_continuous("Number of isolates") +
+  scale_fill_manual(values = c("B"= "#556B2F", "C" = "#8B4500", "A" = "#76EEC6", "H" = "#EE9A49", "J" = "gray", "I" = "gray" ),
+                    labels=c("others","H","C","B","A")) +
+  theme_classic() +
+  theme(axis.text=element_text(size=9),
+        axis.title.y=element_text(size=12),
+        panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(legend.text = element_text(size = 10),
+        legend.title=element_text(size=10))
+
+p
+#### temporal variation
+temporal_ds <- subset(haplotypes,haplotypes$Country == "Switzerland" |haplotypes$Country == "France" |haplotypes$Country == "United Kingdom" )
+temporal_ds <- temporal_ds[!is.na(temporal_ds$Variants),]
+temporal_ds <-temporal_ds[!duplicated(temporal_ds), ]
+
+unique(temporal_ds$Sample.Name)
+
+
+for (i in 1:nrow(temporal_ds)){
+  if (temporal_ds$Year[i] < 2002){temporal_ds$period[i] = "old"}
+  if (temporal_ds$Year[i] > 2021){temporal_ds$period[i] = "new"}
+  if (temporal_ds$Year[i] > 2001 & temporal_ds$Year[i] < 2022){temporal_ds$period[i] = "middle"}
+}
+
+temporal_ds$period <- factor(temporal_ds$period, levels = c("old", "middle", "new"))
+temporal_ds$Variants <- factor(temporal_ds$Variants, levels = c("J", "I", "H","C","B","A" ))
+y <- ggplot(temporal_ds, aes(x=period, fill=Variants)) +
+  geom_bar() +
+  scale_x_discrete("", labels= c("1980-2001","2007-2020","2022-2023")) +
+  scale_y_continuous("Number of isolates") +
+  scale_fill_manual(values = c("B"= "#556B2F", "C" = "#8B4500", "A" = "#76EEC6", "H" = "#EE9A49", "J" = "gray", "I" = "gray" ),
+                    labels=c("others","H","C","B","A")) +  theme_classic() +
+  theme(axis.text=element_text(size=9),
+        axis.title.y=element_text(size=12),
+        panel.border = element_rect(colour = "black", fill = NA))+
+  theme(legend.position = "none")
+ggarrange(p,y)
+
+ggsave("AvrPm17_Variants_barplot.pdf")
+
+
+
+
+I_early<- subset(temporal_ds,temporal_ds$Variants =="I" & temporal_ds$period =="old")
+length(unique(I_early$Sample.Name))
+J_early<- subset(temporal_ds,temporal_ds$Variants =="J" & temporal_ds$period =="old")
+length(unique(J_early$Sample.Name))
+I_new<- subset(temporal_ds,temporal_ds$Variants =="I" & temporal_ds$period =="new")
+length(unique(I_new$Sample.Name))
+J_new<- subset(temporal_ds,temporal_ds$Variants =="J" & temporal_ds$period =="new")
+length(unique(J_new$Sample.Name))
+
+
+
+#### test variant A frequency
+
+
+#### this is not the number of isolates, but the sum of haplotypes found in one isolate
+tor_early=20
+tot_new = 64
+
+tot_sample_early<- subset(temporal_ds, temporal_ds$period =="old")
+length(unique(tot__sample_early$Sample.Name))
+
+tot_sample_new<- subset(temporal_ds, temporal_ds$period =="new")
+length(unique(tot_sample_new$Sample.Name))
+
+
+
+A_early<- subset(temporal_ds,temporal_ds$Variants =="A" & temporal_ds$period =="old")
+length(unique(A_early$Sample.Name))
+
+6/20
+
+A_new<- subset(temporal_ds,temporal_ds$Variants =="A" & temporal_ds$period =="new")
+length(unique(A_new$Sample.Name))
+
+
+
+6/63
+
+
+varA_freq<-matrix(c(6, 14, 6, 57),
+                  nrow = 2,
+                  dimnames = list(Var = c("varA", "not_varA"),
+                                  period = c("old", "new")))
+
+
+
+
+
+fisher.test(varA_freq, alternative = "greater")
+
+
+#### test variant C frequency change
+
+C_early<- subset(temporal_ds,temporal_ds$Variants =="C" & temporal_ds$period =="old")
+length(unique(C_early$Sample.Name))
+
+11/20
+
+C_new<- subset(temporal_ds,temporal_ds$Variants =="C" & temporal_ds$period =="new")
+length(unique(C_new$Sample.Name))
+
+45/63
+
+
+varC_freq<-matrix(c(11, 9, 45, 18),
+                  nrow = 2,
+                  dimnames = list(Var = c("varC", "not_varC"),
+                                  period = c("old", "new")))
+
+fisher.test(varC_freq, alternative = "less")
+
+#### test variant B frequency change
+
+B_early<- subset(temporal_ds,temporal_ds$Variants =="B" & temporal_ds$period =="old")
+length(unique(B_early$Sample.Name))
+
+2/20
+
+B_new<- subset(temporal_ds,temporal_ds$Variants =="B" & temporal_ds$period =="new")
+length(unique(B_new$Sample.Name))
+
+9/63
+
+
+varB_freq<-matrix(c(2, 18, 9, 54),
+                  nrow = 2,
+                  dimnames = list(Var = c("varB", "not_varB"),
+                                  period = c("old", "new")))
+
+fisher.test(varB_freq, alternative = "less")
+
+
+#### test variant H frequency change
+
+H_early<- subset(temporal_ds,temporal_ds$Variants =="H" & temporal_ds$period =="old")
+length(unique(H_early$Sample.Name))
+
+0/20
+
+H_new<- subset(temporal_ds,temporal_ds$Variants =="H" & temporal_ds$period =="new")
+length(unique(H_new$Sample.Name))
+
+2/63
+
+
+varH_freq<-matrix(c(0, 20, 2, 61),
+                  nrow = 2,
+                  dimnames = list(Var = c("varH", "not_varH"),
+                                  period = c("old", "new")))
+
+fisher.test(varH_freq, alternative = "less")
+
+
 
