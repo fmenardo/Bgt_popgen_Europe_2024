@@ -9,6 +9,7 @@ library(dplyr)
 library(igraph)
 library(RColorBrewer)
 library(patchwork)
+library(ggpubr)
 
 
 ## make clusters with isoRelate
@@ -19,6 +20,8 @@ my_i_clusters <- getIBDiclusters(ped.genotypes = my_genotypes,
                                  hi.clust = FALSE)
 
 g<-my_i_clusters$i.network
+
+save(my_i_clusters,file="clusters_avrpm17.RData")
 Samples <- my_genotypes$pedigree$fid
 samples <- paste(Samples, Samples, sep = "/")
 
@@ -159,47 +162,7 @@ groups_sort_p <- merge(groups_sort,phenotype,by.x="fid",by.y="Sample.Name",all.x
 vertices<-V(g)$name
 groups_sorted <- groups_sort_p[match(vertices, groups_sort_p$ID), ]
 
-
-
-#plot distr of variants
-
-groups_sort_clean <- groups_sort[!is.na(groups_sort_p$var), ]
-
-
-color_mapping_var <- c("A" = "#76EEC6", "B" = "#556B2F","C" = "#8B4500", "H" = "#EE9A49", "A/B" = "#EE3A8C", "A/C" = "#008B8B","B/C" = "#458B00","A/K" = "purple","A/F" = "violet","C/L" = "gold", "NA" = "gray", "C/I" = "#7FFF00","C/J" = "antiquewhite")
-
-ggplot(groups_sort_clean, aes(x = var, fill = var)) +
-  geom_bar() +
-  scale_fill_manual(values = color_mapping_var)+
-    theme_minimal()+
-  labs(x= "Variants", y= "Number of isolates")+
-  theme(panel.grid.major = element_blank(),  # Remove major grid lines
-        panel.grid.minor = element_blank(),  # Remove minor grid lines
-        panel.border = element_rect(fill = NA))  # Keep the box around the plot
-
-
-ggsave("Avrpm17_variants_stack_bplot.pdf",width=10,height=10)
-
-
-proportions <- groups_sort_clean %>%
-  count(var) %>%
-  mutate(proportion = n / sum(n))
-
-ggplot(proportions, aes(x = var, y = proportion, fill = var)) +
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = color_mapping_var)+
-  theme_minimal()+
-  labs(x= "Variants", y= "Proportion of isolates")+
-  theme(panel.grid.major = element_blank(),  # Remove major grid lines
-        panel.grid.minor = element_blank(),  # Remove minor grid lines
-        panel.border = element_rect(fill = NA))  # Keep the box around the plot
-
-ggsave("Avrpm17_variants_proportion_stack_bplot.pdf",width=10,height=10)
-
-#for (i in 1:nrow(groups_sorted)){
-#  if (groups_sorted$Year[i] < 2000){groups_sorted$period[i] = "before 2000"}
-#  else {groups_sorted$period[i] = "after 2000"}
-#}
+write.csv(groups_sorted,file="table_metadata_variants_avrpm17.csv")
 
 
 ######## plot all clusters
@@ -211,6 +174,7 @@ vertex_attr(g, "dna_Variant", index = V(g)) <- groups_sorted$dna_var
 #vertex_attr(g, "Period", index = V(g)) <- groups_sorted$period
 
 #Define a color mapping
+color_mapping_var <- c("A" = "#76EEC6", "B" = "#556B2F","C" = "#8B4500", "H" = "#EE9A49", "A/B" = "#EE3A8C", "A/C" = "#008B8B","B/C" = "#458B00","A/K" = "purple","A/F" = "violet","C/L" = "gold", "NA" = "gray", "C/I" = "#7FFF00","C/J" = "antiquewhite")
 #color_mapping_period <- c("before 2000" = "blue", "after 2000" = "red")
 color_mapping_pop <- c("N_EUR" = "#377EB8", "S_EUR1" = "#EA9999","S_EUR2" = "#E41A1C", "TUR" = "#E5B110", "ME" = "#984EA3")
 #Assign colors to the vertices based on their population
@@ -218,11 +182,19 @@ vertex_colors_pop <- color_mapping_pop[V(g)$Population]
 vertex_colors_var <- color_mapping_var[V(g)$Variant]
 #vertex_colors_period <- color_mapping_period[V(g)$Period]
 
+#layout= layout_nicely(g)
+
+
+#save(layout,file="layout.Rdata")
+##############################################
+
+load("layout.Rdata")
+
+
 pdf("Avrpm17_ibd_all_clusters_main.pdf")
 par(oma = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
 par(mfrow = c(1, 2))
-layout= layout_nicely(g)
 
 #plot(g,
 #     layout=layout,
@@ -242,7 +214,7 @@ par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 plot(g,
      layout=layout,
      #vertex.shapes=
-     vertex.size=2.5,
+     vertex.size=3,
      vertex.label.cex=0.5,
      vertex.label.dist=0.4,
      vertex.label.color="black",
@@ -252,14 +224,14 @@ plot(g,
      vertex.color=vertex_colors_pop
      #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 )
-legend(x=-0.8,y=-1, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.5, bty="n",horiz= "True")
+#legend(x=-0.8,y=-1, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.5, bty="n",horiz= "True")
 
 par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
 plot(g,
      layout=layout,
      #vertex.shapes=
-     vertex.size=2.5,
+     vertex.size=3,
      vertex.label.cex=0.5,
      vertex.label.dist=0.4,
      vertex.label.color="black",
@@ -270,10 +242,22 @@ plot(g,
 
      #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 )
-legend(x=-0.8,y=-1, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.5,bty="n",ncol=12)
+#legend(x=-0.8,y=-1, legend = names(color_mapping_var), fill = color_mapping_var, cex = 0.5,bty="n",ncol=12)
 
 dev.off()
 
+pdf("legend_pop.pdf")
+plot.new()
+
+legend("left", legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 1,bty="n",ncol=12, title = as.expression(bquote(bold("Population"))), title.adj=0.175)
+dev.off()
+
+pdf("legend_var.pdf")
+plot.new()
+
+legend("left", legend = names(color_mapping_var), fill = color_mapping_var, cex = 1,bty="n",ncol=12, title = as.expression(bquote(bold("Protein variant"))), title.adj=0.25)
+
+dev.off()
 
 pdf("Avrpm17_ibd_all_clusters_supplementary.pdf")
 par(oma = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
@@ -367,7 +351,7 @@ par(mfrow = c(2, 2))
 #     vertex.color = as.factor(vertex_attr(my_i_clusters$i.network, "Variant"))
 #)
 #legend("bottomleft", legend = names(color_mapping_period), fill = color_mapping_period, cex = 0.5)
-par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+par(mar = c(2, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
 plot(g,
      layout=layout,
@@ -385,7 +369,7 @@ plot(g,
 #legend(x=1,y=0.5, legend = names(color_mapping_pop), fill = color_mapping_pop, cex = 0.5, bty="n",
 #       title = as.expression(bquote(bold("Population"))),title.adj = 0.5,title.cex=0.5)
 
-par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+par(mar = c(2, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
 plot(g,
      layout=layout,
@@ -407,7 +391,7 @@ plot(g,
 palette <- colorRampPalette(brewer.pal(min(length(unique(dna_var$dna_var)), 9), "Set1"))(length(unique(dna_var$dna_var)))
 vertex_colors <- palette[as.numeric(factor(V(g)$dna_Variant, levels = unique(dna_var$dna_var)))]
 
-par(mar = c(0, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
+par(mar = c(2, 0, 0, 0) + 0.1) # Adjust as needed (bottom, left, top, right)
 
 plot(g,
      layout=layout,
@@ -432,12 +416,34 @@ dev.off()
 
 
 
+
+#########################################################
 ## plot one cluster at the time, graoh and map
-world <- map_data("world")
-i=1
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+#library(raster)
+library(terra)
+library(tidyterra)
 
-for (i in 1:10){
 
+
+#world <- map_data("world")
+world_rast<-ne_download( scale = 50,
+                         type = "GRAY_50M_SR_W",
+                         category = "raster",
+                         load = TRUE,
+                         returnclass = "sf")
+map <- ggplot(world_rast)+
+  geom_spatraster(data=world_rast,maxcell = 1e+7, alpha = 0.5)+
+  scale_fill_gradient(low = "black", high = "white")+
+  coord_sf(xlim = c(-12, 45), ylim = c(24, 62), expand = FALSE)+
+  theme_void()+theme(legend.position = "none")+
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 2))+
+  theme(plot.margin=unit(c(0,0,0,0),"cm"))
+
+list_plots <- list()
+for (i in 1:9){
   # identify vertices in cluster
 subcluster_vertices <- which(V(g)$name %in% my_i_clusters$clusters[[i]])
 
@@ -491,6 +497,8 @@ dev.off()
 
 
 
+
+
 ## plot on map with ggplot
 # layout for map plotting
 
@@ -517,38 +525,64 @@ edges <- edges %>%
 
 ### make plot with nodes
 
-p <- ggplot() +
+
 #  geom_point(data = nodes, aes(x = lon, y = lat), color = vertex_colors, size = 2.5)
-  geom_jitter(data = nodes, aes(x = lon, y = lat),color=nodes$color, size = 1.5,width=0.6, height=0.6,show.legend=TRUE)+
-  geom_point(data = nodes, aes(x = lon, y = lat), color = "black", size = 1,show.legend=TRUE)+
-  scale_color_manual(name='Regression Model',
-                     breaks=c('A', 'B', 'C'),
-                     values=c('A'='grey', 'B'='blue', 'C'='red'))
-  
+p <- map +  geom_jitter(data = nodes, aes(x = lon, y = lat),color=nodes$color, size = 2,width=0.7, height=0.7,show.legend=TRUE)+
+  geom_point(data = nodes, aes(x = lon, y = lat), color = "black", size = 0.75,show.legend=FALSE)#+
+#scale_color_manual(name='Regression Model',
+#                  breaks=c('A', 'B', 'C'),
+#                 values=c('A'='grey', 'B'='blue', 'C'='red'))
+
+### plot cl 8 and 9 togetehr
+if (i==9){p<-list_plots[[i-1]]+  geom_jitter(data = nodes, aes(x = lon, y = lat),color=nodes$color,
+                                            size = 2,width=0.7, height=0.7,show.legend=TRUE)+
+  geom_point(data = nodes, aes(x = lon, y = lat), color = "black", size = 0.75,show.legend=FALSE)}
+
 ##add edges
-p <- p +
-  geom_segment(data = edges, aes(x = lon_from, y = lat_from, xend = lon_to, yend = lat_to), color = "gray50",linewidth=0.15,alpha=0.4)
+list_plots[[i]] <- p +
+  geom_segment(data = edges, aes(x = lon_from, y = lat_from, xend = lon_to, yend = lat_to),
+               color = "white",linewidth=0.25,alpha=0.4)
+
+if (i < 8){list_plots[[i]]<-list_plots[[i]]+
+  annotate("text", x = -10, y = 60, label = paste0("Cluster ",i),size = 3,hjust=0)
+}
+
+if (i == 9){list_plots[[i]]<-list_plots[[i]]+
+  annotate("text", x = -10, y = 60, label = paste0("Cluster ",i-1, " and ", i),size = 3,hjust=0)
+}
 ## add map
-p <- p +  geom_path(data = world, aes(x = long, y = lat, group = group), color = "gray50",linewidth=0.2)+
-  xlim(c(-12, 45)) +  # Set specific x-axis limits
-  ylim(c(20, 65))+
-  coord_fixed(ratio = 1)+
-  theme_void()  # Ins
+#p <- p +  geom_path(data = world, aes(x = long, y = lat, group = group), color = "gray50",linewidth=0.2)+
+#  xlim(c(-12, 45)) +  # Set specific x-axis limits
+#  ylim(c(20, 65))+
+#  coord_fixed(ratio = 1)+
+#  theme_void()  # Ins
+
 
 
 p
 
-ggsave(paste0("Avrpm17_ibd_cluster_",i,"_map.pdf"),width=10,height=10)
-
-
-
+#ggsave(paste0("Avrpm17_ibd_cluster_",i,"_map.pdf"),width=10,height=10)
 
 }
 
+ggarrange(list_plots[[1]],list_plots[[2]],list_plots[[3]],list_plots[[4]],nrow=2,ncol=2)
 
+ggsave("Avrpm17_ibd_clusters_1-4_map.pdf", width=20, height = 18.225, units= "cm")
 
+ggarrange(list_plots[[5]],list_plots[[6]],list_plots[[7]],list_plots[[9]],nrow=2,ncol = 2)
 
+ggsave("Avrpm17_ibd_clusters_5-9_map.pdf", width=20, height = 18.225, units= "cm")
+
+list_plots[[9]]
+
+################################
 ### plot phenotype by variant
+
+groups_sorted_clean <- groups_sorted[!is.na(groups_sorted$Amigo), ]
+
+prop.table(table(groups_sorted_clean$Amigo))
+
+table(groups_sorted_clean$Amigo)
 
 groups_sort_p_clean <- groups_sort_p[!is.na(groups_sort_p$Amigo), ]
 
@@ -564,7 +598,202 @@ ggplot(groups_sort_p_clean, aes(x = var, fill = factor(Amigo))) +
 
 
 
-
 ggsave(paste0("Avrpm17_pheno_stack_bplot.pdf"),width=10,height=10)
 
 
+
+##############################################
+#### check age of clusters
+my_ibd_avrpm17 <- subset(my_ibd,chr == "1"& start_position_bp < 4365017 & end_position_bp > 4370466) 
+
+
+nrow(my_ibd_avrpm17)
+
+my_ibd_cl <- my_ibd[0,]
+
+for (i in 1:9){ # all cl with more than 5 samples (at least 6)
+    is <-my_i_clusters$clusters[[i]]
+  for (t in 1:length(is)) {
+    is_name<-strsplit(is[t],"/")
+#    print(is_name[[1]][1])
+    temp<-subset(my_ibd_avrpm17,fid1==is_name[[1]][1] | fid2 ==is_name[[1]][1])
+    #print(nrow(temp))
+    temp$cluster <- i
+    my_ibd_cl <- rbind(my_ibd_cl,temp)
+  }
+}
+
+nrow(my_ibd_cl)
+
+
+### add subluster4_varH 
+#my_ibd_cl_10 <- my_ibd[0,]
+
+#subcl_4_varH<-subset (groups_sorted,groups_sorted$var == "H" & groups_sorted$Country == "Turkey")
+#for (t in 1:length(subcl_4_varH$fid)) {
+#  is_name<-strsplit(subcl_4_varH$fid[t],"/")
+#  temp<-subset(my_ibd_avrpm17,fid1==is_name[[1]][1] | fid2 ==is_name[[1]][1])
+#  #print(nrow(temp))
+#  temp$cluster <- 10
+#  print (temp)
+#  for (z in 1:nrow(temp)){
+#    if (temp$fid1[z] %in% subcl_4_varH$fid & temp$fid2[z] %in% subcl_4_varH$fid){
+#      my_ibd_cl <-rbind(my_ibd_cl,temp[z,])
+#      my_ibd_cl_10 <- rbind(my_ibd_cl_10,temp[z,])
+#      
+#    }  
+#  }
+  
+#}
+
+
+my_ibd_cl_u <- unique(my_ibd_cl)
+
+par(mfrow=c(1,1))
+par(mar = c(4, 5, 2, 2)) # Adjust as needed (bottom, left, top, right)
+
+
+pdf("age_clusters_avrpm17.pdf")
+boxplot(length_M*100 ~ cluster, data = my_ibd_cl_u,
+        xlab = "Cluster",
+        ylab = "Length of IBDe segment (cM)")
+
+dev.off()
+
+medians <- my_ibd_cl_u %>%
+  group_by(cluster) %>%
+  summarize(median_length = median(length_M * 100))
+
+medians$gen <- (100/medians$median_length)/2
+
+################
+#plot distr of variants
+
+groups_sort_clean <- groups_sorted[!is.na(groups_sorted$var), ]
+
+
+color_mapping_var <- c("A" = "#76EEC6", "B" = "#556B2F","C" = "#8B4500", "H" = "#EE9A49", "A/B" = "#EE3A8C", "A/C" = "#008B8B","B/C" = "#458B00","A/K" = "purple","A/F" = "violet","C/L" = "gold", "NA" = "gray", "C/I" = "#7FFF00","C/J" = "antiquewhite")
+
+ggplot(groups_sort_clean, aes(x = var, fill = var)) +
+  geom_bar() +
+  scale_fill_manual(values = color_mapping_var)+
+  theme_minimal()+
+  labs(x= "Protein variant", y= "Number of isolates",fill = "Protein \nvariant")+
+  theme(panel.grid.major = element_blank(),  # Remove major grid lines
+        panel.grid.minor = element_blank(),  # Remove minor grid lines
+        panel.border = element_rect(fill = NA))  # Keep the box around the plot
+
+
+ggsave("Avrpm17_variants_stack_bplot.pdf",width=10,height=10)
+
+
+proportions <- groups_sort_clean %>%
+  count(var) %>%
+  mutate(proportion = n / sum(n))
+
+ggplot(proportions, aes(x = var, y = proportion, fill = var)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = color_mapping_var)+
+  theme_minimal()+
+  labs(x= "Protein variant", y= "Proportion of isolates", fill = "Protein \nvariant")+
+  theme(panel.grid.major = element_blank(),  # Remove major grid lines
+        panel.grid.minor = element_blank(),  # Remove minor grid lines
+        panel.border = element_rect(fill = NA))  # Keep the box around the plot
+
+ggsave("Avrpm17_variants_proportion_stack_bplot.pdf",width=10,height=10)
+
+#for (i in 1:nrow(groups_sorted)){
+#  if (groups_sorted$Year[i] < 2000){groups_sorted$period[i] = "before 2000"}
+#  else {groups_sorted$period[i] = "after 2000"}
+#}
+
+
+unique(groups_sorted$var)
+nrow(subset(groups_sorted,groups_sorted$var == "A" ))+
+nrow(subset(groups_sorted,groups_sorted$var == "B" ))+
+nrow(subset(groups_sorted,groups_sorted$var == "C" ))+
+nrow(subset(groups_sorted,groups_sorted$var == "H" ))
+
+(415-7-357)/(415-7)
+(357)/(415-7)
+
+nrow(subset(groups_sorted,groups_sorted$var == "NA" ))
+
+##############################
+##### test association variants / cluster
+
+clustered_samples <- unlist(my_i_clusters$clusters[1:9])
+n_ncl <- length(unique_elements) ### these are singleton
+n_cl <- length(clustered_samples)
+
+varAA_tot <- subset(groups_sorted, groups_sorted$var =="A")
+
+nAA_cl<- length(intersect(varAA_tot$ID,clustered_samples))
+nAA_ncl <- length(intersect(varAA_tot$ID,unique_elements))
+
+varAA_freq<-matrix(c(nAA_cl, n_cl-nAA_cl, nAA_ncl, n_ncl-nAA_ncl),
+                  nrow = 2,
+                  dimnames = list(Var = c("varA", "not_varA"),
+                                  period = c("clustered", "not clustered")))
+
+fisher.test(varAA_freq, alternative = "greater")
+
+
+varBB_tot <- subset(groups_sorted, groups_sorted$var =="B")
+
+nBB_cl<- length(intersect(varBB_tot$ID,clustered_samples))
+nBB_ncl <- length(intersect(varBB_tot$ID,unique_elements))
+
+varBB_freq<-matrix(c(nBB_cl, n_cl-nBB_cl, nBB_ncl, n_ncl-nBB_ncl),
+                   nrow = 2,
+                   dimnames = list(Var = c("varB", "not_varB"),
+                                   period = c("clustered", "not clustered")))
+
+fisher.test(varBB_freq, alternative = "less")
+
+varCC_tot <- subset(groups_sorted, groups_sorted$var =="C")
+
+nCC_cl<- length(intersect(varCC_tot$ID,clustered_samples))
+nCC_ncl <- length(intersect(varCC_tot$ID,unique_elements))
+
+varCC_freq<-matrix(c(nCC_cl, n_cl-nCC_cl, nCC_ncl, n_ncl-nCC_ncl),
+                   nrow = 2,
+                   dimnames = list(Var = c("varC", "not_varC"),
+                                   period = c("clustered", "not clustered")))
+
+fisher.test(varCC_freq, alternative = "greater")
+
+varHH_tot <- subset(groups_sorted, groups_sorted$var =="H")
+
+nHH_cl<- length(intersect(varHH_tot$ID,clustered_samples))
+nHH_ncl <- length(intersect(varHH_tot$ID,unique_elements))
+
+varHH_freq<-matrix(c(nHH_cl, n_cl-nHH_cl, nHH_ncl, n_ncl-nHH_ncl),
+                   nrow = 2,
+                   dimnames = list(Var = c("varH", "not_varH"),
+                                   period = c("clustered", "not clustered")))
+
+(11/295)/(1/63)
+
+varNA_tot <- subset(groups_sorted, groups_sorted$var =="NA")
+
+nNA_cl<- length(intersect(varNA_tot$ID,clustered_samples))
+nNA_ncl <- length(intersect(varNA_tot$ID,unique_elements))
+
+
+unique(groups_sorted$var)
+
+
+varothers_tot <- subset(groups_sorted, groups_sorted$var !="NA" & groups_sorted$var !="A"& groups_sorted$var !="B" & groups_sorted$var !="C" & groups_sorted$var !="H")
+
+not_cl<- length(intersect(varothers_tot$ID,clustered_samples))
+not_ncl <- length(intersect(varothers_tot$ID,unique_elements))
+
+
+
+var_others_freq <-matrix(c(not_cl, n_cl-not_cl, not_ncl, n_ncl-not_ncl),
+                         nrow = 2,
+                         dimnames = list(Var = c("others", "not_others"),
+                                         period = c("clustered", "not clustered")))
+
+fisher.test(var_others_freq, alternative = "less")
