@@ -1,15 +1,15 @@
 # Distance matrix
 
-A distance matrix based on pairwise differences between all 711 individuals (number of loci for which they differ) was computed using the `dist.gene` function in the R package `ape` using the method `pairwise`. Since there was great variation in the number of missing data and variants called among samples, we normalised this distance by the actual number of loci compared for each pair. This was done by setting `pairwise.deletion = TRUE` and recording the variance for each pair (`variance=TRUE`). The number of loci was then calculated using the formula D^2/(D-V), where D = distance and V = variance, following the [official manual](https://search.r-project.org/CRAN/refmans/ape/html/dist.gene.html) of the tool. 
+A distance matrix based on pairwise differences between all 711 individuals (number of SNPs between them) was computed using the `dist.gene` function in the R package `ape` using the method `pairwise`. Since there was great variation in the number of missing data and variants called among samples, we normalised this distance by the actual number of sites compared for each pair. This was done by setting `pairwise.deletion = TRUE` and recording the variance for each pair (`variance=TRUE`). The number of loci was then calculated using the formula D^2/(D-V), where D = distance and V = variance, following the [official manual](https://search.r-project.org/CRAN/refmans/ape/html/dist.gene.html) of the tool. 
 
 To speed up computation, we divided the genome (chromosomes 1-11) into 143 windows of ~ 1 million bases. The per-chromosome 'all-sites' VCF files generated in the [WGS pipeline](../WGS_pipeline/WGS_pipeline.md) were divided into windows using `bcftoools`, for example:
-```
+```bash
 bcftools view -r LR026984.1_chr1:1-1000000 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1.vcf.gz -Oz -o 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1_1-1000000.vcf.gz && tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1_1-1000000.vcf.gz
 
 ```
 
 The distance matrix was then computed parallely for each of these windows using the script `dist_matrix_parallel_loci.R` that took the corresponding VCF file as input. The script was called using `input_dist_matrix_windows`. An example from the input file is shown below:
-```
+```bash
 Rscript dist_matrix_parallel_loci.R -c 2 -i 2022+before2022+2023+ncsu_covg15_recoded_LR026984.1_chr1_1-1000000.vcf.gz -o chr1_1-1000000
 ```  
 The script produced a 'difference' matrix (number of loci that were different) and a 'loci' matrix (total number of loci compared) for each window. The differences and loci were summed over all windows and a genome-wide distance matrix was obtained by dividing the total differences by the total number of loci `gw_dist_mat_prop_2022+before2022+2023+ncsu.csv`. 
