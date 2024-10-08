@@ -28,20 +28,27 @@ The pipeline starts with paired-end, raw WGS (short) reads and returns a VCF fil
 
 1. `pipeline_with_gatk_statscsv.py` 
 This takes as input the path to the raw paired-end fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job for 737 samples (including all *formae speciales*) (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
-```
+```bash
 python3 pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i CHNY072301_R1.fastq.gz
 ```
 For further details on the steps executed in the script, refer to the Methods section of our paper here (INSERT LINK TO PAPER). For more information on the input parameters of the script, run ```python3 pipeline_with_gatk_statscsv.py --help```  
-2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses.        
-3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. This step was performed in batches to avoid memory issues.
+2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses. Mating types were assigned by comparing the coverage over the two alternate mating type genes:
+```bash
+while read p; do
+        covga=$(samtools coverage -r LR026984.1_chr1:6734201-6735339 aln_${p}_compiled_marked_dup.bam | cut -f 7 | tail -1)  ## coverage over the 'reference' mating type
+        covgb=$(samtools coverage -r Bgt_MAT_1_1_3 aln_${p}_compiled_marked_dup.bam | cut -f 7 | tail -1) ## coverage over the alternate mating type contig
+        echo $p,$covga,$covgb >> mating_type_coverage
+done < isolate_list
 ```
+3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. This step was performed in batches to avoid memory issues.
+```bash
 gatk --java-options "-Xmx44g -Xms44g" CombineGVCFs \
    -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
    -V 2022_all_merge_$CHROMOSOME.list \
    -O 2022_all_combinegvcfs_$CHROMOSOME.vcf.gz
 ```
 4. Variants were called on the combined VCF files for all chromosomes using GATK `GenotypeGVCFs`.
-```
+```bash
 gatk --java-options "-Xmx20g" GenotypeGVCFs \
 -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
 -V 2022+before2022+2023+ncsu_all_combinegvcfs_$CHROMOSOME.vcf.gz \
@@ -50,7 +57,7 @@ gatk --java-options "-Xmx20g" GenotypeGVCFs \
 -A StrandBiasBySample 
 ```
 5. In order to decide threshold values for filtering variants, the distributions of site-based quality metrics were visualised. For each chromosome, SNPs were first selected from the output of step #4  using GATK `SelectVariants` `--select-type-to-include SNP` and their annotation values were written to a table using GATK `VariantsToTable`. Histograms were plotted for the genome-wide (chromosomes 1-11) values of the metrics `QD`, `FS`, `SOR`, `MQ`, `MQRankSum` and `ReadPosRankSum` using R `ggplot2`.
-```
+```bash
 # select SNPs
 gatk SelectVariants \
      -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
@@ -69,7 +76,7 @@ gatk VariantsToTable \
 ![2022+before2022+2023+ncsu_WG_gatk_info_distr-1](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/8e636ad7-1f92-4808-8250-f6d72ebaeb85)
 
 6. Hard filtering for sites was done using GATK `VariantFiltration`. The threshold values (informed by the distributions plotted in step #5 and [GATK's recommendations](https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants)) were `QD < 10.0`, `FS > 50.0`, `MQ < 45.0`, `ReadPosRankSum < -5.0 || ReadPosRankSum > 5.0`.
-```
+```bash
 gatk --java-options "-Xmx4g" VariantFiltration \
    -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
    -V 2022+before2022+2023+ncsu_all_combinegvcfs_genotyped_$CHROMOSOME.vcf.gz \
@@ -84,7 +91,7 @@ gatk --java-options "-Xmx4g" VariantFiltration \
    --filter-expression "ReadPosRankSum < -5.0 || ReadPosRankSum > 5.0" 
 ```
 7. `recode_multivcf_after_gatk_2024_new_clean.py` This script takes the VCF file produced by GATK in step #6 as input and recodes the 'GT' field value as '.' for all sites at which (a) depth of high-quality informative reads is less than 8 or (b) variant call is supported by < 90% of the high-quality informative reads. It outputs the recoded VCF (which can then be gzipped and indexed using `bgzip` and `tabix -p vcf`). 
-```
+```bash
 python3 recode_multivcf_after_gatk_2024_new.py -i 2022+before2022+2023+ncsu_all_combinegvcfs_genotyped_varfilt_$CHROMOSOME.vcf.gz -ip $IN_PATH -o 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME -op $OUT_PATH -mc 8
 
 bgzip 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf && tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf.gz
@@ -97,7 +104,7 @@ The samples with > 200,000 'heterozygous positions', i.e. positions at which the
 
   
 8. SNPs were selected from the chromosomal VCF files using GATK `SelectVariants` with options `--select-type-to-include SNP`, `--restrict-alleles-to ALL` and sites failing the filters from step #6 were excluded using the option `--exclude-filtered`.
-```
+```bash
 gatk SelectVariants \
      -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
      -V 2022+before2022+2023+ncsu_covg15_recoded_$CHROMOSOME.vcf.gz \
@@ -107,7 +114,7 @@ gatk SelectVariants \
      -O 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_$CHROMOSOME.vcf.gz
 ```
 9. The resulting VCFs contained some [spanning deletions](https://gatk.broadinstitute.org/hc/en-us/articles/360035531912-Spanning-or-overlapping-deletions-allele) denoted by '\*' . As these would have caused problems in downstream analyses, all sites with an '*' were removed using the script `recode_asterisk_count_snp.py` which returned a modified VCF file that was gzipped and indexed using `bgzip` and `tabix -p vcf` respectively.
-```
+```bash
 python3 recode_asterisk_count_snp.py -i 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_$CHROMOSOME.vcf.gz \
  -o 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_$CHROMOSOME
 
@@ -115,12 +122,12 @@ bgzip 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_$CH
 tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_asterisk_$CHROMOSOME.vcf.gz
 ```
 10. The VCF files (with filtered variants and no asterisks) for chromosomes 1-11, the alternate mating type locus and the mitochondrion were merged using the `concat` option in bcftools. The Bgt_Un "chromosome" with contigs not assigned to any other chromosomes was excluded from all further analyses.
-```
+```bash
 bcftools concat -f 2022+before2022+2023+ncsu_snp_no_asterisk_11_chr_mt_MAT_list \ # list with the names of the VCF files
  -Oz -o 2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr.vcf.gz
 ```
 11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates (`2022+before2022+2023+ncsu_tritici_list.args`). This step was performed using GATK `SelectVariants`. The tritici samples failing the "heterozygous" filter, as described in step #7, were excluded (n=10) `2022+before2022+2023+ncsu_tritici_200k_hetpos_ratio_1_to_exclude_list.args.args`. Further, tritici clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args` were also excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
-```
+```bash
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
     -V ../project_data_prep/data/2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr_mt_MAT.vcf.gz \
