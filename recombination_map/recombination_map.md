@@ -6,7 +6,7 @@ We retreived the file `GeneticMap_final_13052018.csv` from the [github page](htt
 
 First we combined the genetic and physical information into one file:
 
-```
+```bash
 # extract info from genetic maps 
 head -n 1 ../data/GeneticMap_final_13052018.csv | sed 's/Isolate,//g' | sed 's/,/\n/g' > list_snp_ig_G
 head -n 2 ../data/GeneticMap_final_13052018.csv| tail -n 1 | sed 's/^,1/1/g' | sed 's/,/\n/g'  > list_chr_G
@@ -22,14 +22,14 @@ paste  -d "," list_snp_ig_G list_chr_G list_rec_G list_physical_position_G  > TH
 
 Second, we converted the genetic map in to a recombination map by calculating the local per base recombination rates:
 
-```
+```bash
 python calc_rec_rate_per_bp.py -o THUN12x96224_bp_recombination_rates.txt -rec THUN12x96224_genetic_map_in_cM_+_phy_distance
 ```
 The resulting file `THUN12x96224_bp_recombination_rates.txt` was then used in downstream analyses such as [fineStructure](../fineStructure/fineStructure.md) and [isoRelate](../isoRelate/isoRelate.md).
 
-```
+
 For Relate we need to modify the format and a make separate file for each chromosome (available in this folder):
 
-```
+```bash
 python calc_rec_rate_per_bp_Relate.py -rec THUN12x96224_genetic_map_in_cM_+_phy_distance -o THUN12x96224_4Relate
 ```
