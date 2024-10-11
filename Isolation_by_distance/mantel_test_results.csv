@@ -1,0 +1,20 @@
+Dataset ,Test ,Mantel correlation ,p-value 
+Europe+_2022_2023 ,Isolation by geographic distance ,0.472,0.001
+Europe+_2022_2023 ,Isolation by wind distance ,0.547,0.001
+Europe+_2022_2023 ,Isolation by climate distance ,0.33,0.001
+N_EUR_2022_2023 ,Isolation by geographic distance ,0.085,0.011
+N_EUR_2022_2023 ,Isolation by wind distance ,0.129,0.01
+N_EUR_2022_2023 ,Isolation by climate distance ,-0.049,0.849
+S_EUR2_2022_2023 ,Isolation by geographic distance ,0.389,0.001
+S_EUR2_2022_2023 ,Isolation by wind distance ,0.259,0.001
+S_EUR2_2022_2023 ,Isolation by climate distance ,0.342,0.001
+Europe+_2022_2023 ,"x,y : Geography, Wind ",0.788,0.001
+Europe+_2022_2023 ,"x,y :Geography, Climate ",0.6,0.001
+N_EUR_2022_2023 ,"x,y :Geography, Wind ",0.65,0.001
+N_EUR_2022_2023 ,"x,y :Geography, Climate ",0.731,0.001
+S_EUR2_2022_2023 ,"x,y :Geography, Wind ",0.829,0.001
+S_EUR2_2022_2023 ,"x,y :Geography, Climate ",0.557,0.001
+N_EUR_2022_2023 ,IBD - East-West ,0.028,0.203
+N_EUR_2022_2023 ,IBD – North-South ,0.125,0.007
+S_EUR2_2022_2023 ,IBD – East-West ,0.394,0.001
+S_EUR2_2022_2023 ,IBD – North-South ,0.119,0.018
