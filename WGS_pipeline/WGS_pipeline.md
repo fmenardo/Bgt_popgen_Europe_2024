@@ -2,13 +2,13 @@
 
 ## Sampling and data
 
-We sampled 276 isolates of *B.g. tritici* across Europe and the Mediterranean and whole-genome sequenced their DNA with short reads. The sequences can be found here (ADD LINK TO SEQ REPO). Additionally, we downloaded previously published, publicly available sequences of *B.g. tritici*, *B.g. triticale*, *B.g. dicocci*, *B.g. secalis* and *B.g. dactylidis* (N = 385) using the `fasterq-dump` (v 3.0.5) method of [SRA tools](https://github.com/ncbi/sra-tools). For example,
+We sampled 276 isolates of *B.g. tritici* across Europe and the Mediterranean and whole-genome sequenced their DNA with short reads. The sequences can be found here (ADD LINK TO SEQ REPO). Additionally, we downloaded previously published, publicly available sequences of *B.g. tritici* (N = 375) using the `fasterq-dump` (v 3.0.5) method of [SRA tools](https://github.com/ncbi/sra-tools). For example,
 ```
 fasterq-dump --split-files SRR11548116
 ```
 The list of accessions of all downloaded sequences can be found [here](SRA_accessions_before2022+ncsu)
 
-The metadata of all previously published and newly collected isolates, including sampling location, year of collection and details on their hosts, can be found [here](../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv). 
+The metadata of all previously published and newly collected isolates, including sampling location, year of collection and details on their hosts, can be found [here](../Datasets/S1_Data.csv). 
 
 ## Variant calling pipeline 
 
@@ -27,7 +27,7 @@ The pipeline starts with paired-end, raw WGS (short) reads and returns a VCF fil
 ### Workflow
 
 1. `pipeline_with_gatk_statscsv.py` 
-This takes as input the path to the raw paired-end fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job for 737 samples (including all *formae speciales*) (ADD FILE WITH LIST OF ALL ACCESSIONS) using the same input parameters for all samples. For example:
+This takes as input the path to the raw paired-end fastq-files and reference genome along with some quality-based trimming and adapter trimming parameters. It returns a per-chromosome VCF file called by GATK `HaplotypeCaller` and some summary statistics about the mapping. It was run as an array job using the same input parameters for all samples. For example:
 ```bash
 python3 pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i CHNY072301_R1.fastq.gz
 ```
@@ -40,7 +40,7 @@ while read p; do
         echo $p,$covga,$covgb >> mating_type_coverage
 done < isolate_list
 ```
-3. The VCF files for all remaining samples (n = 711) were combined (per-chromosome) using GATK `CombineGVCFs`. This step was performed in batches to avoid memory issues.
+3. The VCF files for all remaining samples were combined (per-chromosome) using GATK `CombineGVCFs`. This step was performed in batches to avoid memory issues.
 ```bash
 gatk --java-options "-Xmx44g -Xms44g" CombineGVCFs \
    -R GCA_900519115.1_2022_bgt_ref_mating_type_$CHROMOSOME.fa \
@@ -100,7 +100,7 @@ The script also outputs a csv file with the number of positions failing each of 
 
 ![2022+before2022+2023+ncsu_recoding_stats_distr_18042024](https://github.com/fmenardo/Bgt_popgen_Europe_2024/assets/90404355/9bb03543-db20-477f-985c-0a04a16bb833)
 
-The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, or those with a number of variants : number of heterozygous positions ratio of < 1  were excluded from all SNP-based analyses [(n=14)](200k_het_pos_ratio_1_exclude_dact.args). The exception was 96224, which had a low variant : heterozygous positions ratio because it is the reference isolate, and was thus retained in all analyses.
+The samples with > 200,000 'heterozygous positions', i.e. positions at which the variant support was < 90%, or those with a number of variants : number of heterozygous positions ratio of < 1  were excluded from all SNP-based analyses [(n=12)](200k_het_pos_ratio_1_exclude.args). The exception was 96224, which had a low variant : heterozygous positions ratio because it is the reference isolate, and was thus retained in all analyses.
 
   
 8. SNPs were selected from the chromosomal VCF files using GATK `SelectVariants` with options `--select-type-to-include SNP`, `--restrict-alleles-to ALL` and sites failing the filters from step #6 were excluded using the option `--exclude-filtered`.
@@ -126,7 +126,7 @@ tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_aster
 bcftools concat -f 2022+before2022+2023+ncsu_snp_no_asterisk_11_chr_mt_MAT_list \ # list with the names of the VCF files
  -Oz -o 2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr.vcf.gz
 ```
-11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates (`2022+before2022+2023+ncsu_tritici_list.args`). This step was performed using GATK `SelectVariants`. The tritici samples failing the "heterozygous" filter, as described in step #7, were excluded (n=10) `2022+before2022+2023+ncsu_tritici_200k_hetpos_ratio_1_to_exclude_list.args.args`. Further, tritici clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args` were also excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
+11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates (`2022+before2022+2023+ncsu_tritici_list.args`). This step was performed using GATK `SelectVariants`. The tritici samples failing the "heterozygous" filter, as described in step #7, were excluded (n=12) `2022+before2022+2023+ncsu_tritici_200k_hetpos_ratio_1_to_exclude_list.args.args`. Further, tritici clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args` were also excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
 ```bash
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
