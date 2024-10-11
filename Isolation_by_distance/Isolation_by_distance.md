@@ -1,8 +1,8 @@
 # Isolation by Distance
-We tested for isolation by geographic distance and isolation by wind distance in our data. We performed these analyses at three levels:
-1. the Europe+_recent dataset
-2. the Europe+_2022_2023 datasets including only European samples, i.e. excluding samples from Turkey and Israel
-3. within the N_EUR and S_EUR2 populations, as classified by fineSTRUCTURE level 4, and including only the samples collected in 2022-2023    
+We tested for isolation by geographic, wind and climatic distances in our data. We performed these analyses for three datasets:
+1. the _Europe+_2022_2023_ dataset
+2. all samples in _Europe+_2022_2023_ that belonged to the N_EUR population (fineSTRUCTURE level 4 classification)
+3. all samples in _Europe+_2022_2023_ that belonged to the S_EUR2 population (fineSTRUCTURE level 4 classification)
 
 We used the pairwise genetic distance matrix as described [here](../distance_matrix/distance_matrix.md), and the symmetric pairwise wind-distance matrix as described [here](../windscape/windscape.md). The geographic distance matrix `geo_dist_matrix_tritici_europe_recent.csv` was constructed using the `rdist.earth` function in the R package `fields` as follows:
 ```
@@ -21,15 +21,22 @@ rownames(dist_test)<- rownames(meta_eur_recent)
 colnames(dist_test) <- rownames(meta_eur_recent)
 write.csv(dist_test, "geo_dist_matrix_tritici_europe_recent.csv")
 ```
+For climatic distances, we used the 12 bioclim variables described [here](../RDA/RDA.md). We performed a PCA of these 12 variables using the prcomp function in R and computed the euclidean distance between all pairs of samples based on the first 7 principal components using the ‘dist’ function in R to obtain a pairwise climatic distance matrix:
 
-We performed the mantel test for correlation between matrices, as implemented in the R package `adegent` with the function `mantel.randtest` using 999 repititions. This gave us correlations between each of the three distance matrices for each dataset. 
+```R
+md <- read.csv("~/projects/project_bgt_popgen/analysis/rda/clim/Variables_without_climcorrelation.csv", row.name = 1)  ## read in clim data values for all isolates
+my_pca <- prcomp(md[,16:27], scale = TRUE)  ## perform PCA on 12 clim variables
+pca_coords <- as.data.frame(my_pca$x[,1:7]) ## retain first 7 PCs
+clim_dist_unw <- dist(pca_coords, method = "euclidean")  ## calculate pairwise euclidean distances 
+clim_dist <- as.matrix(clim_dist_unw)
+write.csv(clim_dist, "clim_dist_unweighted_7pc.csv")
+```
 
-Additionally, we computed partial correlations between two of the three distance matrices while conditioning on the third. This was done using the `mantel.partial` function in the R package `vegan` for 999 permutations. We also measured the simple Mantel correlation between two matrices using `vegan`'s `mantel` function to ensure the results were comparable. These steps were performed for the four datasets described above, as well for a fifth dataset which was the union of the 2022-2023 N_EUR and 2022-2023 S_EUR2 datasets. 
+We performed the mantel test for correlation between matrices, as implemented in the R package `adegent` with the function `mantel.randtest` using 999 repititions. This gave us correlations between each of the four distance matrices for each dataset. 
 
-We note that the Mantel correlation values produced by `adegenet` and `vegan` are identical while the p-values differ slightly because of the differences in matrix permutations. This does not, however, affect the interpretition of the results. 
+Additionally, we also tested for isolation by geographic distance along the east-west and nort-south axes separately for the _N_EUR_2022_2023_ and _S_EUR2_2022_2023_ datasets. The georaphic distance matrices were computed using the script `geo_dist_axes.R` and the genetic distance matrix was the same as described above. 
 
-The script `isolation_by_distance_and_wind_new.R` was used for the above steps as well as for generating the correlation histograms found in this directory. Here are the scatter plots for [genetic distance-geographic distance](ibd_dens_compare_new.pdf), [genetic distance-wind distance](ibw_dens_compare_new.pdf) and [wind distance-geographic distance](corr_wind_geo_dens_compare_new.pdf) for each of the four datasets used. The table comparing the partial correlation values of all datasets can be found [here](partial_mantel_test_vegan_06052024.csv). 
-
+The script to perform all mantel tests and generate corresponding density plots is `all_mantel_tests.R`. The test results are reported in [this table](mantel_test_results.csv)
 
 ### R packages
 ```
