@@ -2,7 +2,9 @@
 We tested for isolation by geographic, wind and climatic distances in our data. We performed these analyses for three datasets:
 1. the _Europe+_2022_2023_ dataset
 2. all samples in _Europe+_2022_2023_ that belonged to the N_EUR population (fineSTRUCTURE level 4 classification)
-3. all samples in _Europe+_2022_2023_ that belonged to the S_EUR2 population (fineSTRUCTURE level 4 classification)
+3. all samples in _Europe+_2022_2023_ that belonged to the S_EUR2 population (fineSTRUCTURE level 4 classification) 
+
+The list of samples belonging to each of these datasets can be found in the *.args files in this directory.
 
 We used the pairwise genetic distance matrix as described [here](../distance_matrix/distance_matrix.md), and the symmetric pairwise wind-distance matrix as described [here](../windscape/windscape.md). The geographic distance matrix `geo_dist_matrix_tritici_europe_recent.csv` was constructed using the `rdist.earth` function in the R package `fields` as follows:
 ```
