@@ -4,8 +4,8 @@ We used the conda installation instructions and adapt the code provided by the a
 
 #### Preparation of input files 
 1. We constructed a discrete global grid of a suitable resolution over our sampling using the R package `dggridR`. The grid files produced are `dgg_res7.shp`, `dgg_res7.shx` and `dgg_res7.dbf`. 
-```
-%% R v4.2.1
+```R
+## R v4.2.1
 library(dggridR)   ## package version 3.0.0
 ### constructing grid for region of interest
 
@@ -14,7 +14,7 @@ mygrid <- dgrectgrid(dggs, minlat = 27.260104, minlon = -27.406657,
                      maxlat = 68.992133, maxlon = 47.651937, savegrid = "dgg_res7.shp")
 ```
 2. We subset the all-sample, biallelic SNP VCF file to include only samples from the Europe+_2022_2023 dataset and filtered out all singletons and missing data using GATK `SelectVariants`.
-```
+```bash
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
     -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
@@ -26,7 +26,7 @@ gatk SelectVariants \
     -O tritici_2022+2023_no_sing_no_miss.vcf.gz
 ```
 3. Next, we performed LD-based pruning using PLINK. At each step (1 SNP), the program notes the pairs of variants in the window (25kb) that exceed the correlation value (0.1) and removes variants from the window until no such pairs remain. 
-```
+```bash
 vcf=tritici_2022+2023_no_sing_no_miss.vcf.gz
 out=tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1
 
@@ -41,11 +41,11 @@ plink --bed prefilter.bed --bim prefilter.bim --fam prefilter.fam --extract "${o
 # make bed
 plink --vcf "${out}.vcf.gz" --double-id --allow-extra-chr --biallelic-only --make-bed --out $out
 ```
-4. The sampling coordinates (in long lat format) for all samples were extracted from the [metadata file](../Datasets/2022+before2022+2023+ncsu_metadata+fs+admxK7_19032024.csv) and ordered according to the order of samples in the .fam file produced by PLINK to produce `tritici_2022+2023_long_lat.coord`. An outer polygon surrounding the sampling region was given by `extended_europe.outer`.
+4. The sampling coordinates (in long lat format) for all samples were extracted from the [metadata file](../Datasets/S1_Data.csv) and ordered according to the order of samples in the .fam file produced by PLINK to produce `tritici_2022+2023_long_lat.coord`. An outer polygon surrounding the sampling region was given by `extended_europe.outer`.
 
 #### Running FEEMS
 We ran FEEMS using the script `run_feems.py`.
-```
+```bash
 python3 run_feems.py -i tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1 -sc tritici_2022+2023_long_lat.coord -oc extended_europe.outer -dgg dgg_res7.shp
 ```
 This script produced the [cross validation error plot](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_CV_error_dgg_res7-1.pdf), the [FEEMS plot for the best lambda](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_feems_plot_dgg_res7-1.pdf) and the [plot comparing migration surfaces over four lambda values](tritici_2022+2023_no_sing_no_miss_LDp_25kb_0.1_feems_plot_dgg_res7_lambda_compare.pdf).
