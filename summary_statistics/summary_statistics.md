@@ -52,6 +52,8 @@ We used the above-mentioned estimates of pi and Watterson's theta to calculate w
 
 The box-plots of the three within-population statistics, calculated in 10 kb windows over the entire genome, can be found [here](fs4_pi_theta_tajimasD_maxmiss0.5_boxplot_no_outliers.pdf). `fs4_pi_theta_tajimasD_maxmiss0.5.csv` is the table with compiled statistics for all populations.
 
+Pi, theta and Tajima's D were also visualised as Manhattan (MH) plots. The input file (`fs4_pi_theta_tajimasD_maxmiss0.5.csv`) was split by population using `separate_pops_in_new_files.R` and the corresponding manhattan plots were generated using `MH_pi.R`, `MH_TajimasD.R` and `MH_wattersons_theta.R`. 
+
 ### Between-population statistics
 Measures of genetic variation between populations namely, dxy and Fst were computed using pixy in 10 kb windows spanning 11 chromosomes for each population pair. 
 Chromosomal all-site VCF files containing all samples and sites with less than 50% missing data were created using GATK `SelectVariants`. The 11 chromosomes were handled independently and parallely. 
