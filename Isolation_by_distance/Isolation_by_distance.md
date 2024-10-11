@@ -36,7 +36,7 @@ We performed the mantel test for correlation between matrices, as implemented in
 
 Additionally, we also tested for isolation by geographic distance along the east-west and nort-south axes separately for the _N_EUR_2022_2023_ and _S_EUR2_2022_2023_ datasets. The georaphic distance matrices were computed using the script `geo_dist_axes.R` and the genetic distance matrix was the same as described above. 
 
-The script to perform all mantel tests and generate corresponding density plots is `all_mantel_tests.R`. The test results are reported in [this table](mantel_test_results.csv)
+The script to perform all mantel tests and generate corresponding density plots is `all_mantel_tests.R`. The test results are reported in [this table](mantel_test_results.csv).
 
 ### R packages
 ```
