@@ -38,7 +38,7 @@ ggplot(data = subset(fst_dxy_df, fst_dxy_df$statistic == "avg_dxy"), aes(factor(
   labs(x = "Population pair", y = "average dxy (10 kb windows)")
 
 d <- ggplot(data = subset(fst_dxy_df, fst_dxy_df$statistic == "avg_dxy"), aes(value, factor(pop_pair) )) + 
-  geom_boxplot(aes(fill = factor(pop_pair)), show.legend = FALSE, notch = TRUE, outlier.shape = NA)+
+  geom_boxplot(aes(fill = "grey",alpha=0.8,show.legend = FALSE, notch = TRUE, outlier.shape = NA)+
   theme_classic(base_size = 14)+
   theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
   scale_colour_viridis_b()+
@@ -54,12 +54,12 @@ ggplot(data = subset(fst_dxy_df, fst_dxy_df$statistic == "avg_wc_fst"), aes(fact
   labs(x = "Population pair", y = "average Fst (10 kb windows)")
 
 wc <- ggplot(data = subset(fst_dxy_df, fst_dxy_df$statistic == "avg_wc_fst"), aes(value, factor(pop_pair) )) + 
-  geom_boxplot(aes(fill = factor(pop_pair)), show.legend = FALSE, notch = TRUE, outlier.shape = NA)+
+  geom_boxplot(fill = "grey",alpha=0.8, show.legend = FALSE, notch = TRUE, outlier.shape = NA)+
   theme_classic(base_size = 14)+
   theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1))+
   scale_colour_viridis_b()+
   labs(y = "Population pair", x = "average WC Fst (10 kb windows)") +
   coord_cartesian(xlim=c(-0.25,0.5))
 
-d + wc  + plot_layout(axes = "collect") & theme(axis.title = element_text(size = 12))
+d + wc  + plot_layout(axes = "collect") + plot_annotation(tag_levels = 'a') & theme(axis.title = element_text(size = 12))
 
