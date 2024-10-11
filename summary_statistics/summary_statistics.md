@@ -77,4 +77,4 @@ pixy --stats fst dxy \
  --output_folder output_fs_level4_10kb \
  --output_prefix pixy_tritici_ext_eur_recent_fs_level4_$CHROMOSOME
 ```
-The outputs of both statistics and all chromosomes were combined and [plotted](fs4_dxy_wc-fst_boxplot_no_outliers.pdf) using `plot_pairwise_comparisons.R`
+The outputs of both statistics and all chromosomes were combined and [plotted](fs4_dxy_wc-fst_boxplot_no_outliers_grey.pdf) using `plot_pairwise_comparisons.R`
