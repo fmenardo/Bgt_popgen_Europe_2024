@@ -40,6 +40,10 @@ Additionally, we also tested for isolation by geographic distance along the east
 
 The script to perform all mantel tests and generate corresponding density plots is `all_mantel_tests.R`. The test results are reported in [this table](mantel_test_results.csv).
 
+## Logistic Regression
+We tested how well geographic, wind and climatic distances could predict population structure using logistic regression. Using samples belonging to the N_EUR_2022_2023 and S_EUR2_2022_2023 datasets, we modelled which factors could predict whether two individuals belonged to the same or different populations. For each pair of individuals, the response variable (Diff pop) was 0 if they belonged to the same population and 1 if different. The distance matrices were the same as described above. Logistic regression was performed using the rms package in R using the script `logsitic_regression.R`.
+
+
 ### R packages
 ```
 R 4.2.1
