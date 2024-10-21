@@ -1,6 +1,6 @@
 # Population genomics and molecular epidemiology of wheat powdery mildew in Europe
 
-Here you find the code to reproduce the analyses performed in **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** Jigisha et al. etc.. 
+Here you find the code to reproduce the analyses performed in **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** (Jigisha et al. 2024)
 
 With this repository we ty to ensure reproducibility of all the analyses performed for this study. While we strived to document our code and facilitate the reproduction of our analyses, this is not a ready to run repository. At the very least you will need to install the correct software and adjust the paths to be able to run this code.
 
