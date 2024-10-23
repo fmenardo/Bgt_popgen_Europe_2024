@@ -5,19 +5,19 @@ We used [isoRelate](https://github.com/bahlolab/isoRelate) to perfome genome sca
 ## Data preparation
 
 For the isoRelate analysis we used the [Europe+_recent](../Datasets/Datasets.md) datatset with 368 individuals sampled from Europe, the Middle East and Caucasus not earlier than 2015.
-We ran the analyses separately on the 5 populations (ME, N_EUR, S_EUR+, S_EUR1, TUR) defined by the fineStructure analysis (level 4). LINK to metainfo.
+We ran the analyses separately on the 5 populations (ME, N_EUR, S_EUR1, S_EUR2, TUR) defined by the fineStructure analysis (level-4) (see [S1_Data.csv](../Datasets/S1_Data.csv)).
 
 As an example, here we report the code to perform the analysis for one population (N_EUR).
 
 First we identify intervals in which markers cannot be mapped unambiguosly on the genetic map. This needs to be done only once, and not for each population. 
 
-```
+```bash
 python find_ambiguity_in_rec_map.py -rec ../recombination_map/THUN12x96224_genetic_map_in_cM_+_phy_distance
 ```
 
-Then we selected kept only SNPs without any missing data. We also excluded positions that cannot be mapped unambiguosly on the genetic map, and SNPs with a minor allele frequency less than 5%. 
+Then we kept only SNPs without any missing data. We also excluded positions that cannot be mapped unambiguosly on the genetic map, and SNPs with a minor allele frequency less than 5%. 
 
-```
+```bash
 gatk SelectVariants \
      -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
      -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
@@ -32,7 +32,7 @@ gatk SelectVariants \
 
 ```
 We generated the ped and map file needed by isoRelate as follow:
-```
+```bash
 plink --allow-extra-chr --vcf Europe+_recent_tritici_no_clones_no_miss_no_amb_cM_NE.vcf.gz --recode 12 --double-id --out BgtE+r_N_EUR --threads 1
 
 awk '$5="1" && $6="0"' BgtE+r_N_EUR.ped >  BgtE+r_N_EUR_mod.ped
@@ -46,7 +46,7 @@ python add_cM_to_map.py -map BgtE+r_N_EUR_mod.map -rec ../recombination_map/THUN
 We ran isoRelate in two steps for better compuational efficiency, the first step infers identity by descent segments, while the second step computes the proportion of IBD pairs for each SNP and its significance level.
 
 
-```
+```bash
 Rscript run_ibd_step1.R -o BgtE+r_N_EUR_2cM -p BgtE+r_N_EUR_mod.ped -m BgtE+r_N_EUR_mod_cM.map -c 10 -C 2
 Rscript run_ibd_step2.R -o BgtE+r_N_EUR_2cM
 
