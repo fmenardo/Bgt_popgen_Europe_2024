@@ -1,0 +1,3 @@
+# AvrPm17 and Pm17 co-expression in _N. benthamiana_
+To quantify the intensity of HR triggered by different protein variants of AvrPm17, Agrobacterium-mediated co-expression of AvrPm17 variants and Pm17 in _N. benthamiana_ was achieved using the protocol described in [Bourras et al. 2019](https://www.nature.com/articles/s41467-019-10274-1). For details, see 'Methods' of the manuscript.
+Imaging and quantification of the HR cell-death response was performed 48h after Agrobacterium infiltration with the Fusion FX imaging system (Vilber Lourmat) and the Fiji software using `HR_quantification_AvrPm17_white.Rmd`. 
