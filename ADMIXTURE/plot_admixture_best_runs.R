@@ -2,7 +2,7 @@ library(tidyverse)
 library(RColorBrewer)
 library(patchwork)
 library(data.table)
-setwd("/shares/menardo.bgt.uzh/project_bgt_popgen/analysis/admixture/2022+before2022+2023+ncsu/tritici_ALL_25kb_0.1_LDp_admixture/")
+setwd("/tritici_ALL_25kb_0.1_LDp_admixture/")
 
 #### cv error ####
 # individual runs
@@ -68,7 +68,7 @@ p <- ggplot(log, aes(x=as.factor(k), y=cv)) +
 samps<-read.table("tritici_ALL_25kb_0.1_LDp.fam")[,1]
 
 # desired order of samples in plot
-tritici_order <- read.delim("../tritici_sorted_25042024", header = FALSE)
+tritici_order <- read.delim("tritici_sorted_25042024", header = FALSE)
 
 admx_ord <- function(anc_prop){
   df <- read.delim(anc_prop, sep = " ", header = FALSE)
@@ -78,6 +78,7 @@ admx_ord <- function(anc_prop){
   return(df_ord_t)
 }
 
+## list of ADMIXTURE output files with least CV error for each value of K between 4-9. 
 list_files <- c("r10/tritici_ALL_25kb_0.1_LDp.k4.r10.Q", "r8/tritici_ALL_25kb_0.1_LDp.k5.r8.Q", "r3/tritici_ALL_25kb_0.1_LDp.k6.r3.Q", 
                 "r8/tritici_ALL_25kb_0.1_LDp.k7.r8.Q", "r2/tritici_ALL_25kb_0.1_LDp.k8.r2.Q", "r10/tritici_ALL_25kb_0.1_LDp.k9.r10.Q")
 
