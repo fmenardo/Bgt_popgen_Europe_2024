@@ -1,7 +1,7 @@
 # Summary Statistics
 
 We computed measures of intra and inter-population genetic diversity for the [Europe+_recent](../Datasets/Datasets.md) dataset. 
-We used the 'level 4' population classification, as inferred from fineSTRUCTURE, which divided the dataset into five populations, namely ME, N_EUR, S_EUR+, S_EUR1 and TUR.
+We used the 'level 4' population classification, as inferred from fineSTRUCTURE, which divided the dataset into five populations, namely ME, N_EUR, S_EUR1, S_EUR2 and TUR.
 
 ### Within-population statistics
 We calculated pi, Watterson's theta and tajima's D for each population in windows of 10kb covering all 11 chromosomes. 
