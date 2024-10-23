@@ -33,9 +33,9 @@ pca_df <- as.data.frame(pca$scores)
 
 pca_df$isolate <- rownames(pca_df)
 
-pca_dataset <- merge(pca_df,iso_det,by.x="isolate",by.y="Sample.Name")
+pca_dataset <- merge(pca_df,iso_det,by.x="isolate",by.y="Sample.ID")
 pca_dataset$Country <- as.factor(pca_dataset$Country)
-pca_dataset$Collection <- as.factor(pca_dataset$Collection)
+#pca_dataset$Collection <- as.factor(pca_dataset$Collection)
 pca_dataset$Strain <- as.factor(pca_dataset$Strain)
 
 
