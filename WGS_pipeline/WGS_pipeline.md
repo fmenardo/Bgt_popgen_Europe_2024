@@ -2,17 +2,15 @@
 
 ## Sampling and data
 
-We sampled 276 isolates of *B.g. tritici* across Europe and the Mediterranean and whole-genome sequenced their DNA with short reads. The sequences can be found here (ADD LINK TO SEQ REPO). Additionally, we downloaded previously published, publicly available sequences of *B.g. tritici* (N = 375) using the `fasterq-dump` (v 3.0.5) method of [SRA tools](https://github.com/ncbi/sra-tools). For example,
+We sampled 276 isolates of *B.g. tritici* across Europe and the Mediterranean and whole-genome sequenced their DNA with short reads. The sequences can be found under the BioProject accession PRJEB75381. Additionally, we downloaded previously published, publicly available sequences of *B.g. tritici* (N = 375) using the `fasterq-dump` (v 3.0.5) method of [SRA tools](https://github.com/ncbi/sra-tools). For example,
 ```
 fasterq-dump --split-files SRR11548116
 ```
-The list of accessions of all downloaded sequences can be found [here](SRA_accessions_before2022+ncsu)
-
-The metadata of all previously published and newly collected isolates, including sampling location, year of collection and details on their hosts, can be found [here](../Datasets/S1_Data.csv). 
+The list of accessions of all downloaded sequences along with the metadata of all isolates (previously published and newly collected), including sampling location, year of collection and details on their hosts, can be found [here](../Datasets/S1_Data.csv). 
 
 ## Variant calling pipeline 
 
-The pipeline starts with paired-end, raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset (CHECK AT THE END, this will depend on the vcf that we share). 
+The pipeline starts with paired-end, raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset and 5 _B.g. secalis_ isolates used as outgroups for some analyses. The VCF file can be found at this [Zenodo repository](https://doi.org/10.5281/zenodo.13903934). 
 
 ### Software used
 1. Python3
@@ -31,7 +29,7 @@ This takes as input the path to the raw paired-end fastq-files and reference gen
 ```bash
 python3 pipeline_with_gatk_statscsv.py -ref GCA_900519115.1_2022_bgt_ref_mating_type.fa -minlen 50 -rw 5 -fw 1 -rq 20 -fq 20 -i CHNY072301_R1.fastq.gz
 ```
-For further details on the steps executed in the script, refer to the Methods section of our paper here (INSERT LINK TO PAPER). For more information on the input parameters of the script, run ```python3 pipeline_with_gatk_statscsv.py --help```  
+For further details on the steps executed in the script, refer to the Methods section of our paper. For more information on the input parameters of the script, run ```python3 pipeline_with_gatk_statscsv.py --help```  
 2. Samples with coverage less than 15x were identified [(n = 26)](coverage_below_15) and excluded from all subsequent analyses. Mating types were assigned by comparing the coverage over the two alternate mating type genes:
 ```bash
 while read p; do
@@ -126,16 +124,14 @@ tabix -p vcf 2022+before2022+2023+ncsu_covg15_recoded_snps_all_filtered_no_aster
 bcftools concat -f 2022+before2022+2023+ncsu_snp_no_asterisk_11_chr_mt_MAT_list \ # list with the names of the VCF files
  -Oz -o 2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr.vcf.gz
 ```
-11. The resulting VCF files were then subset to include only biallelic SNPs and only *B.g. tritici* isolates (`2022+before2022+2023+ncsu_tritici_list.args`). This step was performed using GATK `SelectVariants`. The tritici samples failing the "heterozygous" filter, as described in step #7, were excluded (n=12) `2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args`. Further, tritici clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args` were also excluded. The final list of samples in this resulting VCF file made up the [World](../Datasets/Datasets.md) dataset (CHEK at the end, this will change depending on what we share). 
+11. The resulting VCF files were then subset to include only biallelic SNPs. This step was performed using GATK `SelectVariants`. The tritici samples failing the "heterozygous" filter, as described in step #7, were excluded (n=12) `2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args`. Further, tritici clones (as decided based on the [dist matrix analysis](../distance_matrix/distance_matrix.md) ) `2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args` were also excluded. The VCF file finally contained 568 _B.g. tritici_ (that made up the [World](../Datasets/Datasets.md) dataset) and 5 _B.g. secalis_ isolates that would be used as outgroups. The list of samples is given in `tritici_2022+before2022+2023+ncsu_no_clones_+_rye_old.args` (n=573).
 ```bash
 gatk SelectVariants \
     -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
-    -V 2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr_mt_MAT.vcf.gz \
+    -V ../project_data_prep/data/2022+before2022+2023+ncsu_recoded_snps_filtered_no_asterisk_11chr_mt_MAT.vcf.gz \
     --restrict-alleles-to BIALLELIC \
-    --sample-name 2022+before2022+2023+ncsu_tritici_list.args \
-    --exclude-sample-name 2022+before2022+2023+ncsu_tritici_clones_to_exclude_list_18042024.args \
-    --exclude-sample-name 2022+before2022+2023+ncsu_200k_hetpos_to_exclude_list.args \
-    --select "AC>0 && AC<568" \
-    -O tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz
+    --sample-name  tritici_2022+before2022+2023+ncsu_no_clones_+_rye_old.args\
+    --select "AC>0 && AC<573" \
+    -O tritici_2022+before2022+2023+ncsu_ALL_+outgroup_biallelic_snps.vcf.gz
 ```
 
