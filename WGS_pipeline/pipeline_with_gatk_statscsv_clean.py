@@ -20,18 +20,18 @@ today = now.strftime("%d-%m-%Y_%H-%M-%S")
 ### edit paths as required
 
 #### software ####
-fastp_path = "/home/jjigis/bion_tools/fastp"
-bwa_path = "/home/jjigis/data/bwa_dir/bwa"
-samtools_path = "/home/jjigis/data/samtools-1.17/samtools"
-gatk_path = "/home/jjigis/data/gatk-4.4.0.0/gatk"
-bcftools_path = "/home/jjigis/data/conda/envs/vcf/bin/bcftools"
-tabix_path = "/home/jjigis/data/conda/envs/vcf/bin/tabix"
+fastp_path = "/data/fastp"
+bwa_path = "/data/bwa"
+samtools_path = "/data/samtools"
+gatk_path = "/data/gatk"
+bcftools_path = "/data/bcftools"
+tabix_path = "/data/tabix"
 
 #### data directories ####
-scratch_path = "/home/jjigis/scratch/"
-mito_fol = "/home/jjigis/projects/project_data_prep/analysis/mito_alignments/2023/"
-vcf_fol = "/home/jjigis/projects/project_data_prep/analysis/hap_call_vcf/2023/"
-summary_stats_path = "/home/jjigis/projects/project_data_prep/analysis/pl_stats/2023/"
+scratch_path = "/scratch/"
+mito_fol = "/analysis/mito_alignments/2023/"
+vcf_fol = "/analysis/hap_call_vcf/2023/"
+summary_stats_path = "/analysis/pl_stats/2023/"
 
 
 os.chdir("../data")
@@ -47,7 +47,7 @@ def qc(i1,i2,scratch_fol,minlen,fw,fq,rw,rq): #filenames in the format xyz_1.fas
     
 def mapping(ref,i1,scratch_fol):
     '''maps the filtered/trimmed fastq files to reference using bwa'''
-    ### number of threads hardcoded. better to pass it as argument 
+    ### TODO: number of threads hardcoded. better to pass it as argument 
     cmd_map1 = f"{bwa_path} mem -t 2 {str(ref)} {scratch_fol}{str(i1[:-11])}merged.fq.gz > {scratch_fol}aln_{str(i1[:-11])}merged.sam"
     cmd_map2 = f"{bwa_path} mem -t 2 {str(ref)} {scratch_fol}{str(i1[:-11])}out1.fq.gz {scratch_fol}{str(i1[:-11])}out2.fq.gz > {scratch_fol}aln_{str(i1[:-11])}out1_out2.sam"
     cmd_map3 = f"{bwa_path} mem -t 2 {str(ref)} {scratch_fol}{str(i1[:-11])}unpaired1.fq.gz > {scratch_fol}aln_{str(i1[:-11])}unpaired1.sam"
