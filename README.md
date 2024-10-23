@@ -24,6 +24,7 @@ With this repository we ty to ensure reproducibility of all the analyses perform
   - [LD decay](Linkage_Disequilibrium/LD.md)
 - AvrPm17
   - [Haplotypes](AvrPm17_haplotypes/AvrPm17_haplotypes.md) 
-  - [Identity by descent clusters](AvrPm17_isoRelate/AvrPm17_isoRelate.md)  
+  - [Identity by descent clusters](AvrPm17_isoRelate/AvrPm17_isoRelate.md)
+  - [Quantification of HR intensity](AvrPm17_infiltration/AvrPm17_infiltration.md)
 - Redundancy analysis
   - [RDA](RDA/RDA.md) 
