@@ -19,7 +19,7 @@ library(reshape2)
 
 
 ```{r AvrPm17}
-dataAvrPm17=read.table("S:/Lukas_Data/Desktop/Avr_identification/AvrPm17_forFabri/data_manuscript/quant_white.txt",h=T)
+dataAvrPm17=read.table("quant_white.txt",h=T)
 head(dataAvrPm17)
 dataAvrPm17Melt=melt(dataAvrPm17)
 plotAvrPm17=ggplot(dataAvrPm17Melt) + geom_boxplot(aes(x=combinations,y=value), outlier.shape = NA) + geom_jitter(aes(x=combinations,y=value, fill=variable),shape = 21, colour = "black", width=0.3,height=0,set.seed(4),size=1.0) +
