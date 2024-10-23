@@ -5,8 +5,8 @@ import os
 import subprocess
 import random
 
-admixture_path = "/home/jjigis/data/dist/admixture_linux-1.3.0/admixture"
-wd = "/home/jjigis/projects/project_bgt_popgen/analysis/admixture/2022+before2022+2023+ncsu/tritici_ALL_25kb_0.1_LDp_admixture/"
+admixture_path = "/data/admixture"
+wd = "/tritici_ALL_25kb_0.1_LDp_admixture/"
 
 def admixture(bed_stem,k,r,n_cores,cv,seed):
 
