@@ -1,4 +1,3 @@
-setwd("/shares/menardo.bgt.uzh/project_bgt_popgen/analysis/dist_mat/")
 library(tidyverse)
 
 modifiedSum <- function(x, y) {
