@@ -1,0 +1,46 @@
+---
+title: "HR_quantification"
+author: "Lukas Kunz"
+date: "2024-08-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Library
+
+```{r}
+library(ggplot2)
+library(reshape2)
+```
+
+
+
+```{r AvrPm17}
+dataAvrPm17=read.table("quant_white.txt",h=T)
+head(dataAvrPm17)
+dataAvrPm17Melt=melt(dataAvrPm17)
+plotAvrPm17=ggplot(dataAvrPm17Melt) + geom_boxplot(aes(x=combinations,y=value), outlier.shape = NA) + geom_jitter(aes(x=combinations,y=value, fill=variable),shape = 21, colour = "black", width=0.3,height=0,set.seed(4),size=1.0) +
+  ylab("HR intensity") +
+  scale_fill_manual(values=c("white","white","white","white","white","white","gold1","gold1","gold1","gold1","gold1","gold1","grey","grey","grey","grey","grey","grey")) +
+  scale_x_discrete(labels=c("AvrPm17_varA\n + Pm17","AvrPm17_varB\n + Pm17","AvrPm17_varC\n + Pm17","AvrPm17_varH\n + Pm17","GUS\n + Pm17")) +
+  theme_bw() +
+  theme(legend.position = "none",axis.title.x=element_blank(),axis.text.x=element_text(size=9),axis.text.y=element_text(size=8.0)) +
+  ylim(-1000,15000)
+
+plotAvrPm17
+
+# plotAvrPm17 + coord_flip()
+ggsave("plotAvrPm17.pdf", width=5.5, height=3.2)
+```
+
+```{r}
+kruskal.test(value ~ combinations, data = dataAvrPm17Melt)
+pairwise.wilcox.test(dataAvrPm17Melt$value, dataAvrPm17Melt$combinations,
+                 p.adjust.method = "BH")
+```
+
+
+

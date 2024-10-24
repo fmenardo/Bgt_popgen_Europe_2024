@@ -1,13 +1,13 @@
 ## dist along north-south / east-west axes
 
 library(fields)
-all_meta <- read.csv("2022+before2022+2023+ncsu_metadata+fs+admxK9_03052024.csv")  ## read in all metadata
+all_meta <- read.csv("S1_Data.csv")  ## read in all metadata
 s_eur <- readLines("tritici_2022+2023_fs_level4_S_EUR2.args")   ## list of samples in Europe+_2022_2023_S_EUR2
 n_eur <- readLines("tritici_2022+2023_fs_level4_N_EUR.args")	## list of samples in Europe+_2022_2023_N_EUR
 
-# subset metadata	
-meta_neur <- all_meta[n_eur,c(9,8)]
-meta_seur <- all_meta[s_eur,c(9,8)]
+# subset metadata	(get long-lat)
+meta_neur <- all_meta[n_eur,c(8,7)]
+meta_seur <- all_meta[s_eur,c(8,7)]
 
 ## calculate xy distance components ###
 ## function chatgpt 

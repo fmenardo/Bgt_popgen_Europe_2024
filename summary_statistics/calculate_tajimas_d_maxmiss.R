@@ -6,7 +6,7 @@
 
 library(tidyverse)
 library(patchwork)
-setwd("/shares/menardo.bgt.uzh/project_bgt_popgen/analysis/summary_statistics/tajimas_d/")
+setwd("/summary_statistics/tajimas_d/")
 
 ## set up functions to calculate Tajima's D 
 

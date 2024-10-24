@@ -4,7 +4,7 @@
 For the fineStructure analyses we used the [Europe+](../Datasets/Datasets.md) datatset with 415 individuals sampled from Europe, the Middle East and Caucasus.
 We kept only SNPS without any missing data, as fineStructure cannot handle them: 
 
-```
+```bash
 gatk-4.4.0.0/gatk SelectVariants \
      -R GCA_900519115.1_2022_bgt_ref_mating_type.fa \
      -V tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
@@ -22,20 +22,20 @@ To generate the input files for fineStructure we need to know the per base recom
 
 We generate the id and phase files for fineStructure, we also generate a .pos file:
 
-```
+```bash
 zcat Europe_large_tritici_no_clones_no_miss.vcf.gz > Europe_large_tritici_no_clones_no_miss.vcf
 python make_input_files_4_fs.py -vcf Europe_large_tritici_no_clones_no_miss.vcf -o Europe_large
 ```
 
 Starting from the .pos file and the recombination map we generate the recombination file for fineStructure
 
-```
+```bash
 python make_input_rec_file_4_fs.py -rec THUN12x96224_bp_recombination_rates.txt -i Europe_large.pos_file -o Europe_large
 ```
 
 
 As fineStructure cannot deal with sample names starting with digits we rename these two isolates:
-```
+```bash
 sed -i 's/96224/CHE_96224/g' Europe_large.id_file
 sed -i 's/94202/CHE_94202/g' Europe_large.id_file
 ```
@@ -44,7 +44,7 @@ sed -i 's/94202/CHE_94202/g' Europe_large.id_file
 
 We run fineStructure with default parameters, except that we increase the number of iterations in the EM algorithm to 50 (default 10)
 
-```
+```bash
 fs Europe_large -idfile Europe_large.id_file -phasefiles Europe_large.hap_file -recombfiles Europe_large_cp_rec_file.txt -ploidy 1 -v -n -hpc 1 -s1args:-in\ -iM\ -i\ 50\ --emfilesonly -go
 ```
 With the command above fineStructure generates lists of commands to run at different stages, these list can be submitted as batch jobs to a computer cluster.
@@ -55,11 +55,11 @@ When all stages are completed the three most important outputs are the chromopai
 
 This code is based on the example provided by authors of fineStructure. You need FinestructureLibrary.R and FinestructureDendrogram.R provided [here](https://people.maths.bris.ac.uk/~madjl/finestructure/toolsummary.html).
 
-```
-Rscripts plot_fs_results.R
+```bash
+Rscript plot_fs_results.R
 ```
 
-This generates the [coacestry matrix plot](Europe_large_Coancestry.pdf) and the [PCA plot](Europe_large_PCA.pdf)
+This generates the [coacestry matrix plot](Europe_large_Coancestry.pdf) and the [PCA plot](tritici_europe+_pca_fs_plots.pdf)
 
 ## Software versions
 ```

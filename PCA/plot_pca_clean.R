@@ -4,19 +4,18 @@ library(Polychrome)
 library(RColorBrewer)
 library(pals)
 
-setwd("/shares/menardo.bgt.uzh/project_bgt_popgen/analysis/pca/")
 
 #### World dataset ####
 
-world_pca <- read.csv("tritici_world.pca.csv")
-world_eig <- read.csv("tritici_world.eig.csv")
+world_pca <- read.csv("tritici_world.pca.csv") # output from pca_clean.R
+world_eig <- read.csv("tritici_world.eig.csv") # output from pca_clean.R
 world_eig$PC <- as.numeric(rownames(world_eig))
 world_eig$var_perc <- (world_eig$pca.eig/sum(world_eig$pca.eig))*100
-global_regions <- read.csv("../../data/global_regions.csv")
+global_regions <- read.csv("global_regions.csv")
 world_pca_reg <- merge(world_pca, global_regions, by.x = "isolate", by.y = "name")
 
-world_pca_reg$collection_3_levels <- ifelse(world_pca_reg$Collection == 2022 | world_pca_reg$Collection == 2023, 
-                                            world_pca_reg$Collection,
+world_pca_reg$collection_3_levels <- ifelse(world_pca_reg$year_of_collection == 2022 | world_pca_reg$year_of_collection == 2023, 
+                                            world_pca_reg$year_of_collection,
                                                     "1980-2019")
 
 # percentage of variance explained by each principal component
@@ -53,13 +52,13 @@ world_all <- world_pc12 + world_pc13 + world_pc23 + var + plot_layout(guides = "
 
 #### Europe+ dataset ####
 
-eur_pca <- read.csv("tritici_europe+.pca.csv")
-eur_eig <- read.csv("tritici_europe+.eig.csv")
+eur_pca <- read.csv("tritici_europe+.pca.csv")  # output from pca_clean.R
+eur_eig <- read.csv("tritici_europe+.eig.csv") # output from pca_clean.R
 eur_eig$PC <- as.numeric(rownames(eur_eig))
 eur_eig$var_perc <- (eur_eig$pca.eig/sum(eur_eig$pca.eig))*100
 
-eur_pca$collection_3_levels <- ifelse(eur_pca$Collection == 2022 | eur_pca$Collection == 2023, 
-                                            eur_pca$Collection,
+eur_pca$collection_3_levels <- ifelse(eur_pca$year_of_collection == 2022 | eur_pca$year_of_collection == 2023, 
+                                            eur_pca$year_of_collection,
                                             "1980-2019")
 
 # percentage of variance explained by each principal component
@@ -101,12 +100,12 @@ ggsave(eur_all, filename = "tritici_europe+_pca_plots.pdf", height = 30, width =
 
 ## plots with year of sampling and coloured by population
 
-new_metadata <- read.csv("~/projects/vcf_project_tritici/2022+before2022+2023+ncsu_metadata+fs+admxK9_03052024.csv")
+new_metadata <- read.csv("S1_Data.csv")
 pca_data <- eur_pca[,1:11]
-pca_with_new_metadata <- merge(pca_data, new_metadata, by.x = "isolate", by.y = "Sample.Name")
+pca_with_new_metadata <- merge(pca_data, new_metadata, by.x = "isolate", by.y = "Sample.ID")
 
-pca_with_new_metadata$collection_3_levels <- ifelse(pca_with_new_metadata$Collection == 2022 | pca_with_new_metadata$Collection == 2023, 
-                                                    pca_with_new_metadata$Collection,
+pca_with_new_metadata$collection_3_levels <- ifelse(pca_with_new_metadata$year_of_collection == 2022 | pca_with_new_metadata$year_of_collection == 2023, 
+                                                    pca_with_new_metadata$year_of_collection,
                                                     "1980-2019")
 
 pca_with_new_metadata <- pca_with_new_metadata %>% 

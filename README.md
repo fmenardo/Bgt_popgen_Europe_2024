@@ -1,8 +1,8 @@
 # Population genomics and molecular epidemiology of wheat powdery mildew in Europe
 
-Here you find the code to reproduce the analyses performed in **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** Jigisha et al. etc.. 
+Here you find the code to reproduce the analyses performed in **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** (Jigisha et al. 2024)
 
-With this repository we ty to ensure reproducibility of all the analyses performed for this study. While we strived to document our code and facilitate the reproduction of our analyses, this is not a ready to run repository. At the very least you will need to install the correct software and adjust the paths to be able to run this code.
+With this repository we try to ensure reproducibility of all the analyses performed for this study. While we strived to document our code and facilitate the reproduction of our analyses, this is not a ready to run repository. At the very least you will need to install the correct software and adjust the paths to be able to run this code.
 
 - Data preparation
   - [WGS pipeline](WGS_pipeline/WGS_pipeline.md)
@@ -16,19 +16,15 @@ With this repository we ty to ensure reproducibility of all the analyses perform
   - [fineStructure](fineStructure/fineStructure.md)
   - [Isolation by Distance](Isolation_by_distance/Isolation_by_distance.md)
   - [FEEMS](FEEMS/FEEMS.md)
-  - [TreeMix](TreeMix/TreeMix.md)
 - Demographic inference
    - [Demographic inference](MMC/MMC.md)
 - Genome scans and summary statistics
   - [Summary statistics](summary_statistics/summary_statistics.md)
   - [isoRelate](isoRelate/isoRelate.md)
   - [LD decay](Linkage_Disequilibrium/LD.md)
-  - [Selection Scans](selection_scans/selection_scans.md)
-- Dispersal estimate and ancestor locations
-  - [Relate](Relate/Relate.md)
-  - [Sparg](Sparg/Sparg.md)
 - AvrPm17
   - [Haplotypes](AvrPm17_haplotypes/AvrPm17_haplotypes.md) 
-  - [Identity by descent clusters](AvrPm17_isoRelate/AvrPm17_isoRelate.md)  
+  - [Identity by descent clusters](AvrPm17_isoRelate/AvrPm17_isoRelate.md)
+  - [Quantification of HR intensity](AvrPm17_infiltration/AvrPm17_infiltration.md)
 - Redundancy analysis
   - [RDA](RDA/RDA.md) 

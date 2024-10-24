@@ -26,7 +26,7 @@ The depth in the genic region was divided by the genome-wide average coverage (a
 ```R
 #R
 ## read in genome-wide stats
-gw_covg <- read.csv("genome_wide_av_coverage.csv")
+gw_covg <- read.csv("genome_wide_av_coverage.csv")   # can be extracted from S1 Data
 ## read gene coverage 
 gene_covg <- read.csv("avrpm17_covg.csv", header = FALSE)
 gene_covg$V1 <- gsub("renamed_", "",gene_covg$V1)
@@ -35,8 +35,8 @@ covg <- merge(gw_covg, gene_covg, by.x = "Sample.Name", by.y = "V1")
 covg$ratio <- covg$V2 / covg$Average_coverage
 
 ## subset recent dataset
-meta<-read.csv("~/projects/vcf_project_tritici/2022+before2022+2023+ncsu_metadata+fs+admxK9_27062024.csv")
-meta1<-data.frame(meta$Sample.Name,meta$Year.of.Collection)
+meta<-read.csv("S1_Data.csv")
+meta1<-data.frame(meta$Sample.ID,meta$year_of_collection)
 colnames(meta1) <- c("Sample.Name","Year")
 covg$Sample.Name <- gsub("renamed_","",covg$Sample.Name)
 

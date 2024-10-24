@@ -1,6 +1,6 @@
 ### plot distributions of pairwise comparisons (dxy and fst) as calculated by pixy
 library(tidyverse)
-setwd("/shares/menardo.bgt.uzh/project_bgt_popgen/analysis/summary_statistics/pixy/")
+setwd("/summary_statistics/pixy/")
 
 #### fs4 ####
 # list files to be read
