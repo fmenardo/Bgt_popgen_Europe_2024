@@ -1,8 +1,6 @@
-# Population genomics and molecular epidemiology of wheat powdery mildew in Europe
 
-Here you find the code to reproduce the analyses performed in **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** Jigisha et al. etc.. 
 
-With this repository we ty to ensure reproducibility of all the analyses performed for this study. While we strived to document our code and facilitate the reproduction of our analyses, this is not a ready to run repository. At the very least you will need to install the correct software and adjust the paths to be able to run this code.
+Here you find the code to for population genetic analysis of wheat powdery mildew, this is **NOT** the repository associated with the publication **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** Jigisha et al. which can be found [here.](https://github.com/fmenardo/Bgt_popgen_Europe_2024/tree/Bgt_ms) 
 
 - Data preparation
   - [WGS pipeline](WGS_pipeline/WGS_pipeline.md)
