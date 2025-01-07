@@ -15,14 +15,14 @@ The metadata of all previously published and newly collected isolates, including
 The pipeline starts with paired-end, raw WGS (short) reads and returns a VCF file with all biallelic SNPs for all *B.g. tritici* isolates in the [World](../Datasets/Datasets.md) dataset (CHECK AT THE END, this will depend on the vcf that we share). 
 
 ### Software used
-1. Python3
-2. [fastp 0.23.2](https://github.com/OpenGene/fastp) 
-3. [bwa 0.7.17-r1198-dirty](https://github.com/lh3/bwa)
-4. [htslib 1.17](https://github.com/samtools/htslib/releases/tag/1.17)
-5. [samtools 1.17](https://github.com/samtools/samtools/releases/tag/1.17)
-6. [bcftools 1.17](https://github.com/samtools/bcftools/releases/tag/1.17)
-7. [GATK 4.4.0.0](https://github.com/broadinstitute/gatk/releases/tag/4.4.0.0)
-8. R 4.2.1
+- Python3
+- [fastp 0.23.2](https://github.com/OpenGene/fastp) 
+- [bwa 0.7.17-r1198-dirty](https://github.com/lh3/bwa)
+- [htslib 1.17](https://github.com/samtools/htslib/releases/tag/1.17)
+- [samtools 1.17](https://github.com/samtools/samtools/releases/tag/1.17)
+- [bcftools 1.17](https://github.com/samtools/bcftools/releases/tag/1.17)
+- [GATK 4.4.0.0](https://github.com/broadinstitute/gatk/releases/tag/4.4.0.0)
+- R 4.2.1
 
 ### Workflow
 
