@@ -3,7 +3,7 @@
 ## Data preparation
 ### Data preparation for analysis not considering the probability of misidentification of derived alleles
 
-We focus on two populations, the list of samples can be found in `N_EUR2_Bgs.args` and `E_EUR2_Bgs.args`. Both lists contain 5 Bgs isolates to be used as outgroup to polarize SNPs `list_Bgs.args`.
+We focus on four populations, the list of samples can be found in `N_EUR1_Bgs.args`, `N_EUR2_Bgs.args`,`E_EUR1_Bgs.args` and `E_EUR2_Bgs.args`. All lists contain 5 Bgs isolates to be used as outgroup to polarize SNPs `list_Bgs.args`.
 
 For example for population N_EUR2:
 
