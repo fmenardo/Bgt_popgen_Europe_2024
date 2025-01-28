@@ -5,7 +5,8 @@
 #' alleles
 #' To run the script, you need the git repository
 #' https://github.com/fabfreund/usfs_mmc/
-
+#' Data should be provided as a Fasta file, with the ancestral sequence 
+#' in row 1
 index <- 2
 
 #' Needs to be adjusted when rerun
@@ -33,6 +34,7 @@ plotit <- TRUE
 
 if (readin){
 #' Observed data
+#' Should contain the ancestral sequence in row 1
 library(pegas)
 #' If necessary:
 #' Import data and get site frequency spectrum
