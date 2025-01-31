@@ -15,7 +15,8 @@ source activate conda_env_gatk
 
 # whole dataset
 /home/nminad/data/gatk-4.4.0.0/gatk SelectVariants -V /home/nminad/projects/vcf_project_tritici/tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps.vcf.gz \
--O /home/nminad/projects/nikos/LD_decay/0_data/tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps_filtered_miss0.1.vcf.gz \
+-O /home/nminad/projects/nikos/LD_decay/0_data/tritici_ext_eur_recent_biallelic_snps_filtered_miss0.1.vcf.gz \
+-sn ~/projects/vcf_project_tritici/tritici_recent_extended_europe_2022+2023+ncsu.args \
 --exclude-intervals MT880591.1 \
 --exclude-intervals LR026995.1_Un \
 --exclude-intervals Bgt_MAT_1_1_3 \
@@ -68,8 +69,8 @@ source activate conda_env_gatk
 
 # vcf to plink format
 # whole dataset
-/home/nminad/data/plink2 --vcf /home/nminad/projects/nikos/LD_decay/0_data/tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps_filtered_miss0.1.vcf.gz \
---make-bed --out /home/nminad/projects/nikos/LD_decay/0_data/tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps_filtered_miss0.1
+/home/nminad/data/plink2 --vcf /home/nminad/projects/nikos/LD_decay/0_data/tritici_ext_eur_recent_biallelic_snps_filtered_miss0.1.vcf.gz\
+--make-bed --out /home/nminad/projects/nikos/LD_decay/0_data/tritici_ext_eur_recent_biallelic_snps_filtered_miss0.1
 
 # N_EUR
 /home/nminad/data/plink2 --vcf /home/nminad/projects/nikos/LD_decay/0_data/tritici_recent_extended_europe_fs_level4_N_EUR.vcf.gz \
@@ -94,9 +95,8 @@ source activate conda_env_gatk
 # run LD decay ld-window 10 kb
 
 # whole dataset
-/home/nminad/data/plink2 --bfile /home/nminad/projects/nikos/LD_decay/0_data/tritici_2022+before2022+2023+ncsu_ALL_biallelic_snps_filtered_miss0.1 \
---r2-unphased --ld-window-r2 0 --ld-window-kb 10 --out /home/nminad/projects/nikos/LD_decay/2_output/LD_plink2_ALL_10kb
-
+/home/nminad/data/plink2 --bfile /home/nminad/projects/nikos/LD_decay/0_data/tritici_ext_eur_recent_biallelic_snps_filtered_miss0.1 \
+--r2-unphased --ld-window-r2 0 --ld-window-kb 10 --out /home/nminad/projects/nikos/LD_decay/2_output/LD_plink2_ext_eur_recent_10kb
 # N_EUR
 /home/nminad/data/plink2 --bfile /home/nminad/projects/nikos/LD_decay/0_data/tritici_recent_extended_europe_fs_level4_N_EUR \
 --r2-unphased --ld-window-r2 0 --ld-window-kb 10 --out /home/nminad/projects/nikos/LD_decay/2_output/LD_plink2_N_EUR_10kb
