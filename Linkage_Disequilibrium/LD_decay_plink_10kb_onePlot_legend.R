@@ -7,7 +7,7 @@ setwd("~/projects/nikos/LD_decay/2_output/10kb/")
 # ALL
 
 # import the data
-ld <- read.table("LD_plink2_ALL_10kb.vcor", sep="", header=F)
+ld <- read.table("LD_plink2_ext_eur_recent_10kb.vcor", sep="", header=F)
 
 # check column names
 colnames(ld) <- c("CHROM_A", "BP_A", "ID_A", "CHROM_B", "BP_B", "ID_B", "R2")
@@ -220,25 +220,24 @@ dfr1_ME <- dfr1_ME %>% mutate(start=as.integer(str_extract(str_replace_all(dists
                         mid=start+((end-start)/2))
 
 LD_decay <- ggplot() +
-  geom_line(data=dfr1_ME, aes(x=start, y=mean, colour="#984ea3"), linewidth=0.6, alpha=0.8)+
-  geom_line(data=dfr1_N_Europe, aes(x=start, y=mean, colour="#377EB8"),linewidth=0.6, alpha=0.8)+
-  geom_line(data=dfr1_S_EUR, aes(x=start, y=mean, colour="#E41A1C"), linewidth=0.6, alpha=0.8)+
-  geom_line(data=dfr1_S_EUR1, aes(x=start, y=mean, colour="#EA9999"), linewidth=0.6, alpha=0.8)+
-  geom_line(data=dfr1_TUR, aes(x=start, y=mean, colour="#E5B110"), linewidth=0.6, alpha=0.8)+
-  geom_line(data=dfr1, aes(x=start, y=mean, colour="black"), linewidth=0.6, alpha=0.8)+
+  geom_line(data=dfr1_ME, aes(x=start, y=mean, colour="ME"), linewidth=0.6, alpha=0.8)+
+  geom_line(data=dfr1_N_Europe, aes(x=start, y=mean, colour="N_EUR"),linewidth=0.6, alpha=0.8)+
+  geom_line(data=dfr1_S_EUR, aes(x=start, y=mean, colour="S_EUR2"), linewidth=0.6, alpha=0.8)+
+  geom_line(data=dfr1_S_EUR1, aes(x=start, y=mean, colour="S_EUR1"), linewidth=0.6, alpha=0.8)+
+  geom_line(data=dfr1_TUR, aes(x=start, y=mean, colour="TUR"), linewidth=0.6, alpha=0.8)+
+  geom_line(data=dfr1, aes(x=start, y=mean, colour="all"), linewidth=0.6, alpha=0.8)+
   labs(x="Distance (Kb)", y=expression(LD~(r^{2})))+
   scale_colour_manual(name = 'Population', 
-                      values = c('#984ea3'='#984ea3', '#377EB8'='#377EB8', '#E41A1C'='#E41A1C',
-                                '#EA9999'='#EA9999', '#E5B110'='#E5B110', 'black'='black'),
-                      labels = c('N_EUR', 'ME', 'S_EUR2', 'TUR', 'S_EUR1', 'all')) +
+                      values = c('ME'='#984ea3', 'N_EUR'='#377EB8', 'S_EUR2'='#E41A1C',
+                                'S_EUR1'='#EA9999', 'TUR'='#E5B110', 'all'='black'))+
   scale_x_continuous(breaks=c(0,2*10^3,4*10^3,6*10^3,8*10^3,10*10^3), labels=c("0","2","4","6","8","10"))+
   theme_bw()
 
 
-pdf(paste("plots/LD_decay_ALL_10kb_by100_level4_colors_legend.pdf"), width = 8, height = 6)
+pdf(paste("plots/ext_eur_recent_LD_decay_ALL_10kb_by100_level4_colors_legend_fixed.pdf"), width = 8, height = 6)
 print(LD_decay)
 dev.off()
 
-png(paste("plots/LD_decay_ALL_10kb_by100_fs_level4_colors_legend.png"), width = 8, height = 6, units = "in", res = 150)
+png(paste("plots/ext_eur_recent_LD_decay_ALL_10kb_by100_level4_colors_legend_fixed.png"), width = 8, height = 6, units = "in", res = 150)
 print(LD_decay)
 dev.off()
