@@ -45,7 +45,7 @@ The script to run the PCA is `pca_clean.R`. It takes as input the filtered VCF f
 Rscript pca_clean.R -s -c 6 -l S1_Data.csv -C 10 -i 2022+before2022+2023+ncsu_11chr_no_sing_maxmiss0.1.vcf.gz -o tritici_world
 ```
 
-The PC scores and eigenvalues for all samples are written to .csv files, which can then be used for plotting using the script `plot_pca_clean.R`. The plots for the PCA are [here](fig_s2_world_pca.pdf) for the _World_ dataset and [here](fig_s5_pca_eur+.pdf) for the _Europe+_ dataset. Results from the two different filtering criteria for the _Europe+_ dataset are [here](s5_fig_rev.pdf), where a-d correspond to the original filtering, and e-h to the more stringent filtering. 
+The PC scores and eigenvalues for all samples are written to .csv files, which can then be used for plotting using the script `plot_pca_clean.R`. The plots for the PCA are [here](s2_fig_rev.pdf) for the _World_ dataset and [here](fig_s5_pca_eur+.pdf) for the _Europe+_ dataset. Results from the two different filtering criteria for the _Europe+_ dataset are [here](s5_fig_rev.pdf), where a-d correspond to the original filtering, and e-h to the more stringent filtering. 
 ### R packages 
 ```
 R 4.2.1
