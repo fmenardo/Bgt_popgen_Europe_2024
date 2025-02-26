@@ -2,6 +2,8 @@
 
 Here you find the code to reproduce the analyses performed in **Population genomics and molecular epidemiology of wheat powdery mildew in Europe** (Jigisha et al. 2024; [https://doi.org/10.1101/2024.10.24.619980](https://doi.org/10.1101/2024.10.24.619980 ) )
 
+For data or code corresponding to specific figures from the manuscript, see [data_for_figures](data_for_figures).
+
 With this repository we try to ensure reproducibility of all the analyses performed for this study. While we strived to document our code and facilitate the reproduction of our analyses, this is not a ready to run repository. At the very least you will need to install the correct software and adjust the paths to be able to run this code.
 
 The reference genome assembly as well as the VCF file used in this study  are available [here](https://doi.org/10.5281/zenodo.13903934).
