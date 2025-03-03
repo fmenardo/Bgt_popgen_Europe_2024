@@ -10,6 +10,7 @@ types <- c("Observed"="black","Beta"="red","KM"="blue")
 
 # eg. E_EUR1
 sfs <- read.csv("../MMC/sfs_data_E_EUR1.csv")
+short_name <- "E_EUR1"
 plot1 <-  ggplot(data=sfs) + geom_point(aes(y=observed,
                                     x=seq(along = observed),
                                           colour="Observed")) +
