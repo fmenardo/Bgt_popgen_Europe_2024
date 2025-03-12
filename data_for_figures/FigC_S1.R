@@ -1,4 +1,4 @@
-#### S3 Fig ####
+#### Fig C in S1 Text ####
 library(tidyverse)
 library(data.table)
 

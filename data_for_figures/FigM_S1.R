@@ -1,4 +1,4 @@
-#### S13 Fig ####
+#### Fig M in S1 Text ####
 set.seed(123)
 library(patchwork)
 library(tidyverse)

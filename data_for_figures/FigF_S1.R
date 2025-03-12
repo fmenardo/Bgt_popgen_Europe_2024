@@ -1,4 +1,4 @@
-#### S6 Fig ####
+#### Fig F in S1 Text ####
 ## code same as Fig1, just changed colour palettes
 library(ape)
 library(patchwork)
@@ -8,7 +8,7 @@ library(ggplot2)
 library(cowplot)
 library(dendextend)
 
-## S6a dendrogram
+## F(a) dendrogram
 my_tree <- read.nexus("../fineStructure/fs_tree.nex")
 hc <- as.hclust(my_tree)
 dendro <- as.dendrogram(hc)
@@ -20,7 +20,7 @@ dendro_p <- as.ggdend(dendro) %>% ggplot(linewidth = 0.1)+
     axis.title = element_blank(),axis.ticks.x=element_blank(),axis.title.x = element_blank(),axis.text.x=element_blank()
   )+coord_cartesian(expand = FALSE)
 
-## S6b fs coancestry matrix
+## F(b) fs coancestry matrix
 tritici_order <- my_tree$tip.label  ## order of samples
 chunk_mat <- as.matrix(read.table("../fineStructure/Europe_large_linked_hap.chunkcounts.out", row.names=1, header = T, skip = 1))
 datamatrix <- chunk_mat[tritici_order$x, tritici_order$x]
@@ -36,7 +36,7 @@ coancestry_plot <- ggplot(coancestry_melt, aes(x=Var1, y=Var2, fill=value)) +
         axis.text.y = element_blank(),
         axis.title.x = element_blank(), legend.position = "none",axis.title.y = element_blank())
 
-## S6c admixture barplot
+## F(c) admixture barplot
 anc_df <- read.delim("../ADMIXTURE/r10_k9_admx_prop_with_names.Q", sep = " ", header = FALSE)
 anc_ext_eur <- merge(tritici_order, anc_df, by.x = "x", by.y = "V1")
 rownames(anc_ext_eur) <- anc_ext_eur[,1]

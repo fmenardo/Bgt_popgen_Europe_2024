@@ -1,4 +1,4 @@
-#### S7 Fig ####
+#### Fig G in S1 Text ####
 library(ape)
 library(patchwork)
 library(tidyverse)
