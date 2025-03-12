@@ -1,4 +1,4 @@
-#### S10 Fig ####
+#### Fig J in S1 Text ####
 library(tidyverse)
 library(patchwork)
 
