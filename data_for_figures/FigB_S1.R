@@ -1,4 +1,4 @@
-#### S2 Fig ####
+#### Fig B in S1 text ####
 library(ggplot2)
 library(patchwork)
 library(Polychrome)
