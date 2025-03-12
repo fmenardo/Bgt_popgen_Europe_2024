@@ -1,4 +1,4 @@
-#### S19 Fig ####
+#### Fig S in S1 Text ####
 # Open and read the file list including all the variable names
 f <- list.files(full.names = T, pattern = "../isoRelate/proportion_table.txt")
 
