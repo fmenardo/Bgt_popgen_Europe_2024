@@ -1,4 +1,4 @@
-#### S12 Fig ####
+#### Fig L in S1 Text ####
 # SFS 
 # (a) -> ../MMC/sfs_fata_N_EUR2.csv
 # (b) -> ../MMC/sfs_data_E_EUR2.csv
