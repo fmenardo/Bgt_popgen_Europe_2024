@@ -1,4 +1,4 @@
-#### S4 Fig ####
+#### Fig D in S1 Text ####
 library(tidyverse)
 library(RColorBrewer)
 library(patchwork)
@@ -75,5 +75,4 @@ six_plots <- function(list_of_six, colpal){
 six_plots(tritici_admx,col_pals)
 
 
-#### data to plot S4b can be found in S1 data.
-
+#### data to plot Fig D panel b can be found in S1 data.
