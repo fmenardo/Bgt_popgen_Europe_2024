@@ -1,4 +1,4 @@
-#### S18 Fig ####
+#### Fig R in S1 Text ####
 library(ggplot2)
 library(cowplot)
 library(dplyr)
