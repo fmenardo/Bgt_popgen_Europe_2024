@@ -1,4 +1,5 @@
 # Population genomics and molecular epidemiology of wheat powdery mildew in Europe
+This is the repository associated with the publication https://doi.org/10.1371/journal.pbio.3003097 
 
 For data or code corresponding to specific figures from the manuscript, see [data_for_figures](data_for_figures).
 
